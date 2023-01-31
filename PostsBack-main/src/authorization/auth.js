@@ -106,7 +106,7 @@ authRouter.post('/register', function (req, res) {
                     password = req.body.userPassword;
                     return [4 /*yield*/, userRepository.create({
                             nickname: req.body.nickname,
-                            avatar: 'req.body.avatar',
+                            avatar: req.body.avatar,
                             postsAmount: 0,
                             subscribersAmount: 0,
                             subscriptionsAmount: 0,

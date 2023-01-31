@@ -65,7 +65,7 @@ const secret = 'secret'
             const password = req.body.userPassword
             const user = await userRepository.create({
                 nickname: req.body.nickname,
-                avatar: 'req.body.avatar',
+                avatar: req.body.avatar,
                 postsAmount: 0,
                 subscribersAmount: 0,
                 subscriptionsAmount: 0,

@@ -43,7 +43,6 @@ require("dotenv/config");
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var authRouter = express.Router();
-var jwtKey = 'dev-jwt';
 (0, typeorm_1.createConnection)().then(function (connection) {
     var userRepository = connection.getRepository(User_1.User);
     authRouter.post("/login", function (req, res) {

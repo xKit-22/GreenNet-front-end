@@ -37,7 +37,7 @@ var User = /** @class */ (function () {
         __metadata("design:type", String)
     ], User.prototype, "nickname", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
+        (0, typeorm_1.Column)({ nullable: true }),
         __metadata("design:type", String)
     ], User.prototype, "avatar", void 0);
     __decorate([

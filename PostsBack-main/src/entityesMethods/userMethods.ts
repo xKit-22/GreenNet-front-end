@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs');
 
 const userRouter = express.Router();
 
-    let userRepository,subscriptionRepository
+    let userRepository, subscriptionRepository
 
     //logic to return all users
     userRouter.get("/", async function(req: Request, res: Response) {

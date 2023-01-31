@@ -1,0 +1,47 @@
+$based-green: rgb(59, 124, 15);
+
+.header {
+    height: 90px;
+    box-shadow: 0 0 35px 0 $based-green; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-container {
+        width: 97%;
+        height: 60px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        .logo {
+            img {
+                width: 400px;
+            }
+        }
+
+        .links {
+            .nav-link {
+                color: $based-green;
+                text-decoration: none;
+                font-size: 25px;
+                font-weight: bolder;
+
+                cursor: pointer;
+                margin: 0px 10px 0px 10px;
+
+                background-image: linear-gradient(currentColor, currentColor);
+                background-position: 0% 100%;
+                background-repeat: no-repeat;
+                background-size: 0% 2px;
+                transition: background-size .3s;
+
+                &:hover {
+                    background-size: 100% 2px;
+                }
+            }
+        }
+    }
+}

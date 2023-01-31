@@ -5,7 +5,7 @@
   "username": "drjfieem",
   "password": "2WbeOfP1myqbTs4K5evRx6k-06awyT2Q",
   "database": "drjfieem",
-  "entities": ["C:\\Users\\xKit\\WebstormProjects\\posts\\src\\entity\\*.js"],
+  "entities": ["C:\\Users\\alexa\\Desktop\\diplom\\green-net\\PostsBack-main\\src\\entity\\*.js"],
   "logging": true,
   "synchronize": true
 }
