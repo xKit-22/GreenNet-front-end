@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 import './header.scss'
 import logo from '../../assets/logo.png'
 
 export const Header = () => {
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    
+    useEffect(() => {
+        const user = localStorage.getItem('token');
+        setIsAuthorized(!!user);
+    }, [])
     return (
         <div className='header'>
             <div className="header-container">
@@ -14,7 +21,12 @@ export const Header = () => {
                     <Link to="/login" className="nav-link">События</Link>
                     <Link to="/login" className="nav-link">Лента</Link>
                     <Link to="/login" className="nav-link">Карта</Link>
-                    <Link to="/profile" className="nav-link">Профиль</Link>
+                    {
+                        isAuthorized ? 
+                            <Link to="/profile" className="nav-link">Профиль</Link>  
+                            :
+                            <Link to="/login" className="nav-link">Войти</Link>  
+                    }
                     
                 </div>
 
