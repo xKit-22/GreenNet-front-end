@@ -5,9 +5,9 @@ import './profile.scss'
 import av from '../../assets/cat.jpg'
 import { getUserById } from '../../redux/userSlice'
 import { getUsersPosts } from '../../redux/postSlice';
+import { changePostDialogAction } from '../../redux/dialogsSlice'
 import likeImg from '../../assets/like.svg'
 import unLikeImg from '../../assets/unlike.svg'
-
 
 export const Profile = () => {
     const dispatch = useDispatch();
@@ -67,7 +67,7 @@ export const Profile = () => {
                 </div>
                 <div className="buttons-blocks">
                     <button>Создать событие</button>
-                    <button>Создать пост</button>
+                    <button onClick={() => dispatch(changePostDialogAction())}>Создать пост</button>
                 </div>
                 <hr />
                 <div className="allPosts">
@@ -81,8 +81,7 @@ export const Profile = () => {
                             <div className="like">
                                 <span>{item?.likesAmount}</span>
                                 <img src={isLiked ? likeImg : unLikeImg} alt="like" onClick={() => setIsLiked(!isLiked)} />
-                            </div>
-                            
+                            </div>                         
                             <div className="comment">
                                 <h3>Комментарии</h3>
                                 <div className="create-container">

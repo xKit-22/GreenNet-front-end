@@ -153,6 +153,7 @@ $based-green: rgb(59, 124, 15);
             align-items: center;
 
             .post-container {
+                margin-top: 20px;
                 width: 95%;
                 padding: 0px 20px 20px 20px;
 
@@ -213,5 +214,67 @@ $based-green: rgb(59, 124, 15);
                 }
             }
         }
+    }
+}
+
+
+.createpost {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #0000003b;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-container {
+        margin: 0;
+        padding: 20px;
+        width: 600px;
+        height: 400px;
+
+        box-shadow: 0 0 7px 0 $based-green; 
+        background-color: white;
+
+        .close-button {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+
+            img {
+                width: 20px;
+                cursor: pointer;
+            }
+        }
+
+        h2 {
+            margin: 0;
+        }
+        
+        .post-inputs {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+
+            padding-left: 20px;
+
+            label {
+                margin: 15px 0px 10px 0px;
+            }
+
+            textarea {
+                width: 90%;
+                height: 80px;
+            }
+
+            button {
+                @include buttonStyle();
+                margin: 20px 0px;
+
+            }
+        }
+
     }
 }
