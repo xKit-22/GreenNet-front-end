@@ -4,24 +4,30 @@ import { useEffect, useState } from 'react'
 import './profile.scss'
 import av from '../../assets/cat.jpg'
 import { getUserById } from '../../redux/userSlice'
+import { getUsersPosts } from '../../redux/postSlice';
 import likeImg from '../../assets/like.svg'
 import unLikeImg from '../../assets/unlike.svg'
 
 
 export const Profile = () => {
     const dispatch = useDispatch();
-    const currentUserId = localStorage.getItem('currentUserId')
+    const currentUserId = window.location.pathname.slice(1);
     const user = useSelector(state => state.user.user);
+    const usersPosts = useSelector(state => state.post.usersPosts);
+
+    console.log("id: ", currentUserId)
 
     const [isLiked, setIsLiked] = useState(false);
 
     useEffect(() => {
         dispatch(getUserById(currentUserId));
+        dispatch(getUsersPosts(currentUserId));
     }, [])
 
-    useEffect(() => {
-        console.log("user", user);
-    }, [user])
+    // useEffect(() => {
+    //     console.log("user", user);
+    //     console.log("posts", usersPosts);
+    // }, [user, usersPosts])
 
     return (
         <div className="profile">
@@ -65,13 +71,15 @@ export const Profile = () => {
                 </div>
                 <hr />
                 <div className="allPosts">
-                    <div className="post-container">
+                    {usersPosts.map(item => (
+                         <div className="post-container">
                         <div className="content">
-                            <p className="text">текст поста лалалалалалалла Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi veniam sequi, libero deleniti minima excepturi rem! Soluta consequatur maxime iusto. Explicabo velit fugit similique ipsam, modi soluta labore dicta aliquid?</p>
+                            <p className="text">{item?.text}</p>
                         </div>
                         <hr />
                         <div className="actions">
                             <div className="like">
+                                <span>{item?.likesAmount}</span>
                                 <img src={isLiked ? likeImg : unLikeImg} alt="like" onClick={() => setIsLiked(!isLiked)} />
                             </div>
                             <div className="comment">
@@ -83,6 +91,7 @@ export const Profile = () => {
                             </div>
                         </div>
                     </div>
+                    ))}
                 </div>
             </div>
         </div>

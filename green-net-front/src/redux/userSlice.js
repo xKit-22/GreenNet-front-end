@@ -39,10 +39,11 @@ export const login = createAsyncThunk(
       try {
         const res = await axios.post('http://localhost:3000/api/auth/login', data);
         const token = res.data.token;
-        localStorage.setItem('currentUserId', jwtDecode(token).id);
+        const userId = jwtDecode(token).id;
+        localStorage.setItem('currentUserId', userId);
         localStorage.setItem('token', token);
         dispatch(loginAction(res.data.token));
-        window.location.pathname = '/profile'
+        window.location.pathname = `/${userId}`;
       } catch (error) {
         alert(error.response.data.message)
       }

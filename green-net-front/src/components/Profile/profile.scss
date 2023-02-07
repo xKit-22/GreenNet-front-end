@@ -177,6 +177,11 @@ $based-green: rgb(59, 124, 15);
                         flex-direction: row;
                         justify-content: flex-end;
 
+                        span {
+                            font-size: 27px;
+                            padding-right: 5px;
+                        }
+
                         img {
                             width: 30px;
                             cursor: pointer;

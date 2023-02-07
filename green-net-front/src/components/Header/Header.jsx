@@ -6,6 +6,8 @@ import logo from '../../assets/logo.png'
 
 export const Header = () => {
     const [isAuthorized, setIsAuthorized] = useState(false);
+
+    const currentUserId = localStorage.getItem('currentUserId');
     
     useEffect(() => {
         const user = localStorage.getItem('token');
@@ -23,7 +25,7 @@ export const Header = () => {
                     <Link to="/login" className="nav-link">Карта</Link>
                     {
                         isAuthorized ? 
-                            <Link to="/profile" className="nav-link">Профиль</Link>  
+                            <Link to={`/${currentUserId}`} className="nav-link">Профиль</Link>  
                             :
                             <Link to="/login" className="nav-link">Войти</Link>  
                     }
