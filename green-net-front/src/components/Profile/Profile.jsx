@@ -82,6 +82,7 @@ export const Profile = () => {
                                 <span>{item?.likesAmount}</span>
                                 <img src={isLiked ? likeImg : unLikeImg} alt="like" onClick={() => setIsLiked(!isLiked)} />
                             </div>
+                            
                             <div className="comment">
                                 <h3>Комментарии</h3>
                                 <div className="create-container">
