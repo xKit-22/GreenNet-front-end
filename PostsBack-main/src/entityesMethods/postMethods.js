@@ -106,7 +106,7 @@ postRouter.get("/:id", function (req, res) {
 // logic to create and save a post
 postRouter.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var post, results;
+        var post, results, user, changePostsAmount;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, postRepository.create(req.body)];
@@ -115,6 +115,16 @@ postRouter.post("/", function (req, res) {
                     return [4 /*yield*/, postRepository.save(post)];
                 case 2:
                     results = _a.sent();
+                    return [4 /*yield*/, userRepository.findOneBy({
+                            id: req.params.authorId
+                        })];
+                case 3:
+                    user = _a.sent();
+                    changePostsAmount = user.postsAmount + 1;
+                    userRepository.merge(user, changePostsAmount);
+                    return [4 /*yield*/, userRepository.save(user)];
+                case 4:
+                    _a.sent();
                     return [2 /*return*/, res.send(results)];
             }
         });
@@ -141,7 +151,7 @@ postRouter.put("/:id", authorVerification_1.default, function (req, res) {
     });
 });
 // logic to delete a post by a given post id
-postRouter.delete("/:id", authorVerification_1.default, function (req, res) {
+postRouter.delete("/deletePost/:id", /*authorVerification,*/ function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var results;
         return __generator(this, function (_a) {

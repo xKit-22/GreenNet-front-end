@@ -4,16 +4,19 @@ import { useEffect, useState } from 'react'
 import './profile.scss'
 import av from '../../assets/cat.jpg'
 import { getUserById } from '../../redux/userSlice'
-import { getUsersPosts } from '../../redux/postSlice';
+import { getUsersPosts, deletePost } from '../../redux/postSlice';
 import { changePostDialogAction } from '../../redux/dialogsSlice'
+import { isMyProfileAction } from '../../redux/userSlice'
 import likeImg from '../../assets/like.svg'
 import unLikeImg from '../../assets/unlike.svg'
+import closeImg from '../../assets/close.svg'
 
 export const Profile = () => {
     const dispatch = useDispatch();
     const currentUserId = window.location.pathname.slice(1);
     const user = useSelector(state => state.user.user);
     const usersPosts = useSelector(state => state.post.usersPosts);
+    const isMyProfile = useSelector(state => state.user.isMyProfile);
 
     console.log("id: ", currentUserId)
 
@@ -22,6 +25,7 @@ export const Profile = () => {
     useEffect(() => {
         dispatch(getUserById(currentUserId));
         dispatch(getUsersPosts(currentUserId));
+        dispatch(isMyProfileAction());
     }, [])
 
     // useEffect(() => {
@@ -41,7 +45,12 @@ export const Profile = () => {
                     <div className="info">
                         <div className="title">
                             <p className="user-name">{user?.nickname}</p>
-                            <button>Подписаться</button>
+                            {
+                                isMyProfile ? 
+                                    <button>Редактировать</button>
+                                    :
+                                    <button>Подписаться</button>
+                            }
                         </div>
                         
                         <div className="numbers">
@@ -72,23 +81,26 @@ export const Profile = () => {
                 <hr />
                 <div className="allPosts">
                     {usersPosts.map(item => (
-                         <div className="post-container">
-                        <div className="content">
-                            <p className="text">{item?.text}</p>
-                        </div>
-                        <hr />
-                        <div className="actions">
-                            <div className="like">
-                                <span>{item?.likesAmount}</span>
-                                <img src={isLiked ? likeImg : unLikeImg} alt="like" onClick={() => setIsLiked(!isLiked)} />
-                            </div>                         
-                            <div className="comment">
-                                <h3>Комментарии</h3>
-                                <div className="create-container">
-                                    <textarea name="" id="" cols="" rows="10"></textarea>
-                                    <button>Отправить</button>
-                                </div>
+                        <div className="post-container">
+                            <div className="delete-button">
+                                <img src={closeImg} alt="delete button" onClick={() => dispatch(deletePost(item.id)).then(res => dispatch(getUsersPosts(currentUserId)))} />
                             </div>
+                            <div className="content">
+                                <p className="text">{item?.text}</p>
+                            </div>
+                            <hr />
+                            <div className="actions">
+                                <div className="like">
+                                    <span>{item?.likesAmount}</span>
+                                    <img src={isLiked ? likeImg : unLikeImg} alt="like" onClick={() => setIsLiked(!isLiked)} />
+                                </div>                         
+                                <div className="comment">
+                                    <h3>Комментарии</h3>
+                                    <div className="create-container">
+                                        <textarea name="" id="" cols="" rows="10"></textarea>
+                                        <button>Отправить</button>
+                                    </div>
+                                </div>
                         </div>
                     </div>
                     ))}

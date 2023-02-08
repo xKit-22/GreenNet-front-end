@@ -4,7 +4,8 @@ import jwtDecode from 'jwt-decode';
 
 const initialState = {
     token: "",
-    user: {}
+    user: {},
+    isMyProfile: false
 };
 
 export const getUserById = createAsyncThunk(
@@ -66,6 +67,13 @@ export const userSlice = createSlice({
         loginAction: (state, action) => {
             state.token = action.payload;        
         },
+
+        isMyProfileAction: (state) => {
+          const current = localStorage.getItem('currentUserId');
+          const page = window.location.pathname.slice(1);
+
+          state.isMyProfile = current === page;
+        }
     },
 
     [login.fulfilled]: () => console.log('login fullfield'),
@@ -77,5 +85,5 @@ export const userSlice = createSlice({
     [getUserById.rejected]: () => console.log('getUserById rejected'),
 })
 
-export const { registerAction, loginAction, getUserByIdAction } = userSlice.actions
+export const { registerAction, loginAction, getUserByIdAction, isMyProfileAction } = userSlice.actions
 export default userSlice.reducer

@@ -160,10 +160,23 @@ $based-green: rgb(59, 124, 15);
                 box-shadow: 0 0 7px 0 $based-green; 
                 border-radius: 2px;
 
+                .delete-button {
+                    margin-top: 10px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+
+                    img {
+                        width: 20px;
+                        cursor: pointer;
+                    }
+                }
+
                 .content {
-                    // padding: 0 20px;
                     p {
                         text-align: start;
+                        margin: 0;
+
                     }
                 }
 

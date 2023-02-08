@@ -48,6 +48,12 @@ let userRepository
     postRouter.post("/", async function(req: Request, res: Response) {  //verification
         const post = await postRepository.create(req.body)
         const results = await postRepository.save(post)
+        const user = await userRepository.findOneBy({
+            id: req.params.authorId
+        })
+        const changePostsAmount = user.postsAmount + 1
+        userRepository.merge(user, changePostsAmount)
+        await userRepository.save(user)
         return res.send(results)
     });
 
@@ -62,7 +68,7 @@ let userRepository
     });
 
     // logic to delete a post by a given post id
-    postRouter.delete("/:id", authorVerification, async function(req: Request, res: Response) {
+    postRouter.delete("/deletePost/:id", /*authorVerification,*/ async function(req: Request, res: Response) {
         const results = await postRepository.delete(req.params.id)
         return res.send(results)
     });
