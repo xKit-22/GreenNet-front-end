@@ -74,6 +74,22 @@ userRouter.get("/:id", function (req, res) {
         });
     });
 });
+//logic to return users by nickname
+userRouter.get("/findByNickname/:nickname", function (req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var results;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, userRepository.findBy({
+                        nickname: req.params.nickname
+                    })];
+                case 1:
+                    results = _a.sent();
+                    return [2 /*return*/, res.send(results)];
+            }
+        });
+    });
+});
 //logic to create and save a user
 userRouter.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {

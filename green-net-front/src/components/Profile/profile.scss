@@ -217,6 +217,7 @@ $based-green: rgb(59, 124, 15);
                             textarea {
                                 width: 90%;
                                 height: 50px;
+                                resize: none;
                             }
 
                             button {
@@ -234,7 +235,7 @@ $based-green: rgb(59, 124, 15);
 .createpost {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     background-color: #0000003b;
 
     display: flex;
@@ -280,6 +281,7 @@ $based-green: rgb(59, 124, 15);
             textarea {
                 width: 90%;
                 height: 80px;
+                resize: none;
             }
 
             button {

@@ -23,6 +23,7 @@ export const Header = () => {
                     <Link to="/login" className="nav-link">События</Link>
                     <Link to="/login" className="nav-link">Лента</Link>
                     <Link to="/login" className="nav-link">Карта</Link>
+                    <Link to="/user-search" className="nav-link">Поиск</Link>
                     {
                         isAuthorized ? 
                             <Link to={`/${currentUserId}`} className="nav-link">Профиль</Link>  

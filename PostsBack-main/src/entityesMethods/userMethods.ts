@@ -25,6 +25,14 @@ const userRouter = express.Router();
         return res.send(results)
     });
 
+    //logic to return users by nickname
+    userRouter.get("/findByNickname/:nickname", async function(req: Request, res: Response) {
+        const results = await userRepository.findBy({
+            nickname: req.params.nickname
+        })
+        return res.send(results)
+    });
+
     //logic to create and save a user
     userRouter.post("/", async function(req: Request, res: Response) { //verification
         const user = await userRepository.create(req.body)

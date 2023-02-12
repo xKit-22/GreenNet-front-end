@@ -5,7 +5,8 @@ import jwtDecode from 'jwt-decode';
 const initialState = {
     token: "",
     user: {},
-    isMyProfile: false
+    isMyProfile: false,
+    allUsers: []
 };
 
 export const getUserById = createAsyncThunk(
@@ -14,6 +15,30 @@ export const getUserById = createAsyncThunk(
     try {
       const res = await axios.get(`http://localhost:3000/users/${id}`);
       dispatch(getUserByIdAction(res.data));
+    } catch (error) {
+      alert(error.response.data.message)
+    }
+  }
+)
+
+export const getUserByNickname = createAsyncThunk(
+  'user/getUserByNickname',
+  async (nickname, {rejectWithValue, dispatch}) => {
+    try {
+      const res = await axios.get(`http://localhost:3000/users/findByNickname/${nickname}`);
+      dispatch(getUserByNicknameAction(res.data));
+    } catch (error) {
+      alert(error.response.data.message)
+    }
+  }
+)
+
+export const getAllUsers = createAsyncThunk(
+  'user/getAllUsers',
+  async (_, {rejectWithValue, dispatch}) => {
+    try {
+      const res = await axios.get(`http://localhost:3000/users/`);
+      dispatch(getAllUsersAction(res.data));
     } catch (error) {
       alert(error.response.data.message)
     }
@@ -60,6 +85,14 @@ export const userSlice = createSlice({
           state.user = action.payload;
         },
 
+        getUserByNicknameAction: (state, action) => {
+          state.user = action.payload;
+        },
+
+        getAllUsersAction: (state, action) => {
+          state.allUsers = action.payload;
+        },
+
         registerAction: (state, action) => {
             state.token = action.payload;        
         },
@@ -85,5 +118,5 @@ export const userSlice = createSlice({
     [getUserById.rejected]: () => console.log('getUserById rejected'),
 })
 
-export const { registerAction, loginAction, getUserByIdAction, isMyProfileAction } = userSlice.actions
+export const { registerAction, loginAction, getUserByIdAction, isMyProfileAction, getAllUsersAction, getUserByNicknameAction } = userSlice.actions
 export default userSlice.reducer
