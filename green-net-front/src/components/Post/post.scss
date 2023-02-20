@@ -1,0 +1,98 @@
+$based-green: rgb(59, 124, 15);
+
+@mixin buttonStyle {
+    margin-left: 10px;
+    width: 170px;
+    height: 28px;
+
+    font-family: 'Mulish', sans-serif;
+    font-size: 16px;
+
+    background-color: rgb(87, 138, 52);
+    color: aliceblue;
+
+    border: 1px $based-green solid;
+    border-radius: 5px;
+
+    &:hover {
+        background-color: $based-green;
+        border: 1px $based-green solid;
+    }
+}
+
+.post-container {
+    margin-top: 20px;
+    width: 95%;
+    padding: 0px 20px 20px 20px;
+
+    box-shadow: 0 0 7px 0 $based-green;
+    border-radius: 2px;
+
+    .delete-button {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+
+        img {
+            width: 20px;
+            cursor: pointer;
+        }
+    }
+
+    .content {
+        p {
+            text-align: start;
+            margin: 0;
+
+        }
+    }
+
+    hr {
+        // margin: 0 20px;
+    }
+
+    .actions {
+        .like {
+            padding: 0px 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+
+            span {
+                font-size: 27px;
+                padding-right: 5px;
+            }
+
+            img {
+                width: 30px;
+                cursor: pointer;
+            }
+        }
+
+        .comment {
+            h3 {
+                margin: 0;
+                text-align: start;
+            }
+
+            .create-container {
+                margin-top: 10px;
+
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+                textarea {
+                    width: 90%;
+                    height: 50px;
+                    resize: none;
+                }
+
+                button {
+                    @include buttonStyle();
+                }
+            }
+        }
+    }
+}

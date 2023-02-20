@@ -1,18 +1,28 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import './header.scss'
+import { getUserById } from '../../redux/userSlice'
 import logo from '../../assets/logo.png'
+import { current } from "@reduxjs/toolkit";
 
 export const Header = () => {
+    const dispatch = useDispatch();
+
     const [isAuthorized, setIsAuthorized] = useState(false);
 
+    const currentUser = useSelector(state => state.user.user);
+
     const currentUserId = localStorage.getItem('currentUserId');
-    
+
     useEffect(() => {
+        if (!currentUser) dispatch(getUserById(currentUserId));
+        console.log('from header', currentUser);
         const user = localStorage.getItem('token');
         setIsAuthorized(!!user);
-    }, [])
+    }, []);
+
     return (
         <div className='header'>
             <div className="header-container">
@@ -25,12 +35,12 @@ export const Header = () => {
                     <Link to="/login" className="nav-link">Карта</Link>
                     <Link to="/user-search" className="nav-link">Поиск</Link>
                     {
-                        isAuthorized ? 
-                            <Link to={`/${currentUserId}`} className="nav-link">Профиль</Link>  
+                        isAuthorized ?
+                            <Link to={`/${currentUserId}`} className="nav-link">Профиль</Link>
                             :
-                            <Link to="/login" className="nav-link">Войти</Link>  
+                            <Link to="/login" className="nav-link">Войти</Link>
                     }
-                    
+
                 </div>
 
             </div>

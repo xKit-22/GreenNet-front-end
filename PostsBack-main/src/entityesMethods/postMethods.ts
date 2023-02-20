@@ -81,9 +81,16 @@ let userRepository
         return res.send(results)
     });
 
+    // //logic to return amount of post's likes
+    // postRouter.get("/:id/likesAmount", async function(req: Request, res: Response) {
+    //     const amount = await postRepository.findOneBy({
+    //         id: req.params.id
+    //     }).likesAmount;
+    //     return res.send(amount)
+    // });
 
     // +like
-    postRouter.get("/:id/like", authorVerification, async function(req: Request, res: Response){
+    postRouter.post("/:id/like", /*authorVerification,*/ async function(req: Request, res: Response){
         const post = await postRepository.findOneBy({
             id: req.params.id
         })
@@ -99,7 +106,7 @@ let userRepository
     })
 
     // -like
-    postRouter.get("/:id/unlike", authorVerification, async function(req: Request, res: Response){
+    postRouter.post("/:id/unlike", /*authorVerification,*/ async function(req: Request, res: Response){
         const post = await postRepository.findOneBy({
             id: req.params.id
         })

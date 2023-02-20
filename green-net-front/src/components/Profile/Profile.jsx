@@ -1,37 +1,39 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 import './profile.scss'
 import av from '../../assets/cat.jpg'
-import { getUserById } from '../../redux/userSlice'
 import { getUsersPosts, deletePost } from '../../redux/postSlice';
 import { changePostDialogAction } from '../../redux/dialogsSlice'
-import { isMyProfileAction } from '../../redux/userSlice'
-import likeImg from '../../assets/like.svg'
-import unLikeImg from '../../assets/unlike.svg'
-import closeImg from '../../assets/close.svg'
+import { isMyProfileAction, getUserById } from '../../redux/userSlice'
+import { Post } from '../Post/Post'
 
 export const Profile = () => {
     const dispatch = useDispatch();
     const currentUserId = window.location.pathname.slice(1);
-    const user = useSelector(state => state.user.user);
+    const authUserId = localStorage.getItem('currentUserId');
+    // const authUser = useSelector(state => state.user.user);
+    const [user, setUser] = useState({});
     const usersPosts = useSelector(state => state.post.usersPosts);
     const isMyProfile = useSelector(state => state.user.isMyProfile);
 
-    console.log("id: ", currentUserId)
+    console.log("id: ", currentUserId);
 
-    const [isLiked, setIsLiked] = useState(false);
+    const getUser = async (id) => {
+        await axios.get(`http://localhost:3000/users/${id}`).then(res => setUser(res.data));
+    }
 
     useEffect(() => {
-        dispatch(getUserById(currentUserId));
-        dispatch(getUsersPosts(currentUserId));
+        dispatch(getUserById(authUserId));
         dispatch(isMyProfileAction());
+        getUser(currentUserId);
     }, [])
 
-    // useEffect(() => {
-    //     console.log("user", user);
-    //     console.log("posts", usersPosts);
-    // }, [user, usersPosts])
+
+    useEffect(() => {
+        dispatch(getUsersPosts(currentUserId));
+    }, [user])
 
     return (
         <div className="profile">
@@ -46,13 +48,13 @@ export const Profile = () => {
                         <div className="title">
                             <p className="user-name">{user?.nickname}</p>
                             {
-                                isMyProfile ? 
+                                isMyProfile ?
                                     <button>Редактировать</button>
                                     :
                                     <button>Подписаться</button>
                             }
                         </div>
-                        
+
                         <div className="numbers">
                             <div className="number-group">
                                 <p className="amount">{user?.postsAmount}</p>
@@ -71,7 +73,7 @@ export const Profile = () => {
                                 <p className="amount-label">лайков</p>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div className="buttons-blocks">
@@ -81,28 +83,7 @@ export const Profile = () => {
                 <hr />
                 <div className="allPosts">
                     {usersPosts.map(item => (
-                        <div className="post-container">
-                            <div className="delete-button">
-                                <img src={closeImg} alt="delete button" onClick={() => dispatch(deletePost(item.id)).then(res => dispatch(getUsersPosts(currentUserId)))} />
-                            </div>
-                            <div className="content">
-                                <p className="text">{item?.text}</p>
-                            </div>
-                            <hr />
-                            <div className="actions">
-                                <div className="like">
-                                    <span>{item?.likesAmount}</span>
-                                    <img src={isLiked ? likeImg : unLikeImg} alt="like" onClick={() => setIsLiked(!isLiked)} />
-                                </div>                         
-                                <div className="comment">
-                                    <h3>Комментарии</h3>
-                                    <div className="create-container">
-                                        <textarea name="" id="" cols="" rows="10"></textarea>
-                                        <button>Отправить</button>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
+                        <Post post={item} />
                     ))}
                 </div>
             </div>

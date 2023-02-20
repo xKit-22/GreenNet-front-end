@@ -58,7 +58,7 @@ export const postSlice = createSlice({
 
         deletePostAction: (state, action) => {
           state.code = action.payload;        
-      },
+        }
     },
 
     [getUsersPosts.fulfilled]: () => console.log('getUsersPosts fullfield'),

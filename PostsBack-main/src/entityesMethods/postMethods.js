@@ -180,8 +180,15 @@ postRouter.get("/author/:authorId", function (req, res) {
         });
     });
 });
+// //logic to return amount of post's likes
+// postRouter.get("/:id/likesAmount", async function(req: Request, res: Response) {
+//     const amount = await postRepository.findOneBy({
+//         id: req.params.id
+//     }).likesAmount;
+//     return res.send(amount)
+// });
 // +like
-postRouter.get("/:id/like", authorVerification_1.default, function (req, res) {
+postRouter.post("/:id/like", /*authorVerification,*/ function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var post, currentUser, likedPost, results;
         return __generator(this, function (_a) {
@@ -211,7 +218,7 @@ postRouter.get("/:id/like", authorVerification_1.default, function (req, res) {
     });
 });
 // -like
-postRouter.get("/:id/unlike", authorVerification_1.default, function (req, res) {
+postRouter.post("/:id/unlike", /*authorVerification,*/ function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var post, currentUser, likedPost, results;
         return __generator(this, function (_a) {

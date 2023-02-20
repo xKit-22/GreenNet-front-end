@@ -29,7 +29,7 @@ export const Login = () => {
         e.preventDefault();
         checkFields();
         if (valid) {
-            const data = {userLogin, userPassword};
+            const data = { userLogin, userPassword };
             dispatch(login(data));
         } else return;
     }
@@ -48,9 +48,8 @@ export const Login = () => {
                     <label htmlFor="">Пароль</label>
                     <input type="password" onChange={(e) => {
                         setUserPassword(e.target.value);
-                    }}/>
+                    }} />
 
-                    {/* <span className="error-field">ОШИБКА?</span> */}
                     <span className="error-field">{errorText}</span>
 
                     <div className="but-cont">
