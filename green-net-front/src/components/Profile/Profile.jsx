@@ -35,6 +35,14 @@ export const Profile = () => {
         dispatch(getUsersPosts(currentUserId));
     }, [user])
 
+    const sortedPosts = () => {
+        const sorted = JSON.parse(JSON.stringify(usersPosts));
+        sorted.sort((a, b) => a.dateOfCreation - b.dateOfCreation);
+
+        console.log('sorted post', sorted);
+        return sorted;
+    }
+
     return (
         <div className="profile">
             <div className="profile-container">
@@ -82,9 +90,11 @@ export const Profile = () => {
                 </div>
                 <hr />
                 <div className="allPosts">
-                    {usersPosts.map(item => (
-                        <Post post={item} />
-                    ))}
+                    {
+                        sortedPosts().map(item => (
+                            <Post post={item} />
+                        ))
+                    }
                 </div>
             </div>
         </div>
