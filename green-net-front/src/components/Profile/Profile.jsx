@@ -13,8 +13,8 @@ export const Profile = () => {
     const dispatch = useDispatch();
     const currentUserId = window.location.pathname.slice(1);
     const authUserId = localStorage.getItem('currentUserId');
-    // const authUser = useSelector(state => state.user.user);
     const [user, setUser] = useState({});
+    // const [postsAmount, setPostsAmount] = useState(0);
     const usersPosts = useSelector(state => state.post.usersPosts);
     const isMyProfile = useSelector(state => state.user.isMyProfile);
 
@@ -24,10 +24,15 @@ export const Profile = () => {
         await axios.get(`http://localhost:3000/users/${id}`).then(res => setUser(res.data));
     }
 
+    // const getPostsAmount = async (id) => {
+    //     await axios.get(`http://localhost:3000/users/${id}`).then(res => setPostsAmount(res.data.postsAmount));
+    // }
+
     useEffect(() => {
         dispatch(getUserById(authUserId));
         dispatch(isMyProfileAction());
         getUser(currentUserId);
+        // getPostsAmount(currentUserId);
     }, [])
 
 

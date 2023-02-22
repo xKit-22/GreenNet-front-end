@@ -106,7 +106,7 @@ postRouter.get("/:id", function (req, res) {
 // logic to create and save a post
 postRouter.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var post, results, user, changePostsAmount;
+        var post, results, user;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, postRepository.create(req.body)];
@@ -116,14 +116,15 @@ postRouter.post("/", function (req, res) {
                 case 2:
                     results = _a.sent();
                     return [4 /*yield*/, userRepository.findOneBy({
-                            id: req.params.authorId
+                            id: req.body.authorId
                         })];
                 case 3:
                     user = _a.sent();
-                    changePostsAmount = user.postsAmount + 1;
-                    userRepository.merge(user, changePostsAmount);
+                    user.postsAmount++;
+                    // userRepository.merge(user, changePostsAmount)
                     return [4 /*yield*/, userRepository.save(user)];
                 case 4:
+                    // userRepository.merge(user, changePostsAmount)
                     _a.sent();
                     return [2 /*return*/, res.send(results)];
             }
@@ -153,12 +154,30 @@ postRouter.put("/:id", authorVerification_1.default, function (req, res) {
 // logic to delete a post by a given post id
 postRouter.delete("/deletePost/:id", /*authorVerification,*/ function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var results;
+        var post, user, results;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, postRepository.delete(req.params.id)];
+                case 0: return [4 /*yield*/, postRepository.findOneBy({
+                        id: req.params.id
+                    })];
                 case 1:
+                    post = _a.sent();
+                    return [4 /*yield*/, userRepository.findOneBy({
+                            id: post.authorId
+                        })];
+                case 2:
+                    user = _a.sent();
+                    user.postsAmount--;
+                    return [4 /*yield*/, postRepository.delete(req.params.id)
+                        // userRepository.merge(user, changePostsAmount)
+                    ];
+                case 3:
                     results = _a.sent();
+                    // userRepository.merge(user, changePostsAmount)
+                    return [4 /*yield*/, userRepository.save(user)];
+                case 4:
+                    // userRepository.merge(user, changePostsAmount)
+                    _a.sent();
                     return [2 /*return*/, res.send(results)];
             }
         });

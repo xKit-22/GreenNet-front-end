@@ -49,10 +49,10 @@ let userRepository
         const post = await postRepository.create(req.body)
         const results = await postRepository.save(post)
         const user = await userRepository.findOneBy({
-            id: req.params.authorId
+            id: req.body.authorId
         })
-        const changePostsAmount = user.postsAmount + 1
-        userRepository.merge(user, changePostsAmount)
+        user.postsAmount++
+        // userRepository.merge(user, changePostsAmount)
         await userRepository.save(user)
         return res.send(results)
     });
@@ -69,7 +69,16 @@ let userRepository
 
     // logic to delete a post by a given post id
     postRouter.delete("/deletePost/:id", /*authorVerification,*/ async function(req: Request, res: Response) {
+        const post = await postRepository.findOneBy({
+            id: req.params.id
+        })
+        const user = await userRepository.findOneBy({
+            id: post.authorId
+        })
+        user.postsAmount--
         const results = await postRepository.delete(req.params.id)
+        // userRepository.merge(user, changePostsAmount)
+        await userRepository.save(user)
         return res.send(results)
     });
 
