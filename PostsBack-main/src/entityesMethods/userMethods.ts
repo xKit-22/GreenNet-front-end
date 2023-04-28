@@ -138,6 +138,28 @@ const userRouter = express.Router();
         return res.send(results)
     })
 
+    // +coin
+    userRouter.get("/:id/addCoin", async function (req: Request, res: Response) {
+        const user = await userRepository.findOneBy({
+            id: req.params.id
+        })
+        const changeCoinsAmount = user.coinsAmount++
+        userRepository.merge(user, changeCoinsAmount)
+        const results = await userRepository.save(user)
+        return res.send(results)
+    })
+
+    // -coin
+    userRouter.get("/:id/removeCoin", async function (req: Request, res: Response) {
+        const user = await userRepository.findOneBy({
+            id: req.params.id
+        })
+        const changeCoinsAmount = user.coinsAmount--
+        userRepository.merge(user, changeCoinsAmount)
+        const results = await userRepository.save(user)
+        return res.send(results)
+    })
+
 export default () => {
     userRepository = getRepository(User);
     subscriptionRepository = getRepository(Subscription)

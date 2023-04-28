@@ -24,6 +24,9 @@ export class User {
     avatar: string
 
     @Column()
+    coinsAmount: number
+
+    @Column()
     postsAmount: number
 
     @Column()
