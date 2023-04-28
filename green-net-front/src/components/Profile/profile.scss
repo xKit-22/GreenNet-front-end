@@ -70,12 +70,8 @@ $based-green: rgb(59, 124, 15);
                     }
 
                     button {
-                        margin-left: 45px;
-                        width: 170px;
-                        height: 28px;
-
-                        font-family: 'Mulish', sans-serif;
-                        font-size: 16px;
+                        @include buttonStyle();
+                        width: max-content;
 
                         background-color: aliceblue;
                         color: $based-green;
@@ -87,6 +83,16 @@ $based-green: rgb(59, 124, 15);
                             background-color: $based-green;
                             border: 1px $based-green solid;
                             color: aliceblue;
+
+                            img {
+                                filter: invert(100%);
+
+                            }
+                        }
+
+                        img {
+                            width: 18px;
+                            filter: invert(34%) sepia(97%) saturate(388%) hue-rotate(52deg) brightness(98%) contrast(99%);
                         }
                     }
                 }
@@ -209,6 +215,8 @@ $based-green: rgb(59, 124, 15);
                 width: 90%;
                 height: 80px;
                 resize: none;
+
+                font-size: 20px;
             }
 
             button {

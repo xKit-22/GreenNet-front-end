@@ -41,7 +41,7 @@ const userRouter = express.Router();
     });
 
     // logic to update a user by a given user id
-    userRouter.put("/:id", authorVerification, async function(req: Request, res: Response) {
+    userRouter.put("/:id", /*authorVerification,*/ async function(req: Request, res: Response) {
         const user = await userRepository.findOneBy({
             id: req.params.id
         })

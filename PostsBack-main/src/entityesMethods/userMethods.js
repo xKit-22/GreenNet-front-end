@@ -108,7 +108,7 @@ userRouter.post("/", function (req, res) {
     });
 });
 // logic to update a user by a given user id
-userRouter.put("/:id", authorVerification_1.default, function (req, res) {
+userRouter.put("/:id", /*authorVerification,*/ function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var user, results;
         return __generator(this, function (_a) {

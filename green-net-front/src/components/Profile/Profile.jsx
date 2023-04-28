@@ -1,9 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
+import { Link } from "react-router-dom";
 import axios from 'axios'
 
 import './profile.scss'
 import av from '../../assets/cat.jpg'
+import logoutImg from '../../assets/logout.svg'
 import { getUsersPosts, deletePost } from '../../redux/postSlice';
 import { changePostDialogAction } from '../../redux/dialogsSlice'
 import { isMyProfileAction, getUserById } from '../../redux/userSlice'
@@ -14,25 +16,23 @@ export const Profile = () => {
     const currentUserId = window.location.pathname.slice(1);
     const authUserId = localStorage.getItem('currentUserId');
     const [user, setUser] = useState({});
-    // const [postsAmount, setPostsAmount] = useState(0);
+    const [postsAmount, setPostsAmount] = useState(0);
     const usersPosts = useSelector(state => state.post.usersPosts);
     const isMyProfile = useSelector(state => state.user.isMyProfile);
 
     console.log("id: ", currentUserId);
 
     const getUser = async (id) => {
-        await axios.get(`http://localhost:3000/users/${id}`).then(res => setUser(res.data));
+        await axios.get(`http://localhost:3000/users/${id}`).then(res => {
+            setUser(res.data);
+            setPostsAmount(res.data.postsAmount);
+        });
     }
-
-    // const getPostsAmount = async (id) => {
-    //     await axios.get(`http://localhost:3000/users/${id}`).then(res => setPostsAmount(res.data.postsAmount));
-    // }
 
     useEffect(() => {
         dispatch(getUserById(authUserId));
         dispatch(isMyProfileAction());
         getUser(currentUserId);
-        // getPostsAmount(currentUserId);
     }, [])
 
 
@@ -42,10 +42,15 @@ export const Profile = () => {
 
     const sortedPosts = () => {
         const sorted = JSON.parse(JSON.stringify(usersPosts));
-        sorted.sort((a, b) => a.dateOfCreation - b.dateOfCreation);
+        sorted.sort((a, b) => b.dateOfCreation - a.dateOfCreation);
 
         console.log('sorted post', sorted);
         return sorted;
+    }
+
+    const logout = () => {
+        localStorage.setItem('token', '');
+        window.location.pathname = '/login';
     }
 
     return (
@@ -62,9 +67,17 @@ export const Profile = () => {
                             <p className="user-name">{user?.nickname}</p>
                             {
                                 isMyProfile ?
-                                    <button>Редактировать</button>
+                                    <Link to="/edit-profile" className="">
+                                        <button>Редактировать</button>
+                                    </Link>
                                     :
                                     <button>Подписаться</button>
+                            }
+                            {
+                                isMyProfile ?
+                                    <button onClick={() => logout()}><img src={logoutImg} alt="выйти" /></button>
+                                    :
+                                    ''
                             }
                         </div>
 
@@ -94,6 +107,7 @@ export const Profile = () => {
                     <button onClick={() => dispatch(changePostDialogAction())}>Создать пост</button>
                 </div>
                 <hr />
+                <h2>Лента постов</h2>
                 <div className="allPosts">
                     {
                         sortedPosts().map(item => (

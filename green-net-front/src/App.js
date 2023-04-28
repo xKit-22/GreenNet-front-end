@@ -8,6 +8,7 @@ import { Login } from "./components/Login/Login";
 import { Registration } from "./components/Registration/Registration";
 import { CreatePostDialog } from "./components/Profile/CreatePostDialog";
 import { UserSearch } from "./components/UserSearch/UserSearch";
+import { EditProfile } from "./components/Profile/EditProfile";
 
 function App() {
   const isCreatePostDialogOpen = useSelector(state => state.dialog.createPostDialog);
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/user-search" element={<UserSearch />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
       </Routes>
       
     </div>
