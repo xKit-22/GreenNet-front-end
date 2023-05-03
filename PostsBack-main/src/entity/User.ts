@@ -23,7 +23,7 @@ export class User {
     @Column({nullable: true})
     avatar: string
 
-    @Column()
+    @Column({nullable: true})
     coinsAmount: number
 
     @Column()
@@ -48,7 +48,8 @@ export class User {
     userPassword: string
 
     @Column({
-        type: 'jsonb'
+        type: 'jsonb',
+        nullable: true
     })
     likedPosts: string[]
 

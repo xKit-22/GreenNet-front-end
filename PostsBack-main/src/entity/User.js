@@ -41,6 +41,10 @@ var User = /** @class */ (function () {
         __metadata("design:type", String)
     ], User.prototype, "avatar", void 0);
     __decorate([
+        (0, typeorm_1.Column)({ nullable: true }),
+        __metadata("design:type", Number)
+    ], User.prototype, "coinsAmount", void 0);
+    __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", Number)
     ], User.prototype, "postsAmount", void 0);
@@ -70,7 +74,8 @@ var User = /** @class */ (function () {
     ], User.prototype, "userPassword", void 0);
     __decorate([
         (0, typeorm_1.Column)({
-            type: 'jsonb'
+            type: 'jsonb',
+            nullable: true
         }),
         __metadata("design:type", Array)
     ], User.prototype, "likedPosts", void 0);

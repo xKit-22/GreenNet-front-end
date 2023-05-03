@@ -278,6 +278,48 @@ userRouter.get("/:id/removePost", authorVerification_1.default, function (req, r
         });
     });
 });
+// +coin
+userRouter.get("/:id/addCoin", function (req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var user, changeCoinsAmount, results;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, userRepository.findOneBy({
+                        id: req.params.id
+                    })];
+                case 1:
+                    user = _a.sent();
+                    changeCoinsAmount = user.coinsAmount++;
+                    userRepository.merge(user, changeCoinsAmount);
+                    return [4 /*yield*/, userRepository.save(user)];
+                case 2:
+                    results = _a.sent();
+                    return [2 /*return*/, res.send(results)];
+            }
+        });
+    });
+});
+// -coin
+userRouter.get("/:id/removeCoin", function (req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var user, changeCoinsAmount, results;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, userRepository.findOneBy({
+                        id: req.params.id
+                    })];
+                case 1:
+                    user = _a.sent();
+                    changeCoinsAmount = user.coinsAmount--;
+                    userRepository.merge(user, changeCoinsAmount);
+                    return [4 /*yield*/, userRepository.save(user)];
+                case 2:
+                    results = _a.sent();
+                    return [2 /*return*/, res.send(results)];
+            }
+        });
+    });
+});
 exports.default = (function () {
     userRepository = (0, typeorm_1.getRepository)(User_1.User);
     subscriptionRepository = (0, typeorm_1.getRepository)(Subscription_1.Subscription);
