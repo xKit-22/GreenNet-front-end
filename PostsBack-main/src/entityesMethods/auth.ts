@@ -63,6 +63,7 @@ createConnection().then(connection => {
             const user = await userRepository.create({
                 nickname: req.body.nickname,
                 avatar: req.body.avatar,
+                coinsAmount:0,
                 postsAmount: 0,
                 subscribersAmount: 0,
                 subscriptionsAmount: 0,

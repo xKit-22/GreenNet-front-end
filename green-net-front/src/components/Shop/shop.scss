@@ -1,0 +1,23 @@
+$based-green: rgb(59, 124, 15);
+$deep-green: rgb(46, 91, 11);
+
+.box-container {
+  margin: 4% auto;
+}
+
+.balance {
+  display: flex;
+  align-items: center;
+  font-size: 1.3em;
+}
+
+.balance p {
+  padding-right: 10px;
+}
+
+.inventory-empty {
+  font-size: 1.7em;
+  color: $based-green;
+  text-align: center;
+}
+

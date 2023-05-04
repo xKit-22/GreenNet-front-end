@@ -1,0 +1,46 @@
+$based-green: rgb(59, 124, 15);
+$deep-green: rgb(46, 91, 11);
+
+.event-card-main-container {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid lightgreen;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+}
+
+.event-card-left-container {
+  display: flex;
+
+}
+
+.event-card-left-container img {
+  width: 120px;
+  border-radius: 50%;
+}
+
+.info-container {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.info-container h3 {
+  color: $deep-green;
+}
+
+.reward-container img {
+  height: 20px;
+  margin-left: 10px;
+}
+
+.reward-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+}
+
+.reward-info p{
+  margin: 0;
+}
+
