@@ -9,25 +9,29 @@ import { Registration } from "./components/Registration/Registration";
 import { CreatePostDialog } from "./components/Profile/CreatePostDialog";
 import { UserSearch } from "./components/UserSearch/UserSearch";
 import { EditProfile } from "./components/Profile/EditProfile";
-import { Map } from "./components/Map/Map";
+import { MapPage } from "./components/Map/MapPage";
+import { MapProvider } from './components/Map/Map';
 
 function App() {
   const isCreatePostDialogOpen = useSelector(state => state.dialog.createPostDialog);
   const currentUserId = localStorage.getItem("currentUserId");
   return (
-    <div className="App">
-      {isCreatePostDialogOpen ? <CreatePostDialog userId={currentUserId}/> : ""}
-      <Header />
-      <Routes>
-        <Route path="/:nickname" element={<Profile />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/user-search" element={<UserSearch />} />
-        <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/map" element={<Map />} />
-      </Routes>
-      
-    </div>
+    <MapProvider>
+      <div className="App">
+        {isCreatePostDialogOpen ? <CreatePostDialog userId={currentUserId}/> : ""}
+        <Header />
+        <Routes>
+          <Route path="/:nickname" element={<Profile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/user-search" element={<UserSearch />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
+          <Route path="/map" element={<MapPage />} />
+        </Routes>
+        
+      </div>
+    </MapProvider>
+
   );
 }
 

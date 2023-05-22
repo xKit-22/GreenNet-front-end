@@ -1,5 +1,102 @@
+$based-green: rgb(59, 124, 15);
+
+@mixin buttonStyle {
+    margin-left: 10px;
+    width: 170px;
+    height: 28px;
+
+    font-family: 'Mulish', sans-serif;
+    font-size: 16px;
+
+    background-color: rgb(87, 138, 52);
+    color: aliceblue;
+
+    border: 1px $based-green solid;
+    border-radius: 5px;
+
+    &:hover {
+        background-color: $based-green;
+        border: 1px $based-green solid;
+    }
+}
+
 .page {
     padding: 20px 40px 0px 40px;
 
+    .filters {
+        height: 80px;
+        color: rgb(255, 255, 255);
+    }
     
+}
+
+.dialog {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: #0000003b;
+
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+
+    z-index: 50000;
+
+    &-container {
+        width: 400px;
+        height: 250px;
+        padding: 20px;
+
+        box-shadow: 0 0 7px 0 $based-green;
+        background-color: white;
+
+        .close-button {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+
+            img {
+                width: 20px;
+                cursor: pointer;
+            }
+        }
+
+        h2 {
+            margin: 0px 0px 12px 0px;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                margin: 0;
+            }
+
+            label {
+                font-size: 20px;
+                font-family: 'Mulish', sans-serif;
+                margin: 10px 0px;
+            }
+
+            select {
+                width: 300px;
+                height: 32px;
+
+                border: $based-green solid 2px;
+                border-radius: 10px;
+                margin-bottom: 50px;
+
+                font-size: 14px;
+                font-family: 'Mulish', sans-serif;
+
+            }
+
+            button {
+                @include buttonStyle();
+            }
+        }
+    }
 }

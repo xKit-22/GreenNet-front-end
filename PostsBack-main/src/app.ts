@@ -4,6 +4,7 @@ import postRouter from "./entityesMethods/postMethods";
 import commentRouter from "./entityesMethods/commentMethods";
 import userRouter from "./entityesMethods/userMethods";
 import authRouter from "./authorization/auth";
+import markerRouter from "./entityesMethods/markerMethods"
 
 require("dotenv").config()
 const cors = require('cors')
@@ -19,6 +20,7 @@ createConnection().then(connection => {
     app.use("/posts", postRouter())
     app.use("/comments", commentRouter())
     app.use("/users", userRouter())
+    app.use("/marker", markerRouter())
     app.use("/api/auth", authRouter())
 
 
