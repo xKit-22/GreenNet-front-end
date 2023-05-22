@@ -1,15 +1,16 @@
-import { useSelector, useDispatch } from 'react-redux'
-import { useEffect, useState } from 'react'
-import { Link } from "react-router-dom";
+import {useSelector, useDispatch} from 'react-redux'
+import {useEffect, useState} from 'react'
+import {Link} from "react-router-dom";
 import axios from 'axios'
 
 import './profile.scss'
 import av from '../../assets/cat.jpg'
 import logoutImg from '../../assets/logout.svg'
-import { getUsersPosts, deletePost } from '../../redux/postSlice';
-import { changePostDialogAction } from '../../redux/dialogsSlice'
-import { isMyProfileAction, getUserById } from '../../redux/userSlice'
-import { Post } from '../Post/Post'
+import coin from '../../assets/coin.png'
+import {getUsersPosts, deletePost} from '../../redux/postSlice';
+import {changePostDialogAction} from '../../redux/dialogsSlice'
+import {isMyProfileAction, getUserById} from '../../redux/userSlice'
+import {Post} from '../Post/Post'
 
 export const Profile = () => {
     const dispatch = useDispatch();
@@ -59,26 +60,36 @@ export const Profile = () => {
                 <div className="user-info">
                     <div className="avatar-container">
                         <span>
-                            <img src={av} alt="avatar" />
+                            <img src={av} alt="avatar"/>
                         </span>
                     </div>
                     <div className="info">
                         <div className="title">
                             <p className="user-name">{user?.nickname}</p>
-                            {
-                                isMyProfile ?
-                                    <Link to="/edit-profile" className="">
-                                        <button>Редактировать</button>
-                                    </Link>
-                                    :
-                                    <button>Подписаться</button>
-                            }
-                            {
-                                isMyProfile ?
-                                    <button onClick={() => logout()}><img src={logoutImg} alt="выйти" /></button>
-                                    :
-                                    ''
-                            }
+                            <div className="title-right">
+                                {
+                                    isMyProfile ?
+                                        <div className="coin">
+                                            <span>{user?.coinsAmount}</span><img width="30px" src={coin} alt="монетка"/>
+                                        </div>
+                                        :
+                                        ''
+                                }
+                                {
+                                    isMyProfile ?
+                                        <Link to="/edit-profile" className="">
+                                            <button>Редактировать</button>
+                                        </Link>
+                                        :
+                                        <button>Подписаться</button>
+                                }
+                                {
+                                    isMyProfile ?
+                                        <button onClick={() => logout()}><img src={logoutImg} alt="выйти"/></button>
+                                        :
+                                        ''
+                                }
+                            </div>
                         </div>
 
                         <div className="numbers">
@@ -106,12 +117,12 @@ export const Profile = () => {
                     <button>Создать событие</button>
                     <button onClick={() => dispatch(changePostDialogAction())}>Создать пост</button>
                 </div>
-                <hr />
+                <hr/>
                 <h2>Лента постов</h2>
                 <div className="allPosts">
                     {
                         sortedPosts().map(item => (
-                            <Post post={item} />
+                            <Post post={item}/>
                         ))
                     }
                 </div>

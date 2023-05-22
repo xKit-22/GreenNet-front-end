@@ -1,5 +1,5 @@
-import { Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
+import {Routes, Route} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 import './App.css';
 import { Header } from './components/Header/Header';
@@ -11,6 +11,8 @@ import { UserSearch } from "./components/UserSearch/UserSearch";
 import { EditProfile } from "./components/Profile/EditProfile";
 import { MapPage } from "./components/Map/MapPage";
 import { MapProvider } from './components/Map/Map';
+import {Shop} from "./components/Shop/Shop"
+import {EventsPage} from "./components/Events/EventsPage";
 
 function App() {
   const isCreatePostDialogOpen = useSelector(state => state.dialog.createPostDialog);
@@ -27,6 +29,8 @@ function App() {
           <Route path="/user-search" element={<UserSearch />} />
           <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="/map" element={<MapPage />} />
+          <Route path="/shop" element={<Shop/>}/>
+          <Route path="/events" element={<EventsPage/>}/>
         </Routes>
         
       </div>

@@ -1,0 +1,81 @@
+$based-green: rgb(59, 124, 15);
+$deep-green: rgb(46, 91, 11);
+
+.shop-card-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.shop-card {
+  border: 3px solid $based-green;
+  width: 25%;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.card-img-container {
+  text-align: center;
+}
+
+.card-cost {
+  display: flex;
+  align-items: center;
+}
+
+.card-cost p {
+  padding-right: 10px;
+}
+
+.card-desc {
+  word-wrap: break-word;
+}
+
+.card-btn {
+  padding: 12px;
+  background: $based-green;
+  font-size: 1.1em;
+  cursor: pointer;
+  outline: none;
+  color: #f9f9fd;
+  border: none;
+  border-radius: 10px;
+}
+
+.card-btn:hover {
+  background: $deep-green;
+  transform: scale(1.1);
+  transition: transform 300ms ease;
+}
+
+.card-btn:active {
+  transform: scale(0.97);
+}
+
+button[disabled] {
+  background: darkgrey;
+  cursor: not-allowed;
+}
+
+button[disabled]:hover {
+  background: darkgrey;
+  transform: none;
+  transition: none;
+}
+
+button[disabled]:active {
+  transform: none;
+}
+
+.p-red {
+  color: red;
+}
+
+.p-yell {
+  color: darkorange;
+}
+
+.p-green {
+  color: darkgreen;
+}
