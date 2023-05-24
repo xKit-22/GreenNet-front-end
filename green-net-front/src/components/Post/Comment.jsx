@@ -5,6 +5,8 @@ import axios from 'axios'
 import './post.scss'
 import ava from '../../assets/cat.jpg'
 
+let moment = require('moment');
+
 export const Comment = (props) => {
     const comment = props.comment;
 
@@ -17,13 +19,17 @@ export const Comment = (props) => {
     useEffect(() => {
         getAuthor(comment.authorId);
     }, [])
+
+    const avatar = 'https://img.freepik.com/free-photo/adorable-dog-with-abstract-colorful-graphic-background_23-2150022290.jpg?w=740&t=st=1684323611~exp=1684324211~hmac=f52f6a6f5a2cd828a31f8c42e73a689ca1a1dd43fa3395a5f3cc7e9ae249fec6'
+
     return (
         <div className="comment">
             <div className="comment-header">
                 <span>
-                    <img src={ava} alt="avatar" />
+                    <img src={avatar} alt="avatar" />
                 </span>
                 <p className="nickname">{author.nickname}</p>
+                <p className="comment-date">{moment(comment.dateOfCreation).format('DD.MM.YYYY, hh:mm')}</p>
             </div>
             <div className="comment-content">
                 <p>{comment.text}</p>

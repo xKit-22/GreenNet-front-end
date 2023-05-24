@@ -42,7 +42,7 @@ userRouter.post("/", async function (req: Request, res: Response) { //verificati
 });
 
 // logic to update a user by a given user id
-userRouter.put("/:id", authorVerification, async function (req: Request, res: Response) {
+userRouter.put("/:id", /*authorVerification,*/ async function (req: Request, res: Response) {
     const user = await userRepository.findOneBy({
         id: req.params.id
     })
@@ -138,28 +138,28 @@ userRouter.get("/:id/removePost", authorVerification, async function (req: Reque
     return res.send(results)
 })
 
-// +coin
-userRouter.get("/:id/addCoin", async function (req: Request, res: Response) {
+
+// +coins
+userRouter.get("/:id/addCoins/:coinsAmount", authorVerification, async function (req: Request, res: Response) {
     const user = await userRepository.findOneBy({
         id: req.params.id
     })
-    const changeCoinsAmount = user.coinsAmount++
+    const changeCoinsAmount = user.coinsAmount += +req.params.coinsAmount
     userRepository.merge(user, changeCoinsAmount)
     const results = await userRepository.save(user)
     return res.send(results)
 })
 
-// -coin
-userRouter.get("/:id/removeCoin", async function (req: Request, res: Response) {
+// -coins
+userRouter.get("/:id/subtractCoins/:coinsAmount", async function (req: Request, res: Response) {
     const user = await userRepository.findOneBy({
         id: req.params.id
     })
-    const changeCoinsAmount = user.coinsAmount--
+    const changeCoinsAmount = user.coinsAmount -= +req.params.coinsAmount
     userRepository.merge(user, changeCoinsAmount)
     const results = await userRepository.save(user)
     return res.send(results)
 })
-
 
 export default () => {
     userRepository = getRepository(User);

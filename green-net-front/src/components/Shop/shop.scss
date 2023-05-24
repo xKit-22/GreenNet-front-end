@@ -21,3 +21,14 @@ $deep-green: rgb(46, 91, 11);
   text-align: center;
 }
 
+.addCard {
+  padding: 12px;
+  background: $based-green;
+  font-size: 1.1em;
+  cursor: pointer;
+  outline: none;
+  color: #f9f9fd;
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}

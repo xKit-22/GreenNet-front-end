@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     createPostDialog: false,
-    createEventDialog: false
+    createEventDialog: false,
+    createShopCardDialog: false
 }
 
 export const dialogsSlice = createSlice({
@@ -16,8 +17,11 @@ export const dialogsSlice = createSlice({
         changeEventDialogAction: (state) => {
             state.createEventDialog = !state.createEventDialog;
         },
+        changeShopCardDialogAction: (state) => {
+            state.createShopCardDialog = !state.createShopCardDialog;
+        },
     }
 })
 
-export const { changeEventDialogAction, changePostDialogAction } = dialogsSlice.actions
+export const { changeEventDialogAction, changePostDialogAction,changeShopCardDialogAction } = dialogsSlice.actions
 export default dialogsSlice.reducer

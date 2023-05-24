@@ -1,6 +1,7 @@
 import * as express from "express";
 import {createConnection} from "typeorm";
 import postRouter from "./entityesMethods/postMethods";
+import eventRouter from "./entityesMethods/eventsMethods";
 import commentRouter from "./entityesMethods/commentMethods";
 import userRouter from "./entityesMethods/userMethods";
 import authRouter from "./authorization/auth";
@@ -19,6 +20,7 @@ createConnection().then(connection => {
     app.use("/posts", postRouter())
     app.use("/comments", commentRouter())
     app.use("/users", userRouter())
+    app.use("/events", eventRouter())
     app.use("/api/auth", authRouter())
 
 

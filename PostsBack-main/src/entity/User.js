@@ -13,6 +13,7 @@ exports.User = void 0;
 var typeorm_1 = require("typeorm");
 var Post_1 = require("./Post");
 var Comment_1 = require("./Comment");
+var Event_1 = require("./Event");
 var shortid = require('shortid');
 var User = /** @class */ (function () {
     function User() {
@@ -40,6 +41,10 @@ var User = /** @class */ (function () {
         (0, typeorm_1.Column)({ nullable: true }),
         __metadata("design:type", String)
     ], User.prototype, "avatar", void 0);
+    __decorate([
+        (0, typeorm_1.Column)({ nullable: true }),
+        __metadata("design:type", String)
+    ], User.prototype, "description", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", Number)
@@ -87,6 +92,10 @@ var User = /** @class */ (function () {
         (0, typeorm_1.OneToMany)(function (type) { return Comment_1.Comment; }, function (comment) { return comment.user; }),
         __metadata("design:type", Array)
     ], User.prototype, "comments", void 0);
+    __decorate([
+        (0, typeorm_1.ManyToMany)(function (type) { return Event_1.Event; }, function (event) { return event.users; }),
+        __metadata("design:type", Array)
+    ], User.prototype, "events", void 0);
     User = __decorate([
         (0, typeorm_1.Entity)('users')
     ], User);

@@ -39,10 +39,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var typeorm_1 = require("typeorm");
 var User_1 = require("../entity/User");
-require("dotenv/config");
+require('dotenv').config();
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var authRouter = express.Router();
+var secret = 'secret';
 var userRepository;
 authRouter.post("/login", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -60,9 +61,10 @@ authRouter.post("/login", function (req, res) {
                             token = jwt.sign({
                                 userLogin: candidate.userLogin,
                                 id: candidate.id
-                            }, process.env.JWT_KEY, { expiresIn: '1h' });
+                            }, secret, { expiresIn: '10h' }) //process.env.JWT_KEY
+                            ;
                             res.status(200).json({
-                                token: "Bearer ".concat(token)
+                                token: token
                             });
                         }
                         else {
@@ -112,7 +114,8 @@ authRouter.post('/register', function (req, res) {
                             allLikesAmount: 0,
                             dateOfCreation: new Date().toISOString().split('T')[0],
                             userLogin: req.body.userLogin,
-                            userPassword: bcrypt.hashSync(password, salt)
+                            userPassword: bcrypt.hashSync(password, salt),
+                            likedPosts: []
                         })];
                 case 3:
                     user = _a.sent();
@@ -138,6 +141,6 @@ authRouter.post('/register', function (req, res) {
 });
 exports.default = (function () {
     userRepository = (0, typeorm_1.getRepository)(User_1.User);
-    //upload = require('../app').upload
     return authRouter;
 });
+//      http://localhost:3000/api/auth/login

@@ -1,6 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600&display=swap');
 
 .App {
-  text-align: center;
   font-family: 'Mulish', sans-serif;
+}
+
+body::-webkit-scrollbar {
+  width: 12px;               /* ширина всей полосы прокрутки */
+}
+
+body::-webkit-scrollbar-track {
+  background: rgba(59, 124, 15, 0.5);        /* цвет зоны отслеживания */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(59, 124, 15);    /* цвет бегунка */
+  border-radius: 10px;       /* округлось бегунка */
 }

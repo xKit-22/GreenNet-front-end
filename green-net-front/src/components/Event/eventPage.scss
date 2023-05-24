@@ -1,0 +1,90 @@
+$based-green: rgb(59, 124, 15);
+$deep-green: rgb(46, 91, 11);
+
+.event-page-container {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  border-radius: 23px;
+  margin: 25px auto 0;
+  padding: 30px 40px;
+
+  -webkit-box-shadow: 0px 5px 10px 2px rgba(59, 124, 15, 0.2);
+  -moz-box-shadow: 0px 5px 10px 2px rgba(59, 124, 15, 0.2);
+  box-shadow: 0px 5px 10px 2px rgba(59, 124, 15, 0.2);
+
+}
+
+.event-page-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-page-right img{
+  width: 250px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+}
+
+.event-page-right p{
+  text-align: center;
+  color: red;
+}
+
+.reward-img {
+  height: 20px;
+  margin-left: 10px;
+}
+
+.money {
+  color: $deep-green !important;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.money img {
+  width: 16px;
+  height: 16px;
+}
+
+.event-page-right button {
+  margin: 0 auto;
+  width: 60%;
+  padding: 10px;
+  background: $based-green;
+  font-size: 1em;
+  cursor: pointer;
+  outline: none;
+  color: #f9f9fd;
+  border: none;
+  border-radius: 10px;
+}
+
+.event-page-right button:hover {
+  background: $deep-green;
+  transform: scale(1.05);
+  transition: transform 300ms ease;
+}
+
+.event-page-right button:active {
+  transform: scale(0.97);
+}
+
+.event-page-right button:disabled {
+  background-color: gray;
+}
+
+.event-page-container-left {
+  width: 70%;
+}
+
+.event-page-container-left td {
+  padding-bottom: 10px;
+}
+
+.reward-td {
+  display: flex;
+  align-items: center;
+}

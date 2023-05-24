@@ -1,0 +1,14 @@
+$based-green: rgb(59, 124, 15);
+
+.footer {
+  height: 60px;
+  background: $based-green;
+  display: flex;
+  align-items: center;
+}
+
+.footer p {
+  color: #f9f9fd;
+  font-size: 10px;
+  padding-left: 20px;
+}

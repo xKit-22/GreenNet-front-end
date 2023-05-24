@@ -11,6 +11,8 @@ import {InventoryCardList} from "./InventoryCardList";
 import {notificationService} from "../../config/notificationConfig";
 import coin from "../../assets/coin.png";
 import axios from "axios";
+import {changeEventDialogAction, changeShopCardDialogAction} from "../../redux/dialogsSlice";
+import {useDispatch} from "react-redux";
 
 
 //Изменение некоторых стилей для табов
@@ -81,11 +83,14 @@ export const Shop = () => {
         },
     ]
 
+    const dispatch = useDispatch();
+
     const currentUserId = localStorage.getItem('currentUserId');
     const [items, setItems] = useState(fakeShopElemArray)
     const [inventory, setInventory] = useState([])
     const [value, setValue] = useState('shop');
     const [user, setUser] = useState({});
+    console.log(inventory)
 
     const getUser = async (id) => {
         await axios.get(`http://localhost:3000/users/${id}`).then(res => {
@@ -116,6 +121,7 @@ export const Shop = () => {
 
     return (
         <Box sx={{width: '90%'}} className={`${classes.root} box-container`}>
+            <button className='addCard' onClick={() => dispatch(changeShopCardDialogAction())}>Добавить карточку</button>
             <TabContext value={value}>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <TabList onChange={handleChange} aria-label="lab tabs">

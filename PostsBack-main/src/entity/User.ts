@@ -1,6 +1,7 @@
 import {Entity, Column, OneToMany, ManyToMany, PrimaryColumn, BeforeInsert} from "typeorm";
 import {Post} from "./Post";
 import {Comment} from "./Comment";
+import {Event} from "./Event";
 import {JoinTable} from "typeorm";
 
 const shortid = require('shortid');
@@ -22,6 +23,9 @@ export class User {
 
     @Column({nullable: true})
     avatar: string
+
+    @Column({nullable: true})
+    description: string
 
     @Column()
     coinsAmount: number
@@ -55,4 +59,5 @@ export class User {
 
     @OneToMany(type => Post, post => post.user) posts: Post[]
     @OneToMany(type => Comment, comment => comment.user) comments: Comment[]
+    @ManyToMany(type => Event, event => event.users) events: Event[]
 }

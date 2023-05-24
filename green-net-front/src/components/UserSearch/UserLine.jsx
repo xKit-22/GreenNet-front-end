@@ -23,7 +23,8 @@ export const UserLine = (props) => {
                     </span>
                     <p>{user?.nickname}</p> 
                 </div>
-                <button>Подписаться</button>
+
+                <button>Удалить</button>
             </div>
 
         </Link>

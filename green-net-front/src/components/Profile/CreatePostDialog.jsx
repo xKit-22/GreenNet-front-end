@@ -34,10 +34,12 @@ export const CreatePostDialog = (props) => {
                 <h2>Создайте пост</h2>
 
                 <div className="post-inputs">
-                    <label htmlFor="">Текст поста (?)</label>
+                    <label htmlFor="">Текст публикации</label>
                     <textarea onChange={(e) => setPostText(e.target.value)}></textarea>
-                    <label htmlFor="">Изображение</label>
-                    <div className="img-uploader">тут будет загрузчик картинки</div>
+                    {/*<label htmlFor="">Изображение</label>*/}
+                    <div className="img-uploader">
+                        <button>Загрузить картинку</button>
+                    </div>
 
                     <button onClick={(e) => toCreatePost(e)}>Создать пост</button>
                 </div>
