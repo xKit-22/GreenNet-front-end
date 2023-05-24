@@ -108,7 +108,7 @@ userRouter.post("/", function (req, res) {
     });
 });
 // logic to update a user by a given user id
-userRouter.put("/:id", /*authorVerification,*/ function (req, res) {
+userRouter.put("/:id", authorVerification_1.default, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var user, results;
         return __generator(this, function (_a) {
@@ -278,8 +278,8 @@ userRouter.get("/:id/removePost", authorVerification_1.default, function (req, r
         });
     });
 });
-// +coins
-userRouter.get("/:id/addCoins/:coinsAmount", authorVerification_1.default, function (req, res) {
+// +coin
+userRouter.get("/:id/addCoin", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var user, changeCoinsAmount, results;
         return __generator(this, function (_a) {
@@ -289,7 +289,7 @@ userRouter.get("/:id/addCoins/:coinsAmount", authorVerification_1.default, funct
                     })];
                 case 1:
                     user = _a.sent();
-                    changeCoinsAmount = user.coinsAmount += +req.params.coinsAmount;
+                    changeCoinsAmount = user.coinsAmount++;
                     userRepository.merge(user, changeCoinsAmount);
                     return [4 /*yield*/, userRepository.save(user)];
                 case 2:
@@ -299,8 +299,8 @@ userRouter.get("/:id/addCoins/:coinsAmount", authorVerification_1.default, funct
         });
     });
 });
-// -coins
-userRouter.get("/:id/subtractCoins/:coinsAmount", function (req, res) {
+// -coin
+userRouter.get("/:id/removeCoin", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var user, changeCoinsAmount, results;
         return __generator(this, function (_a) {
@@ -310,7 +310,7 @@ userRouter.get("/:id/subtractCoins/:coinsAmount", function (req, res) {
                     })];
                 case 1:
                     user = _a.sent();
-                    changeCoinsAmount = user.coinsAmount -= +req.params.coinsAmount;
+                    changeCoinsAmount = user.coinsAmount--;
                     userRepository.merge(user, changeCoinsAmount);
                     return [4 /*yield*/, userRepository.save(user)];
                 case 2:

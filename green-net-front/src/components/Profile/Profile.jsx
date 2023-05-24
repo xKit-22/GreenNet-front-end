@@ -1,39 +1,38 @@
-import {useSelector, useDispatch} from 'react-redux'
-import {useEffect, useState} from 'react'
-import {Link} from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 import './profile.scss'
 import av from '../../assets/cat.jpg'
-import logoutImg from '../../assets/logout.svg'
-import coin from '../../assets/coin.png'
-import {getUsersPosts, deletePost} from '../../redux/postSlice';
-import {changePostDialogAction} from '../../redux/dialogsSlice'
-import {isMyProfileAction, getUserById} from '../../redux/userSlice'
-import {Post} from '../Post/Post'
+import { getUsersPosts, deletePost } from '../../redux/postSlice';
+import { changePostDialogAction } from '../../redux/dialogsSlice'
+import { isMyProfileAction, getUserById } from '../../redux/userSlice'
+import { Post } from '../Post/Post'
 
 export const Profile = () => {
     const dispatch = useDispatch();
     const currentUserId = window.location.pathname.slice(1);
     const authUserId = localStorage.getItem('currentUserId');
     const [user, setUser] = useState({});
-    const [postsAmount, setPostsAmount] = useState(0);
+    // const [postsAmount, setPostsAmount] = useState(0);
     const usersPosts = useSelector(state => state.post.usersPosts);
     const isMyProfile = useSelector(state => state.user.isMyProfile);
 
     console.log("id: ", currentUserId);
 
     const getUser = async (id) => {
-        await axios.get(`http://localhost:3000/users/${id}`).then(res => {
-            setUser(res.data);
-            setPostsAmount(res.data.postsAmount);
-        });
+        await axios.get(`http://localhost:3000/users/${id}`).then(res => setUser(res.data));
     }
+
+    // const getPostsAmount = async (id) => {
+    //     await axios.get(`http://localhost:3000/users/${id}`).then(res => setPostsAmount(res.data.postsAmount));
+    // }
 
     useEffect(() => {
         dispatch(getUserById(authUserId));
         dispatch(isMyProfileAction());
         getUser(currentUserId);
+        // getPostsAmount(currentUserId);
     }, [])
 
 
@@ -43,15 +42,10 @@ export const Profile = () => {
 
     const sortedPosts = () => {
         const sorted = JSON.parse(JSON.stringify(usersPosts));
-        sorted.sort((a, b) => b.dateOfCreation - a.dateOfCreation);
+        sorted.sort((a, b) => a.dateOfCreation - b.dateOfCreation);
 
         console.log('sorted post', sorted);
         return sorted;
-    }
-
-    const logout = () => {
-        localStorage.setItem('token', '');
-        window.location.pathname = '/login';
     }
 
     return (
@@ -60,36 +54,18 @@ export const Profile = () => {
                 <div className="user-info">
                     <div className="avatar-container">
                         <span>
-                            <img src={av} alt="avatar"/>
+                            <img src={av} alt="avatar" />
                         </span>
                     </div>
                     <div className="info">
                         <div className="title">
                             <p className="user-name">{user?.nickname}</p>
-                            <div className="title-right">
-                                {
-                                    isMyProfile ?
-                                        <div className="coin">
-                                            <span>{user?.coinsAmount}</span><img width="30px" src={coin} alt="монетка"/>
-                                        </div>
-                                        :
-                                        ''
-                                }
-                                {
-                                    isMyProfile ?
-                                        <Link to="/edit-profile" className="">
-                                            <button>Редактировать</button>
-                                        </Link>
-                                        :
-                                        <button>Подписаться</button>
-                                }
-                                {
-                                    isMyProfile ?
-                                        <button onClick={() => logout()}><img src={logoutImg} alt="выйти"/></button>
-                                        :
-                                        ''
-                                }
-                            </div>
+                            {
+                                isMyProfile ?
+                                    <button>Редактировать</button>
+                                    :
+                                    <button>Подписаться</button>
+                            }
                         </div>
 
                         <div className="numbers">
@@ -117,12 +93,11 @@ export const Profile = () => {
                     <button>Создать событие</button>
                     <button onClick={() => dispatch(changePostDialogAction())}>Создать пост</button>
                 </div>
-                <hr/>
-                <h2>Лента постов</h2>
+                <hr />
                 <div className="allPosts">
                     {
                         sortedPosts().map(item => (
-                            <Post post={item}/>
+                            <Post post={item} />
                         ))
                     }
                 </div>

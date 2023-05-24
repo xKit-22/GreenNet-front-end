@@ -9,7 +9,6 @@ import './post.scss'
 import likeImg from '../../assets/like.svg'
 import unLikeImg from '../../assets/unlike.svg'
 import closeImg from '../../assets/close.svg'
-import { Comment } from './Comment';
 
 export const Post = (props) => {
     const dispatch = useDispatch();
@@ -19,15 +18,14 @@ export const Post = (props) => {
     const currentUserId = localStorage.getItem('currentUserId');
     const post = props.post;
 
-    const [commentText, setCommentText] = useState('');
     const [isPostLiked, setIsPostLiked] = useState(false);
     const [likesAmount, setLikesAmount] = useState(0);
-    const [comments, setComments] = useState([]);
 
     useEffect(() => {
         getLikesAmount(post.id);
-        getPostsComments(post.id);
         setIsPostLiked(authUser?.likedPosts?.includes(post.id));
+        console.log("post likes", post.likesAmount, likesAmount);
+        // console.log("users liked posts", authUser);
     }, [authUser]);
 
     const getLikesAmount = async (postId) => {
@@ -42,14 +40,6 @@ export const Post = (props) => {
             });
     };
 
-    const getPostsComments = async (postId) => {
-        await axios.get(`http://localhost:3000/comments/post/${postId}`)
-            .then(data => {
-                setComments(data.data);
-                console.log('posts', data, comments);
-            })
-    }
-
     const unLikePost = async (postId) => {
         await axios.post(`http://localhost:3000/posts/${postId}/unlike`, { currentUserId: authUserId })
             .then(() => {
@@ -58,27 +48,9 @@ export const Post = (props) => {
             });
     };
 
-    const createComment = async (e) => {
-        e.preventDefault();
-
-        const data = {
-            postId: post.id,
-            text: commentText,
-            likesAmount: 0,
-            authorId: authUserId,
-            dateOfCreation: new Date()
-        }
-        await axios.post(`http://localhost:3000/comments/`, data)
-            .then(data => {
-                console.log('comment created ', data.data);
-                setCommentText('');
-                getPostsComments(post.data);
-            })
-    }
-
     return (
         <div className="post-container">
-            {/* {post.id} */}
+            {post.id}
             <div className="delete-button">
                 <img src={closeImg} alt="delete button" onClick={() => dispatch(deletePost(post.id)).then(res => dispatch(getUsersPosts(currentUserId)))} />
             </div>
@@ -91,16 +63,11 @@ export const Post = (props) => {
                     <span>{likesAmount}</span>
                     <img src={isPostLiked ? likeImg : unLikeImg} alt="like" onClick={() => isPostLiked ? unLikePost(post.id) : likePost(post.id)} />
                 </div>
-                <h3>Комментарии</h3>
-                <div className="comments-container">
-                    {
-                        comments?.map(comment => <Comment comment={comment}/>)
-                    }
-                </div>
-                <div className="comment-create">
+                <div className="comment">
+                    <h3>Комментарии</h3>
                     <div className="create-container">
-                        <textarea name="" id="" cols="" onChange={(e) => setCommentText(e.target.value)} rows="10"></textarea>
-                        <button onClick={(e) => createComment(e)}>Отправить</button>
+                        <textarea name="" id="" cols="" rows="10"></textarea>
+                        <button>Отправить</button>
                     </div>
                 </div>
             </div>

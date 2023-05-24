@@ -59,37 +59,23 @@ $based-green: rgb(59, 124, 15);
                 width: 100%;
 
                 .title {
-                    width: 100%;
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-between;
+
                     align-items: center;
 
                     .user-name {
                         font-size: 40px;
-                        margin: 0 0 10px 0;
-                    }
-
-                    .title-right {
-                        display: flex;
-                        align-items: center;
-
-                    }
-
-                    .coin {
-                        display: flex;
-                        align-items: center;
-                    }
-
-                    .coin span {
-                        font-size: 1.5em;
-                        padding: 0 10px;
-                        font-weight: bold;
+                        margin: 0px 0px 10px 0px;
                     }
 
                     button {
-                        @include buttonStyle();
-                        width: max-content;
+                        margin-left: 45px;
+                        width: 170px;
+                        height: 28px;
+
+                        font-family: 'Mulish', sans-serif;
+                        font-size: 16px;
 
                         background-color: aliceblue;
                         color: $based-green;
@@ -101,20 +87,9 @@ $based-green: rgb(59, 124, 15);
                             background-color: $based-green;
                             border: 1px $based-green solid;
                             color: aliceblue;
-
-                            img {
-                                filter: invert(100%);
-
-                            }
-                        }
-
-                        img {
-                            width: 18px;
-                            filter: invert(34%) sepia(97%) saturate(388%) hue-rotate(52deg) brightness(98%) contrast(99%);
                         }
                     }
                 }
-
 
 
                 .numbers {
@@ -234,8 +209,6 @@ $based-green: rgb(59, 124, 15);
                 width: 90%;
                 height: 80px;
                 resize: none;
-
-                font-size: 20px;
             }
 
             button {

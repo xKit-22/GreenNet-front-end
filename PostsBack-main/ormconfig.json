@@ -5,7 +5,7 @@
   "username": "rqbrsgdf",
   "password": "1xApGGpT_2_G5AfvN5oWdMIh_koy70tS",
   "database": "rqbrsgdf",
-  "entities": ["C:\\Users\\alexa\\Desktop\\diplom\\green-net\\PostsBack-main\\src\\entity\\*.js"],
+  "entities": ["C:\\Users\\xKit\\WebstormProjects\\GreenNet-front-end-main\\GreenNet-front-end-main\\PostsBack-main\\src\\entity\\*.js"],
   "logging": true,
   "synchronize": true
 }
