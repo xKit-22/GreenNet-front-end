@@ -106,6 +106,7 @@ var authRouter = express.Router();
                         return [4 /*yield*/, userRepository.create({
                                 nickname: req.body.nickname,
                                 avatar: req.body.avatar,
+                                coinsAmount: 0,
                                 postsAmount: 0,
                                 subscribersAmount: 0,
                                 subscriptionsAmount: 0,
