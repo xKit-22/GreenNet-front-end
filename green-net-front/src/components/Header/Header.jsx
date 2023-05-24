@@ -31,10 +31,11 @@ export const Header = () => {
                 </div>
                 <div className="links">
                     <Link to="/events" className="nav-link">События</Link>
-                    <Link to="/login" className="nav-link">Лента</Link>
-                    <Link to="/map" className="nav-link">Карта</Link>
+                    <Link to="/feed" className="nav-link">Лента</Link>
+                    <Link to="/login" className="nav-link">Карта</Link>
                     <Link to="/shop" className="nav-link">Магазин</Link>
                     <Link to="/user-search" className="nav-link">Поиск</Link>
+                    <Link to="/admin" className="nav-link">Администратор</Link>
                     {
                         isAuthorized ?
                             <Link to={`/${currentUserId}`} className="nav-link">Профиль</Link>
