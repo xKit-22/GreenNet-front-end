@@ -72,7 +72,15 @@ export const MapPage = () => {
         <>
             {isShowAddMarkerDialog ? <AddMarkerDialog/> : ""}
             <div className="page">
-                <div className="filters">a</div>
+                <div className="filters-container">
+                    <h3>Фильтрация</h3>
+
+                    <label htmlFor="">Сортировка мусора</label>
+                    <input type="checkbox" name="" id="" />
+
+                    <label htmlFor="">Прием батареек</label>
+                    <input type="checkbox" name="" id="" />
+                </div>
                 <Map/>
             </div>
         </>
