@@ -4,7 +4,8 @@ const initialState = {
     createPostDialog: false,
     createEventDialog: false,
     showAddMarkerDialog: false,
-    createShopCardDialog: false
+    createShopCardDialog: false,
+    showMarkerInfoDialog: false
 }
 
 export const dialogsSlice = createSlice({
@@ -25,9 +26,13 @@ export const dialogsSlice = createSlice({
 
         changeShopCardDialogAction: (state) => {
             state.createShopCardDialog = !state.createShopCardDialog;
+        },
+
+        changeMarkerInfoDialogAction: (state) => {
+            state.showMarkerInfoDialog = !state.showMarkerInfoDialog;
         }
     }
 })
 
-export const { changeEventDialogAction, changePostDialogAction, changeShowAddMarkerDialog, changeShopCardDialogAction } = dialogsSlice.actions
+export const { changeEventDialogAction, changePostDialogAction, changeShowAddMarkerDialog, changeShopCardDialogAction, changeMarkerInfoDialogAction } = dialogsSlice.actions
 export default dialogsSlice.reducer

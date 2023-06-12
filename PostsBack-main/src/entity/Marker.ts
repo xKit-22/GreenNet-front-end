@@ -28,5 +28,5 @@ export class Marker {
     type: string
 
     @Column({nullable: true})
-    ownerId: number
+    ownerId: string
 }

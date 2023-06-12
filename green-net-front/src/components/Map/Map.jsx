@@ -1,11 +1,11 @@
 import React from 'react';
-import { useEffect, useState, useContext, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useContext } from 'react';
+import { useDispatch } from 'react-redux';
 import { load } from '@2gis/mapgl';
 
 import './map.scss'
-// import { getAllMarkers } from '../../redux/mapSlice';
-import { getAllMarkersAction } from '../../redux/mapSlice';
+import { setSelectedCoordinatesAction } from '../../redux/mapSlice';
+import { changeShowAddMarkerDialog, changeMarkerInfoDialogAction } from '../../redux/dialogsSlice';
 
 const MAP_CENTER = [46.020825, 51.53325];
 let c = 0;
@@ -13,13 +13,7 @@ let c = 0;
 export const Map = () => {
     console.log('map renders: ', ++c);
     const [_, setMapInstance] = useContext(MapContext);
-    const allMarkers = useSelector(state => state.map.coordinates);
     const dispatch = useDispatch();
-
-    // useEffect(() => {
-    //     dispatch(getAllMarkersAction());
-    // }, []);
-    
 
     useEffect(() => {
         let map;
@@ -29,21 +23,22 @@ export const Map = () => {
                 zoom: 18,
                 key: 'a7abf1ac-ec9c-4c4f-a497-0dbd6ff9888b',
             });
+            setMapInstance(map);
 
-            // allMarkers?.forEach(coord => {
-            //     const marker = new mapglAPI.Marker(map, {
-            //         coordinates: coord,
-            //     });
-            // })  
-            // Сохраняем ссылку на карту
-            setMapInstance(map);  
-
+            map.on('click', (e) => {
+                if (!e.target) {
+                    return;
+                }
+                dispatch(setSelectedCoordinatesAction(e.lngLat))
+                console.log('coordinates - ', e.lngLat);
+                dispatch(changeShowAddMarkerDialog());
+            });
         });
 
         // Удаляем карту при размонтировании компонента
         return () => map && map.destroy();
     }, []);
-    
+
     return <MapWrapper />
 }
 
@@ -52,7 +47,7 @@ const MapWrapper =
         return <div id="map-container" style={{ width: '80%', height: '700px' }}></div>;
     }
 
-export const MapContext = React.createContext([undefined, () => {}]);
+export const MapContext = React.createContext([undefined, () => { }]);
 export const MapProvider = (props) => {
     const [mapInstance, setMapInstance] = React.useState();
 
