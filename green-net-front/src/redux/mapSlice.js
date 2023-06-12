@@ -3,7 +3,9 @@ import axios from 'axios';
 
 const initialState = {
     coordinates: [],
-    selectedCoordinates: []
+    selectedCoordinates: [],
+    filters: [],
+    code: 0
 }
 
 export const getAllMarkers = createAsyncThunk(
@@ -31,6 +33,19 @@ export const createMarker = createAsyncThunk(
     }
 );
 
+export const deleteMarker = createAsyncThunk(
+  'map/deleteMarker',
+  async (id, {rejectWithValue, dispatch}) => {
+    try {
+      const res = await axios.delete(`http://localhost:3000/marker/deleteMarker/${id}`);
+      dispatch(deleteMarkerAction(res.data));
+    } catch (error) {
+      alert(error.response.data.message)
+    }
+    
+  }
+);
+
 export const mapSlice = createSlice({
     name: 'map',
     initialState: initialState,
@@ -45,9 +60,17 @@ export const mapSlice = createSlice({
 
         createMarkerAction: (state, action) => {
             state.coordinates.push(action.payload);        
-          },
+        },
+
+        deleteMarkerAction: (state, action) => {
+          state.code = action.payload;        
+        },
+
+        setFiltersAction: (state, action) => {
+          state.filters = action.payload;
+        }
     }
 })
 
-export const { getAllMarkersAction, setSelectedCoordinatesAction, createMarkerAction } = mapSlice.actions
+export const { getAllMarkersAction, setSelectedCoordinatesAction, createMarkerAction, deleteMarkerAction, setFiltersAction } = mapSlice.actions
 export default mapSlice.reducer

@@ -54,17 +54,17 @@ markerRouter.get("/", function (req, res) {
         });
     });
 });
-markerRouter.get("/:type", function (req, res) {
+markerRouter.get("/:id", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var markers;
+        var marker;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, markerRepository.findBy({
-                        type: req.params.type
+                case 0: return [4 /*yield*/, markerRepository.findOneBy({
+                        id: req.params.id
                     })];
                 case 1:
-                    markers = _a.sent();
-                    return [2 /*return*/, res.json(markers)];
+                    marker = _a.sent();
+                    return [2 /*return*/, res.json(marker)];
             }
         });
     });
@@ -82,9 +82,6 @@ markerRouter.delete("/deleteMarker/:id", function (req, res) {
                     return [4 /*yield*/, markerRepository.delete(req.params.id)];
                 case 2:
                     results = _a.sent();
-                    return [4 /*yield*/, markerRepository.save(marker)];
-                case 3:
-                    _a.sent();
                     return [2 /*return*/, res.send(results)];
             }
         });

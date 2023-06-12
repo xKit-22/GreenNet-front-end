@@ -4,6 +4,7 @@ $based-green: rgb(59, 124, 15);
     margin-left: 10px;
     width: 170px;
     height: 28px;
+    cursor: pointer;
 
     font-family: 'Mulish', sans-serif;
     font-size: 16px;
@@ -23,11 +24,42 @@ $based-green: rgb(59, 124, 15);
 .page {
     padding: 20px 40px 0px 40px;
 
-    .filters {
-        height: 80px;
-        color: rgb(255, 255, 255);
+    .filters-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        label {
+            margin: 0px 10px 0px 25px;
+            font-size: 20px;
+        }
+
+        input {
+            transform: scale(1.5);
+        }
     }
-    
+
+    .map-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .icons-info {
+            margin-right: 100px;
+
+            display: flex;
+            flex-direction: column;
+
+            .icon-item {
+                margin-top: 25px;
+
+                p {
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+
 }
 
 .dialog {
@@ -38,7 +70,7 @@ $based-green: rgb(59, 124, 15);
 
     display: flex;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
 
     z-index: 50000;
 
@@ -49,6 +81,10 @@ $based-green: rgb(59, 124, 15);
 
         box-shadow: 0 0 7px 0 $based-green;
         background-color: white;
+
+        button {
+            @include buttonStyle();
+        }
 
         .close-button {
             display: flex;
@@ -92,10 +128,6 @@ $based-green: rgb(59, 124, 15);
                 font-size: 14px;
                 font-family: 'Mulish', sans-serif;
 
-            }
-
-            button {
-                @include buttonStyle();
             }
         }
     }

@@ -12,11 +12,11 @@ markerRouter.get("/", async function(req: Request, res: Response) {
     return res.json(markers)
 });
 
-markerRouter.get("/:type", async function(req: Request, res: Response) {
-    const markers = await markerRepository.findBy({
-        type: req.params.type
+markerRouter.get("/:id", async function(req: Request, res: Response) {
+    const marker = await markerRepository.findOneBy({
+        id: req.params.id
     })
-    return res.json(markers)
+    return res.json(marker)
 });
 
 markerRouter.delete("/deleteMarker/:id", async function(req: Request, res: Response) {
@@ -24,7 +24,6 @@ markerRouter.delete("/deleteMarker/:id", async function(req: Request, res: Respo
         id: req.params.id
     })
     const results = await markerRepository.delete(req.params.id)
-    await markerRepository.save(marker)
     return res.send(results)
 });
 
