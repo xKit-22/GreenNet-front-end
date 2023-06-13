@@ -2,11 +2,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
+import { changeServerErrorAction } from './dialogsSlice';
+
 const initialState = {
     token: "",
     user: {},
     isMyProfile: false,
-    allUsers: []
+    allUsers: [],
+    error: ''
 };
 
 export const getUserById = createAsyncThunk(
@@ -51,9 +54,11 @@ export const registration = createAsyncThunk(
       try {
         const res = await axios.post('http://localhost:3000/api/auth/register', data);
         dispatch(registerAction(""));
-        window.location.pathname = '/login'
+        window.location.pathname = '/login';
+        dispatch(setErrorAction(''));
       } catch (error) {
-        alert(error.response.data.message)
+          dispatch(changeServerErrorAction());
+          dispatch(setErrorAction(error.response.data.message));
       }
       
     }
@@ -70,8 +75,10 @@ export const login = createAsyncThunk(
         localStorage.setItem('token', token);
         dispatch(loginAction(res.data.token));
         window.location.pathname = `/${userId}`;
+        dispatch(setErrorAction(''));
       } catch (error) {
-        alert(error.response.data.message)
+          dispatch(changeServerErrorAction());
+          dispatch(setErrorAction(error.response.data.message));
       }
       
     }
@@ -106,7 +113,12 @@ export const userSlice = createSlice({
           const page = window.location.pathname.slice(1);
 
           state.isMyProfile = current === page;
-        }
+        },
+
+        setErrorAction: (state, action) => {
+            state.error = action.payload;
+        },
+
     },
 
     [login.fulfilled]: () => console.log('login fullfield'),
@@ -118,5 +130,11 @@ export const userSlice = createSlice({
     [getUserById.rejected]: () => console.log('getUserById rejected'),
 })
 
-export const { registerAction, loginAction, getUserByIdAction, isMyProfileAction, getAllUsersAction, getUserByNicknameAction } = userSlice.actions
+export const { registerAction,
+    loginAction,
+    getUserByIdAction,
+    isMyProfileAction,
+    getAllUsersAction,
+    getUserByNicknameAction,
+    setErrorAction } = userSlice.actions
 export default userSlice.reducer

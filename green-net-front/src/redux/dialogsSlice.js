@@ -3,7 +3,10 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     createPostDialog: false,
     createEventDialog: false,
-    createShopCardDialog: false
+    createShopCardDialog: false,
+    showAddMarkerDialog: false,
+    showMarkerInfoDialog: false,
+    showServerError: false
 }
 
 export const dialogsSlice = createSlice({
@@ -20,8 +23,26 @@ export const dialogsSlice = createSlice({
         changeShopCardDialogAction: (state) => {
             state.createShopCardDialog = !state.createShopCardDialog;
         },
+
+        changeMarkerInfoDialogAction: (state) => {
+            state.showMarkerInfoDialog = !state.showMarkerInfoDialog;
+        },
+
+        changeShowAddMarkerDialog: (state) => {
+            state.showAddMarkerDialog = !state.showAddMarkerDialog;
+        },
+
+        changeServerErrorAction: (state) => {
+            state.showServerError = !state.showServerError;
+        },
     }
 })
 
-export const { changeEventDialogAction, changePostDialogAction,changeShopCardDialogAction } = dialogsSlice.actions
+export const {
+    changeEventDialogAction,
+    changePostDialogAction,
+    changeShowAddMarkerDialog,
+    changeMarkerInfoDialogAction,
+    changeServerErrorAction,
+    changeShopCardDialogAction } = dialogsSlice.actions
 export default dialogsSlice.reducer
