@@ -27,7 +27,7 @@ export class User {
     @Column({nullable: true})
     description: string
 
-    @Column()
+    @Column({nullable: true})
     coinsAmount: number
 
     @Column()
@@ -41,6 +41,9 @@ export class User {
 
     @Column()
     allLikesAmount: number
+
+    @Column({nullable: true})
+    isAdmin: boolean
 
     @Column()
     dateOfCreation: string

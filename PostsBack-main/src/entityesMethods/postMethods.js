@@ -132,7 +132,7 @@ postRouter.post("/", function (req, res) {
     });
 });
 // logic to update a post by a given post id
-postRouter.put("/:id", authorVerification_1.default, function (req, res) {
+postRouter.put("/:id", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var post, results;
         return __generator(this, function (_a) {

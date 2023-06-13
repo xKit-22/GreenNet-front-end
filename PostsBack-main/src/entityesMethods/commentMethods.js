@@ -110,7 +110,7 @@ commentRouter.put("/:id", authorVerification_1.default, function (req, res) {
     });
 });
 //logic to delete a comment by a given comment id
-commentRouter.delete("/:id", authorVerification_1.default, function (req, res) {
+commentRouter.delete("/:id", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var results;
         return __generator(this, function (_a) {

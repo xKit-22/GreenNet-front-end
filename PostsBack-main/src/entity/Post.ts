@@ -31,6 +31,9 @@ export class Post{
     @Column()
     dateOfCreation: string
 
+    @Column({nullable: true})
+    status: string
+
     @ManyToOne(type => User, user => user.posts) user: User
     @OneToMany(type => Comment, comment => comment.post) comments: Post[]
 }

@@ -16,7 +16,7 @@ eventRouter.get("/", async function(req: Request, res: Response) {
     return res.json(events)
 });
 
-// logic to return post by id
+// logic to return event by id
 eventRouter.get("/:id", async function(req: Request, res: Response) {
     const results = await eventRepository.findOneBy({
         id: req.params.id
@@ -36,7 +36,7 @@ eventRouter.post("/subscribe", async function(req: Request, res: Response) {  //
     const event = await eventRepository.findOneBy({
         id: req.body.id
     })
-    event.membersArr.push(req.body.currentUserId)
+    event.membersArr.push(JSON.stringify({id: req.body.currentUserId, isMarked: false}))
     const result = await eventRepository.save(event)
     return res.send(result)
 });
@@ -46,11 +46,37 @@ eventRouter.post("/unsubscribe", async function(req: Request, res: Response) {  
     const event = await eventRepository.findOneBy({
         id: req.body.id
     })
-    event.membersArr = event.membersArr.filter(e => {
-        return e != req.body.currentUserId
+    event.membersArr = event.membersArr.filter(item => {
+        const itemTmp = JSON.parse(item)
+        return itemTmp.id != req.body.currentUserId
     })
     const result = await eventRepository.save(event)
     return res.send(result)
+});
+
+//logic to mark user
+
+eventRouter.post("/mark", async function(req: Request, res: Response) {  //verification
+    const event = await eventRepository.findOneBy({
+        id: req.body.id
+    })
+    const updateItem = event.membersArr.forEach((item, index) => {
+        const itemObj = JSON.parse(item);
+        if (itemObj.id === req.body.userId) {
+            itemObj.isMarked = !itemObj.isMarked;
+            event.membersArr[index] = JSON.stringify(itemObj);
+        }
+    })
+    eventRepository.merge(event, updateItem)
+    const result = await eventRepository.save(event)
+    return res.send(result)
+});
+
+
+//delete event
+eventRouter.delete("/:id", async function(req: Request, res: Response) {  //verification
+    const results = await eventRepository.delete(req.params.id)
+    return res.send(results)
 });
 
 

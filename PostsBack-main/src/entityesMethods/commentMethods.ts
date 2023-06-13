@@ -39,7 +39,7 @@ let commentRepository;
     });
 
     //logic to delete a comment by a given comment id
-    commentRouter.delete("/:id", authorVerification, async function(req: Request, res: Response) {
+    commentRouter.delete("/:id", async function(req: Request, res: Response) { //authorVerification
         const results = await commentRepository.delete(req.params.id)
         return res.send(results)
     });

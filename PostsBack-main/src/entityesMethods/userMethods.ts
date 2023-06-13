@@ -52,7 +52,7 @@ userRouter.put("/:id", /*authorVerification,*/ async function (req: Request, res
 });
 
 //logic to delete a user by a given user id
-userRouter.delete("/:id", authorVerification, async function (req: Request, res: Response) {
+userRouter.delete("/:id", async function (req: Request, res: Response) { //authorVerification
     const results = await userRepository.delete(req.params.id)
     return res.send(results)
 });
@@ -140,7 +140,7 @@ userRouter.get("/:id/removePost", authorVerification, async function (req: Reque
 
 
 // +coins
-userRouter.get("/:id/addCoins/:coinsAmount", authorVerification, async function (req: Request, res: Response) {
+userRouter.get("/:id/addCoins/:coinsAmount", async function (req: Request, res: Response) { //authorVerification
     const user = await userRepository.findOneBy({
         id: req.params.id
     })

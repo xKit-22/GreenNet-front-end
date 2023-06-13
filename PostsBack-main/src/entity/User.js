@@ -46,7 +46,7 @@ var User = /** @class */ (function () {
         __metadata("design:type", String)
     ], User.prototype, "description", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
+        (0, typeorm_1.Column)({ nullable: true }),
         __metadata("design:type", Number)
     ], User.prototype, "coinsAmount", void 0);
     __decorate([
@@ -65,6 +65,10 @@ var User = /** @class */ (function () {
         (0, typeorm_1.Column)(),
         __metadata("design:type", Number)
     ], User.prototype, "allLikesAmount", void 0);
+    __decorate([
+        (0, typeorm_1.Column)({ nullable: true }),
+        __metadata("design:type", Boolean)
+    ], User.prototype, "isAdmin", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)

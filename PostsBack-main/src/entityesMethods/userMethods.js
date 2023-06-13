@@ -128,7 +128,7 @@ userRouter.put("/:id", /*authorVerification,*/ function (req, res) {
     });
 });
 //logic to delete a user by a given user id
-userRouter.delete("/:id", authorVerification_1.default, function (req, res) {
+userRouter.delete("/:id", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var results;
         return __generator(this, function (_a) {
@@ -279,7 +279,7 @@ userRouter.get("/:id/removePost", authorVerification_1.default, function (req, r
     });
 });
 // +coins
-userRouter.get("/:id/addCoins/:coinsAmount", authorVerification_1.default, function (req, res) {
+userRouter.get("/:id/addCoins/:coinsAmount", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var user, changeCoinsAmount, results;
         return __generator(this, function (_a) {

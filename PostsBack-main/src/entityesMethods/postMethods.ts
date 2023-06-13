@@ -58,7 +58,7 @@ let userRepository
     });
 
     // logic to update a post by a given post id
-    postRouter.put("/:id", authorVerification, async function(req: Request, res: Response) {
+    postRouter.put("/:id", async function(req: Request, res: Response) { //authorVerification
         const post = await postRepository.findOneBy({
             id: req.params.id
         })

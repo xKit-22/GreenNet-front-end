@@ -5,6 +5,7 @@ import eventRouter from "./entityesMethods/eventsMethods";
 import commentRouter from "./entityesMethods/commentMethods";
 import userRouter from "./entityesMethods/userMethods";
 import authRouter from "./authorization/auth";
+import shopRouter from './entityesMethods/shopMethods'
 
 require("dotenv").config()
 const cors = require('cors')
@@ -21,6 +22,7 @@ createConnection().then(connection => {
     app.use("/comments", commentRouter())
     app.use("/users", userRouter())
     app.use("/events", eventRouter())
+    app.use("/shop", shopRouter())
     app.use("/api/auth", authRouter())
 
 

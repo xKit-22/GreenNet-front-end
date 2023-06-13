@@ -48,5 +48,16 @@ export class Event {
     @Column()
     adminID: string
 
+    @Column({
+        nullable: true
+    })
+    archiveByAuthor: boolean
+
+    @Column({
+        type: 'jsonb',
+        nullable: true
+    })
+    keyWords: string[]
+
     @ManyToMany(type => User, user => user.events) users: User[]
 }

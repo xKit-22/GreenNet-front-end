@@ -38,30 +38,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var typeorm_1 = require("typeorm");
-var Event_1 = require("../entity/Event");
-var eventRouter = express.Router();
-var eventRepository;
-// logic to return all events
-eventRouter.get("/", function (req, res) {
+var Shop_1 = require("../entity/Shop");
+var shopRouter = express.Router();
+var shopRepository;
+// logic to return all shop cards
+shopRouter.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var events;
+        var shop;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, eventRepository.find()];
+                case 0: return [4 /*yield*/, shopRepository.find()];
                 case 1:
-                    events = _a.sent();
-                    return [2 /*return*/, res.json(events)];
+                    shop = _a.sent();
+                    return [2 /*return*/, res.json(shop)];
             }
         });
     });
 });
-// logic to return event by id
-eventRouter.get("/:id", function (req, res) {
+// logic to return shop card by id
+shopRouter.get("/:id", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var results;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, eventRepository.findOneBy({
+                case 0: return [4 /*yield*/, shopRepository.findOneBy({
                         id: req.params.id
                     })];
                 case 1:
@@ -71,16 +71,16 @@ eventRouter.get("/:id", function (req, res) {
         });
     });
 });
-// logic to create and save an event
-eventRouter.post("/", function (req, res) {
+// logic to create and save a shop card
+shopRouter.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var event, results;
+        var shop, results;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, eventRepository.create(req.body)];
+                case 0: return [4 /*yield*/, shopRepository.create(req.body)];
                 case 1:
-                    event = _a.sent();
-                    return [4 /*yield*/, eventRepository.save(event)];
+                    shop = _a.sent();
+                    return [4 /*yield*/, shopRepository.save(shop)];
                 case 2:
                     results = _a.sent();
                     return [2 /*return*/, res.send(results)];
@@ -88,83 +88,13 @@ eventRouter.post("/", function (req, res) {
         });
     });
 });
-// logic to subscribe
-eventRouter.post("/subscribe", function (req, res) {
-    return __awaiter(this, void 0, void 0, function () {
-        var event, result;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, eventRepository.findOneBy({
-                        id: req.body.id
-                    })];
-                case 1:
-                    event = _a.sent();
-                    event.membersArr.push(JSON.stringify({ id: req.body.currentUserId, isMarked: false }));
-                    return [4 /*yield*/, eventRepository.save(event)];
-                case 2:
-                    result = _a.sent();
-                    return [2 /*return*/, res.send(result)];
-            }
-        });
-    });
-});
-// logic to unsubscribe
-eventRouter.post("/unsubscribe", function (req, res) {
-    return __awaiter(this, void 0, void 0, function () {
-        var event, result;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, eventRepository.findOneBy({
-                        id: req.body.id
-                    })];
-                case 1:
-                    event = _a.sent();
-                    event.membersArr = event.membersArr.filter(function (item) {
-                        var itemTmp = JSON.parse(item);
-                        return itemTmp.id != req.body.currentUserId;
-                    });
-                    return [4 /*yield*/, eventRepository.save(event)];
-                case 2:
-                    result = _a.sent();
-                    return [2 /*return*/, res.send(result)];
-            }
-        });
-    });
-});
-//logic to mark user
-eventRouter.post("/mark", function (req, res) {
-    return __awaiter(this, void 0, void 0, function () {
-        var event, updateItem, result;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, eventRepository.findOneBy({
-                        id: req.body.id
-                    })];
-                case 1:
-                    event = _a.sent();
-                    updateItem = event.membersArr.forEach(function (item, index) {
-                        var itemObj = JSON.parse(item);
-                        if (itemObj.id === req.body.userId) {
-                            itemObj.isMarked = !itemObj.isMarked;
-                            event.membersArr[index] = JSON.stringify(itemObj);
-                        }
-                    });
-                    eventRepository.merge(event, updateItem);
-                    return [4 /*yield*/, eventRepository.save(event)];
-                case 2:
-                    result = _a.sent();
-                    return [2 /*return*/, res.send(result)];
-            }
-        });
-    });
-});
-//delete event
-eventRouter.delete("/:id", function (req, res) {
+//delete shop card
+shopRouter.delete("/:id", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var results;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, eventRepository.delete(req.params.id)];
+                case 0: return [4 /*yield*/, shopRepository.delete(req.params.id)];
                 case 1:
                     results = _a.sent();
                     return [2 /*return*/, res.send(results)];
@@ -173,6 +103,6 @@ eventRouter.delete("/:id", function (req, res) {
     });
 });
 exports.default = (function () {
-    eventRepository = (0, typeorm_1.getRepository)(Event_1.Event);
-    return eventRouter;
+    shopRepository = (0, typeorm_1.getRepository)(Shop_1.Shop);
+    return shopRouter;
 });

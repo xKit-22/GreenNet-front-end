@@ -75,6 +75,19 @@ var Event = /** @class */ (function () {
         __metadata("design:type", String)
     ], Event.prototype, "adminID", void 0);
     __decorate([
+        (0, typeorm_1.Column)({
+            nullable: true
+        }),
+        __metadata("design:type", Boolean)
+    ], Event.prototype, "archiveByAuthor", void 0);
+    __decorate([
+        (0, typeorm_1.Column)({
+            type: 'jsonb',
+            nullable: true
+        }),
+        __metadata("design:type", Array)
+    ], Event.prototype, "keyWords", void 0);
+    __decorate([
         (0, typeorm_1.ManyToMany)(function (type) { return User_1.User; }, function (user) { return user.events; }),
         __metadata("design:type", Array)
     ], Event.prototype, "users", void 0);
