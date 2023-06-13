@@ -13,11 +13,11 @@ export const UserSearch = () => {
     const [searchString, setSearchString] = useState('');
 
     useEffect(() => {
-        dispatch(getAllUsers())
+        dispatch(getAllUsers());
     }, [])
 
     useEffect(() => {
-        setListOfUsers(() => allusers?.map(item => <UserLine userId={item.id}/>))
+        setListOfUsers(() => allusers?.map(item => <UserLine userId={item.id}/>));
     }, [allusers])
 
     const filterUsers = (searchString) => {

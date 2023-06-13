@@ -33,13 +33,13 @@ createConnection().then(connection => {
                 })
             } else {
                 res.status(401).json({
-                    message: "Passwords didn't match"
+                    message: "Неправильный пароль"
                 })
             }
         } else {
             //User not found
             res.status(404).json({
-                message: "User with this login not found"
+                message: "Пользователь с таким email не зарегестрирован"
             })
         }
 
@@ -54,7 +54,7 @@ createConnection().then(connection => {
         if (candidate) {
             // Error: User exist
             res.status(409).json({
-                    message: 'User with this login already exists'
+                    message: 'Пользователь с таким e-mail уже зарегистрирован'
                 })
         } else {
             //Create user

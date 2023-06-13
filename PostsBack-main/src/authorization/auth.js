@@ -69,14 +69,14 @@ authRouter.post("/login", function (req, res) {
                         }
                         else {
                             res.status(401).json({
-                                message: "Passwords didn't match"
+                                message: "Неправильный пароль"
                             });
                         }
                     }
                     else {
                         //User not found
                         res.status(404).json({
-                            message: "User with this login not found"
+                            message: "Пользователь с таким email не зарегестрирован"
                         });
                     }
                     return [2 /*return*/];
@@ -98,7 +98,7 @@ authRouter.post('/register', function (req, res) {
                     if (!candidate) return [3 /*break*/, 2];
                     // Error: User exist
                     res.status(409).json({
-                        message: 'User with this login already exists'
+                        message: 'Пользователь с таким e-mail уже зарегистрирован'
                     });
                     return [3 /*break*/, 7];
                 case 2:
