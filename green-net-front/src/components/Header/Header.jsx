@@ -6,6 +6,7 @@ import './header.scss'
 import { getUserById } from '../../redux/userSlice'
 import logo from '../../assets/logo.png'
 import { current } from "@reduxjs/toolkit";
+import axios from "axios";
 
 export const Header = () => {
     const dispatch = useDispatch();
@@ -15,13 +16,22 @@ export const Header = () => {
     const currentUser = useSelector(state => state.user.user);
 
     const currentUserId = localStorage.getItem('currentUserId');
+    const [user, setUser] = useState({});
+
+    const getUser = async (id) => {
+        await axios.get(`http://localhost:3000/users/${id}`).then(res => {
+            setUser(res.data);
+        });
+    }
 
     useEffect(() => {
         if (!currentUser) dispatch(getUserById(currentUserId));
         console.log('from header', currentUser);
         const user = localStorage.getItem('token');
         setIsAuthorized(!!user);
+        getUser(currentUserId)
     }, []);
+
 
     return (
         <div className='header'>
@@ -35,7 +45,9 @@ export const Header = () => {
                     <Link to="/login" className="nav-link">Карта</Link>
                     <Link to="/shop" className="nav-link">Магазин</Link>
                     <Link to="/user-search" className="nav-link">Поиск</Link>
-                    <Link to="/admin" className="nav-link">Администратор</Link>
+                    {
+                        user.isAdmin &&  <Link to="/admin" className="nav-link">Администратор</Link>
+                    }
                     {
                         isAuthorized ?
                             <Link to={`/${currentUserId}`} className="nav-link">Профиль</Link>

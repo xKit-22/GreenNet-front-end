@@ -1,0 +1,60 @@
+$based-green: rgb(59, 124, 15);
+
+.post-card-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px 20px 20px;
+  border-radius: 7px;
+  border: 2px solid $based-green;
+  background-color: rgba(59, 124, 15, 0.03);
+}
+
+.post-card-container p {
+  width: calc(100%/6);
+}
+
+.post-card-container img {
+  height: 200px;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.first-btn {
+  margin-bottom: 10px;
+}
+
+.approve-btn {
+  padding: 12px;
+  background: $based-green;
+  font-size: 1.1em;
+  cursor: pointer;
+  outline: none;
+  color: #f9f9fd;
+  border: none;
+  border-radius: 8px;
+}
+
+.reject-btn {
+  padding: 12px;
+  background: #CC0202;
+  font-size: 1.1em;
+  cursor: pointer;
+  outline: none;
+  color: #f9f9fd;
+  border: none;
+  border-radius: 8px;
+}
+
+.moder-btn {
+  padding: 12px;
+  background: #ffcc00;
+  font-size: 1.1em;
+  cursor: pointer;
+  outline: none;
+  color: #f9f9fd;
+  border: none;
+  border-radius: 8px;
+}

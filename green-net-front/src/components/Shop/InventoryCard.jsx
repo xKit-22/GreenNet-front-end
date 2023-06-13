@@ -16,6 +16,7 @@ let moment = require('moment');
 export const InventoryCard = ({item}) => {
 
     const [open, setOpen] = useState(false);
+    const [isUsed, setIsUsed] = useState(false)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -24,6 +25,15 @@ export const InventoryCard = ({item}) => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const onUsedItem = () => {
+        setIsUsed(true)
+    }
+
+    const handleClick = () => {
+        onUsedItem()
+        handleClose()
+    }
 
     return (
         <div className="shop-card">
@@ -38,7 +48,7 @@ export const InventoryCard = ({item}) => {
                 <Divider/>
                 <p>Действителен до: <b> {moment(item.validityDate).format('DD.MM.YYYY')}</b></p>
                 {
-                    moment(`${new Date()}`).format('YYYY.MM.DD') < moment(item.validityDate).format('YYYY.MM.DD')?
+                    moment(`${new Date()}`).format('YYYY.MM.DD') < moment(item.validityDate).format('YYYY.MM.DD') ?
                         <p className="p-green">Купон действителен</p> :
                         ''
                 }
@@ -53,9 +63,17 @@ export const InventoryCard = ({item}) => {
                         ''
                 }
                 {
-                    moment(`${new Date()}`).format('YYYY.MM.DD') <=  moment(`${item.validityDate}`).format('YYYY.MM.DD') ?
-                        <button className="card-btn" onClick={handleClickOpen}>Использовать</button> :
-                        <button disabled={true} className="card-btn" data-tooltip="Всплывающая подсказка сообщает о чём-то многозначном и полезном...">Использовать</button>
+                    moment(`${new Date()}`).format('YYYY.MM.DD') <= moment(`${item.validityDate}`).format('YYYY.MM.DD') && !isUsed?
+                        <button className="card-btn" onClick={handleClickOpen}>Использовать</button> : ''
+
+                }
+                {
+                    moment(`${new Date()}`).format('YYYY.MM.DD') > moment(`${item.validityDate}`).format('YYYY.MM.DD') ?
+                        <button disabled={true} className="card-btn"
+                                data-tooltip="Всплывающая подсказка сообщает о чём-то многозначном и полезном...">Использовать</button> : ''
+                }
+                {
+                    isUsed && <button disabled={true} className="card-btn">Использован</button>
                 }
 
                 <Dialog
@@ -73,7 +91,7 @@ export const InventoryCard = ({item}) => {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleClose}>Да</Button>
+                        <Button onClick={handleClick}>Да</Button>
                         <Button onClick={handleClose} autoFocus>
                             Нет
                         </Button>
@@ -85,4 +103,6 @@ export const InventoryCard = ({item}) => {
     )
 
 }
+
+
 

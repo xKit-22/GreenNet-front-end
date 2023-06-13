@@ -102,16 +102,16 @@ export const Post = (props) => {
                 </div>
                 <div className="post-header-user-right">
                     <div className="post-header-moder">
-                        <p>На модерации</p>
+                        <p>{post.status}</p>
                         <img src={time} alt='модерация'/>
                     </div>
                     {/*<div className='reward'>*/}
                     {/*    <span>+10</span>*/}
                     {/*    <img src={coin} alt='монета'/>*/}
                     {/*</div>*/}
-                    {/*<div className="delete-button">*/}
-                    {/*    <img src={bin} alt="delete button" onClick={() => dispatch(deletePost(post.id)).then(res => dispatch(getUsersPosts(currentUserId)))} />*/}
-                    {/*</div>*/}
+                    <div className="delete-button">
+                        <img src={bin} alt="delete button" onClick={() => dispatch(deletePost(post.id)).then(res => dispatch(getUsersPosts(currentUserId)))} />
+                    </div>
                 </div>
             </div>
             <div className="content">

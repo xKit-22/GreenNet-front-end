@@ -1,5 +1,3 @@
-
-
 //Изменение некоторых стилей для табов
 import {makeStyles} from "@material-ui/core/styles";
 import Box from "@mui/material/Box";
@@ -19,6 +17,8 @@ import {getUsersPosts} from "../../redux/postSlice";
 import {Post} from "../Post/Post";
 import './adminPanel.scss'
 import list from '../../assets/list.png'
+import {PostCard} from "./PostCard";
+import {UserListItem} from "./UserListItem";
 
 const useStyles = makeStyles({
     root: {
@@ -48,7 +48,7 @@ export const AdminPanel = () => {
     const classes = useStyles();
 
 
-    const [value, setValue] = useState('posts');
+    const [value, setValue] = useState('moder');
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -57,6 +57,8 @@ export const AdminPanel = () => {
     const currentUserId = window.location.pathname.slice(1);
     const authUserId = localStorage.getItem('currentUserId');
     const [user, setUser] = useState({});
+    const [users, setUsers] = useState([]);
+    const [allPosts, setAllPosts] = useState([])
     const [postsAmount, setPostsAmount] = useState(0);
     const usersPosts = useSelector(state => state.post.usersPosts);
     const isMyProfile = useSelector(state => state.user.isMyProfile);
@@ -69,10 +71,24 @@ export const AdminPanel = () => {
         });
     }
 
+    const getUsers = async () => {
+        await axios.get(`http://localhost:3000/users`).then(res => {
+            setUsers(res.data);
+        });
+    }
+
+    const getPosts = async (id) => {
+        await axios.get(`http://localhost:3000/posts`).then(res => {
+            setAllPosts(res.data);
+        });
+    }
+
     useEffect(() => {
         dispatch(getUserById(authUserId));
         dispatch(isMyProfileAction());
         getUser(authUserId);
+        getUsers();
+        getPosts()
     }, [])
 
 
@@ -81,9 +97,9 @@ export const AdminPanel = () => {
     }, [user])
 
     const sortedPosts = () => {
-        const sorted = JSON.parse(JSON.stringify(usersPosts));
-        sorted.sort((a, b) => b.dateOfCreation - a.dateOfCreation);
-
+        const sorted = JSON.parse(JSON.stringify(allPosts));
+        sorted.sort((a, b) => a.dateOfCreation - b.dateOfCreation);
+        console.log('allPosts', allPosts)
         console.log('sorted post', sorted);
         return sorted;
     }
@@ -93,31 +109,55 @@ export const AdminPanel = () => {
             <TabContext value={value}>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <TabList onChange={handleChange} aria-label="lab tabs">
-                        <Tab label="Посты" value="posts"/>
+                        <Tab label="На модерации" value="moder"/>
+                        <Tab label="Одобрено" value="approve"/>
+                        <Tab label="Отклонено" value="reject"/>
                         <Tab label="Пользователи" value="users"/>
                     </TabList>
                 </Box>
-                <TabPanel value="posts">
+                <TabPanel value="moder">
                     <div className='allPosts-container'>
                         <div className="allPosts">
-                            <button className='approve'>Одобрить</button>
-                            <button className='reject'>Отклонить</button>
                             {
-                                sortedPosts().map(item => (
-                                    <Post post={item}/>
-                                ))
-                            }
-                            {
-                                sortedPosts().map(item => (
-                                    <Post post={item}/>
-                                ))
+                                sortedPosts().filter(item => {
+                                    return item.status === 'onModer'
+                                }).map(item => {
+                                    return <PostCard post={item}/>
+                                })
                             }
                         </div>
-
                     </div>
                 </TabPanel>
+                <TabPanel value="approve">
+                    <div className="allPosts">
+                        {
+                            sortedPosts().filter(item => {
+                                return item.status === 'approve'
+                            }).map(item => {
+                                return <PostCard post={item}/>
+                            })
+                        }
+                    </div>
+                </TabPanel>
+                <TabPanel value="reject">
+                    {
+                        sortedPosts().filter(item => {
+                            return item.status === 'reject'
+                        }).map(item => {
+                            return <PostCard post={item}/>
+                        })
+                    }
+                </TabPanel>
                 <TabPanel value="users">
-                    <img src={list}/>
+                    <div>
+                        {
+                            users && users.map((user, index) => {
+                                return (
+                                        <UserListItem key={index} user={user}/>
+                                    )
+                            })
+                        }
+                    </div>
                 </TabPanel>
             </TabContext>
         </Box>

@@ -10,6 +10,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {MyEventsList} from "./MyEventsList";
 import {login} from "../../redux/userSlice";
 import axios from "axios";
+import {ArchiveEvents} from "./ArchiveEvents";
 
 
 //Изменение некоторых стилей для табов
@@ -52,6 +53,7 @@ export const EventsPage = () => {
 
     const [value, setValue] = useState('allEvents');
     const [checkboxValue, setCheckboxValue] = useState(false)
+    const [checkboxEndValue, setCheckboxEndValue] = useState(false)
 
 
     const handleChange = (event, newValue) => {
@@ -74,10 +76,13 @@ export const EventsPage = () => {
                 <TabPanel value="myEvents">
                     <input onChange={e => setCheckboxValue(e.target.checked)} checked={checkboxValue} className="admin-filter-checkbox" type="checkbox" id="adminFilter" name="adminFilter" value="yes"/>
                     <label className="admin-filter-label" htmlFor="adminFilter">Я - админ</label>
-                    <MyEventsList allEvents={eventsArr} checkboxValue={checkboxValue}/>
+                    <br/>
+                    <input onChange={e => setCheckboxEndValue(e.target.checked)} checked={checkboxEndValue} className="admin-filter-checkbox" type="checkbox" id="EndFilter" name="EndFilter" value="yes"/>
+                    <label className="admin-filter-label" htmlFor="EndFilter">Не завершено</label>
+                    <MyEventsList allEvents={eventsArr} checkboxValue={checkboxValue} checkboxEndValue={checkboxEndValue}/>
                 </TabPanel>
                 <TabPanel value="archiveEvents">
-
+                    <ArchiveEvents allEvents={eventsArr}/>
                 </TabPanel>
             </TabContext>
         </Box>

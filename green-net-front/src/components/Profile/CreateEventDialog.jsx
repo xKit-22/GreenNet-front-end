@@ -6,6 +6,12 @@ import closeImg from "../../assets/close.svg";
 import PropTypes from "prop-types";
 import axios from "axios";
 import {login} from "../../redux/userSlice";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import AdapterDateFns from "@mui/x-date-pickers/AdapterDateFns";
+import 'dayjs/locale/ru';
 
 export const CreateEventDialog = () => {
     const dispatch = useDispatch();
@@ -19,7 +25,34 @@ export const CreateEventDialog = () => {
 
     const currUserID = localStorage.getItem('currentUserId')
 
+    const handleEventDateOfStartChange = (date) => {
+        setEventDateOfStart(date);
+    };
+
+    const handleEventDateOfFinishChange = (date) => {
+        setEventDateOfFinish(date);
+    };
+
+    function generateRandomWords() {
+        const words = [];
+        const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+        for (let i = 0; i < 10; i++) {
+            let word = '';
+            for (let j = 0; j < 6; j++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                word += characters[randomIndex];
+            }
+            words.push(word);
+        }
+
+        return words;
+    }
+
     const toCreateEvent = (e) => {
+
+        const words = generateRandomWords()
+
         e.preventDefault();
         const data = {
             avatar: "https://img.freepik.com/free-vector/pet-shop-composition_1284-25876.jpg?w=826&t=st=1682953595~exp=1682954195~hmac=2f5d7f0d78153cef622c29fee0a476f990ffefdc7865659c490f24f67e3a85d7",
@@ -30,8 +63,9 @@ export const CreateEventDialog = () => {
             place: eventPlace,
             contacts: eventContacts,
             reward: eventReward,
-            membersArr: [currUserID],
+            membersArr: [JSON.stringify({id: currUserID, isMarked: false})],
             adminID: currUserID,
+            keyWords: words
         }
 
         console.log(data)
@@ -56,10 +90,18 @@ export const CreateEventDialog = () => {
                     <textarea onChange={(e) => setEventDescription(e.target.value)}/>
 
                     <label htmlFor="">Введите дату начала</label>
-                    <input onChange={(e) => setEventDateOfStart(e.target.value)}/>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
+                        <DemoContainer components={['DatePicker']}>
+                            <DatePicker value={eventDateOfStart} onChange={handleEventDateOfStartChange} label="Basic date picker"  views={['year', 'month', 'day']}/>
+                        </DemoContainer>
+                    </LocalizationProvider>
 
                     <label htmlFor="">Введите дату окончания</label>
-                    <input onChange={(e) => setEventDateOfFinish(e.target.value)}/>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
+                        <DemoContainer components={['DatePicker']}>
+                            <DatePicker value={eventDateOfFinish} onChange={handleEventDateOfFinishChange} label="Basic date picker"  views={['year', 'month', 'day']}/>
+                        </DemoContainer>
+                    </LocalizationProvider>
 
                     <label htmlFor="">Введите адрес</label>
                     <input onChange={(e) => setEventPlace(e.target.value)}/>
@@ -72,7 +114,8 @@ export const CreateEventDialog = () => {
 
                     {/*<label htmlFor="">Изображение</label>*/}
                     <div className="img-uploader">
-                        <button>Загрузить картинку</button>
+                        Загрузить картинку
+                       <input type='file' accept="image/*" multiple="false"/>
                     </div>
 
                     <button onClick={(e) => toCreateEvent(e)}>Создать событие</button>

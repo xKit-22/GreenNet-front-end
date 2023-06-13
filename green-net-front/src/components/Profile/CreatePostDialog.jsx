@@ -19,6 +19,7 @@ export const CreatePostDialog = (props) => {
             likesAmount: 0,
             authorId: props.userId,
             dateOfCreation: +new Date(),
+            status: 'onModer'
         }
 
         dispatch(createPost(data))
@@ -38,7 +39,8 @@ export const CreatePostDialog = (props) => {
                     <textarea onChange={(e) => setPostText(e.target.value)}></textarea>
                     {/*<label htmlFor="">Изображение</label>*/}
                     <div className="img-uploader">
-                        <button>Загрузить картинку</button>
+                        Загрузить картинку
+                        <input type='file' accept="image/*" multiple="false"/>
                     </div>
 
                     <button onClick={(e) => toCreatePost(e)}>Создать пост</button>
