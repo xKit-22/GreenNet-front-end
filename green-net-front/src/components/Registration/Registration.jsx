@@ -3,7 +3,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'react'
 
 import { registration } from '../../redux/userSlice'
-import './registration.scss'
+import './registration.scss';
+import { ErrorText } from "../ErrorText/ErrorText";
+import { changeServerErrorAction } from "../../redux/dialogsSlice";
 
 export const Registration = () => {
     const dispatch = useDispatch();
@@ -13,39 +15,43 @@ export const Registration = () => {
     const [passwordRep, setPasswordRep] = useState("");
     const [nickname, setNickname] = useState("");
 
-    const [passMatch, setPassMatch] = useState(false);
+    // const [passMatch, setPassMatch] = useState(false);
     const [errorText, setErrorText] = useState('');
+
+    // const [valid, setValid] = useState(false);
+
+    const serverErrorText = useSelector(state => state.user.error);
+    const isShowError = useSelector(state => state.dialog.showServerError);
 
     const [valid, setValid] = useState("");
 
     const comparePassword = () => {
         if (userPassword === passwordRep) {
-            setPassMatch(true);
+            return true;
         } else {
-            setPassMatch(false);
-            setErrorText('Пароли не совпадают!')
+            return false;
         }
     }
 
     const checkFields = () => {
         if (userLogin && userPassword && nickname && passwordRep) {
-            comparePassword();
+            const passMatch = comparePassword();
             if (passMatch) {
                 setErrorText("");
-                setValid(true);
+                return true;
             } else {
                 setErrorText("Пароли не совпадают!");
-                setValid(false);
+                return false;
             }
         } else {
             setErrorText("Заполните поля для входа!");
-            setValid(false);
+            return false;
         }
     }
 
     const toRegister = (e) => {
         e.preventDefault();
-        checkFields();
+        const valid = checkFields();
         if (valid) {
             const data = {userLogin, userPassword, nickname};
             dispatch(registration(data));
@@ -66,19 +72,23 @@ export const Registration = () => {
                     <label htmlFor="">Email</label>
                     <input type="text" onChange={(e) => {
                         setUserLogin(e.target.value);
+                        if (isShowError) dispatch(changeServerErrorAction());
                     }}/>
 
                     <label htmlFor="">Пароль</label>
                     <input type="password" onChange={(e) => {
                         setUserPassword(e.target.value);
+                        setErrorText("");
                     }}/>
 
                     <label htmlFor="">Подтвердите пароль</label>
                     <input type="password" onChange={(e) => {
                         setPasswordRep(e.target.value);
+                        setErrorText("");
                     }}/>
 
-                    <p className="error-field">{passMatch ? "" : errorText}</p>
+                    <p className="error-field">{errorText}</p>
+                    {isShowError ? <ErrorText text={serverErrorText} /> : ""}
 
                     <div className="but-cont">
                         <button onClick={(e) => toRegister(e)}>Зарегистрироваться</button>
