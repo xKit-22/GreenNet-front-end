@@ -42,11 +42,11 @@ export const Header = () => {
                 <div className="links">
                     <Link to="/events" className="nav-link">События</Link>
                     <Link to="/feed" className="nav-link">Лента</Link>
-                    <Link to="/login" className="nav-link">Карта</Link>
+                    <Link to="/map" className="nav-link">Карта</Link>
                     <Link to="/shop" className="nav-link">Магазин</Link>
                     <Link to="/user-search" className="nav-link">Поиск</Link>
                     {
-                        user.isAdmin &&  <Link to="/admin" className="nav-link">Администратор</Link>
+                        user.isAdmin && <Link to="/admin" className="nav-link">Администратор</Link>
                     }
                     {
                         isAuthorized ?

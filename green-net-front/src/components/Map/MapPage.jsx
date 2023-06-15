@@ -80,20 +80,22 @@ export const MapPage = () => {
     }, []);
 
     useEffect(() => {
+        debugger
         if (allMarkers?.length > 0) {
             load(mapInstance).then((mapglAPI) => {
                 allMarkers?.forEach(markerItem => {
                     let marker;
+                    debugger
                     switch (markerItem.type) {
-                        case "waste-sorting":
+                        case markerTypes.WASTE_SORTING.type:
                             marker = new mapglAPI.Marker(mapInstance, {
                                 coordinates: markerItem.coordinates,
                                 icon: recyclingIcon,
                                 userData: markerItem.id
                             });
-
+                            // debugger
                             break;
-                        case "recycling-battery":
+                        case markerTypes.RECYCLING_BATTERY.type:
                             marker = new mapglAPI.Marker(mapInstance, {
                                 coordinates: markerItem.coordinates,
                                 icon: batteryIcon,
@@ -101,13 +103,12 @@ export const MapPage = () => {
                             });
 
                             break;
-                        case "recycling-paper":
+                        case markerTypes.RECYCLING_PAPER.type:
                             marker = new mapglAPI.Marker(mapInstance, {
                                 coordinates: markerItem.coordinates,
                                 icon: paperIcon,
                                 userData: markerItem.id
                             });
-
 
                             break;
 
@@ -123,7 +124,6 @@ export const MapPage = () => {
                     });
 
                 })
-                // console.log('xo', markersInstansesArray);
 
             });
         }
