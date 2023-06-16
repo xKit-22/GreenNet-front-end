@@ -29,4 +29,7 @@ export class Marker {
 
     @Column({nullable: true})
     ownerId: string
+
+    @Column({nullable: true})
+    eventId: string
 }

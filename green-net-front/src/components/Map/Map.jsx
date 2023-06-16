@@ -49,7 +49,6 @@ const MapWrapper =
 export const MapContext = React.createContext([undefined, () => { }]);
 export const MapProvider = (props) => {
     const [mapInstance, setMapInstance] = React.useState();
-
     return (
         <MapContext.Provider value={[mapInstance, setMapInstance]}>
             {props.children}

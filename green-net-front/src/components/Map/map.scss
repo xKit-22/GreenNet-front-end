@@ -83,6 +83,7 @@ $based-green: rgb(59, 124, 15);
 
         box-shadow: 0 0 7px 0 $based-green;
         background-color: white;
+        text-align: center;
 
         button {
             @include buttonStyle();

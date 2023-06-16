@@ -20,3 +20,11 @@ export const getMarkerById = async (id) => {
 
     return marker;
 }
+
+export const geocodeAddress = async (address) => {
+    const rightStr = address.replace(',', '');
+    const coord = await fetch(`https://catalog.api.2gis.com/3.0/items/geocode?q=${rightStr}&fields=items.point&key=rufdyl7245`)
+        .then(response => response.json())
+        .then(response => response.result.items[0].point);
+    return coord;
+}

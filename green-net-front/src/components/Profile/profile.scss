@@ -29,7 +29,7 @@ $based-green: rgb(59, 124, 15);
     padding: 10px 16px;
     margin-bottom: 6px;
     border-radius: 7px;
-    background-color:rgb(59, 124, 15, 0.03) ;
+    background-color: rgb(59, 124, 15, 0.03);
 }
 
 .about p {
@@ -261,6 +261,10 @@ $based-green: rgb(59, 124, 15);
                 border: 2px solid $based-green;
                 border-radius: 10px;
                 font-size: 15px;
+            }
+
+            input {
+                font-family: 'Mulish', sans-serif;
             }
 
             button {
