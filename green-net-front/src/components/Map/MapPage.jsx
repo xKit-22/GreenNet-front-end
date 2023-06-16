@@ -14,6 +14,7 @@ import recyclingIcon from '../../assets/recycling.png'
 import batteryIcon from '../../assets/battery.png'
 import closeIcon from '../../assets/close.svg'
 import paperIcon from '../../assets/paper.png'
+import eventIcon from '../../assets/event.png'
 
 let count = 0;
 let markersInstansesArray = [];
@@ -29,7 +30,6 @@ export const MapPage = () => {
     const [wasteFilter, setWasteFilter] = useState(true);
     const [paperFilter, setPaperFilter] = useState(true);
     const [batteryFilter, setBatteryFilter] = useState(true);
-
 
     const filterMap = (filterName) => {
         switch (filterName) {
@@ -85,15 +85,14 @@ export const MapPage = () => {
                 allMarkers?.forEach(markerItem => {
                     let marker;
                     switch (markerItem.type) {
-                        case "waste-sorting":
+                        case markerTypes.WASTE_SORTING.type:
                             marker = new mapglAPI.Marker(mapInstance, {
                                 coordinates: markerItem.coordinates,
                                 icon: recyclingIcon,
                                 userData: markerItem.id
                             });
-
                             break;
-                        case "recycling-battery":
+                        case markerTypes.RECYCLING_BATTERY.type:
                             marker = new mapglAPI.Marker(mapInstance, {
                                 coordinates: markerItem.coordinates,
                                 icon: batteryIcon,
@@ -101,13 +100,21 @@ export const MapPage = () => {
                             });
 
                             break;
-                        case "recycling-paper":
+                        case markerTypes.RECYCLING_PAPER.type:
                             marker = new mapglAPI.Marker(mapInstance, {
                                 coordinates: markerItem.coordinates,
                                 icon: paperIcon,
                                 userData: markerItem.id
                             });
 
+                            break;
+
+                        case markerTypes.EVENT.type:
+                            marker = new mapglAPI.Marker(mapInstance, {
+                                coordinates: markerItem.coordinates,
+                                icon: eventIcon,
+                                userData: markerItem.id
+                            });
 
                             break;
 
@@ -123,7 +130,6 @@ export const MapPage = () => {
                     });
 
                 })
-                // console.log('xo', markersInstansesArray);
 
             });
         }
@@ -270,8 +276,9 @@ const MarkerInfo = () => {
                 </div>
                 <h2>{marker?.title}</h2>
                 <p>{address}</p>
+                {(marker.type == markerTypes.EVENT.type) ? <a href={`http://localhost:3001/events/${marker.eventId}`}>Перейти к событию</a> : ''}
                 {
-                    (currentUserId === marker?.ownerId) ?
+                    ((currentUserId === marker?.ownerId) && (marker?.type != markerTypes.EVENT.type)) ?
                         <button className='' onClick={() => {
                             dispatch(deleteMarker(marker.id));
                             dispatch(changeMarkerInfoDialogAction());

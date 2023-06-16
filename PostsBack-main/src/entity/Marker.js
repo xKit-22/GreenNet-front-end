@@ -50,6 +50,10 @@ var Marker = /** @class */ (function () {
         (0, typeorm_1.Column)({ nullable: true }),
         __metadata("design:type", String)
     ], Marker.prototype, "ownerId", void 0);
+    __decorate([
+        (0, typeorm_1.Column)({ nullable: true }),
+        __metadata("design:type", String)
+    ], Marker.prototype, "eventId", void 0);
     Marker = __decorate([
         (0, typeorm_1.Entity)('marker')
     ], Marker);

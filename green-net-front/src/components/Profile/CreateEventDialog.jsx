@@ -1,17 +1,21 @@
-import {useDispatch} from "react-redux";
-import {useState} from "react";
-import {createPost} from "../../redux/postSlice";
-import {changeEventDialogAction} from "../../redux/dialogsSlice";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { createPost } from "../../redux/postSlice";
+import { changeEventDialogAction } from "../../redux/dialogsSlice";
 import closeImg from "../../assets/close.svg";
 import PropTypes from "prop-types";
 import axios from "axios";
-import {login} from "../../redux/userSlice";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import { login } from "../../redux/userSlice";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AdapterDateFns from "@mui/x-date-pickers/AdapterDateFns";
 import 'dayjs/locale/ru';
+import { createEventMarker } from "../Map/mapMethods";
+import { geocodeAddress } from "../Map/mapMethods";
+import { createMarker } from "../../redux/mapSlice";
+import { markerTypes } from "../Map/markersTypes";
 
 export const CreateEventDialog = () => {
     const dispatch = useDispatch();
@@ -63,15 +67,32 @@ export const CreateEventDialog = () => {
             place: eventPlace,
             contacts: eventContacts,
             reward: eventReward,
-            membersArr: [JSON.stringify({id: currUserID, isMarked: false})],
+            membersArr: [JSON.stringify({ id: currUserID, isMarked: false })],
             adminID: currUserID,
             keyWords: words
         }
 
         console.log(data)
 
-        axios.post('http://localhost:3000/events', data).then(res => dispatch(changeEventDialogAction()));
+        axios.post('http://localhost:3000/events', data).then(res => {
+            createEventMarker(res.data);
+            dispatch(changeEventDialogAction());
+        });
 
+    }
+
+    const createEventMarker = async (eventData) => {
+        const coordinates = await geocodeAddress(eventData.place);
+        const swapCoord = [Object.values(coordinates)[1], Object.values(coordinates)[0]]
+        const data = {
+            title: eventData.name,
+            coordinates: swapCoord,
+            type: markerTypes.EVENT.type,
+            ownerId: localStorage.getItem('currentUserId'),
+            eventId: eventData.id
+        }
+        console.log('xoxo', data);
+        dispatch(createMarker(data));
     }
 
     return (
@@ -84,38 +105,38 @@ export const CreateEventDialog = () => {
 
                 <div className="post-inputs">
                     <label htmlFor="">Введите название</label>
-                    <input onChange={(e) => setEventTitle(e.target.value)}/>
+                    <input onChange={(e) => setEventTitle(e.target.value)} />
 
                     <label htmlFor="">Введите описание события</label>
-                    <textarea onChange={(e) => setEventDescription(e.target.value)}/>
+                    <textarea onChange={(e) => setEventDescription(e.target.value)} />
 
                     <label htmlFor="">Введите дату начала</label>
                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
                         <DemoContainer components={['DatePicker']}>
-                            <DatePicker value={eventDateOfStart} onChange={handleEventDateOfStartChange} label="Basic date picker"  views={['year', 'month', 'day']}/>
+                            <DatePicker value={eventDateOfStart} onChange={handleEventDateOfStartChange} views={['year', 'month', 'day']} />
                         </DemoContainer>
                     </LocalizationProvider>
 
                     <label htmlFor="">Введите дату окончания</label>
                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
                         <DemoContainer components={['DatePicker']}>
-                            <DatePicker value={eventDateOfFinish} onChange={handleEventDateOfFinishChange} label="Basic date picker"  views={['year', 'month', 'day']}/>
+                            <DatePicker value={eventDateOfFinish} onChange={handleEventDateOfFinishChange} views={['year', 'month', 'day']} />
                         </DemoContainer>
                     </LocalizationProvider>
 
                     <label htmlFor="">Введите адрес</label>
-                    <input onChange={(e) => setEventPlace(e.target.value)}/>
+                    <input onChange={(e) => setEventPlace(e.target.value)} placeholder="Город, Улица, дом" />
 
                     <label htmlFor="">Введите контакты</label>
-                    <input onChange={(e) => setEventContacts(e.target.value)}/>
+                    <input onChange={(e) => setEventContacts(e.target.value)} />
 
                     <label htmlFor="">Введите количество монеток</label>
-                    <input onChange={(e) => setEventReward(+e.target.value)}/>
+                    <input onChange={(e) => setEventReward(+e.target.value)} />
 
                     {/*<label htmlFor="">Изображение</label>*/}
                     <div className="img-uploader">
                         Загрузить картинку
-                       <input type='file' accept="image/*" multiple="false"/>
+                        <input type='file' accept="image/*" multiple="false" />
                     </div>
 
                     <button onClick={(e) => toCreateEvent(e)}>Создать событие</button>
