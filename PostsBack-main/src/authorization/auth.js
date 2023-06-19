@@ -115,7 +115,8 @@ authRouter.post('/register', function (req, res) {
                             dateOfCreation: new Date().toISOString().split('T')[0],
                             userLogin: req.body.userLogin,
                             userPassword: bcrypt.hashSync(password, salt),
-                            likedPosts: []
+                            likedPosts: [],
+                            isAdmin: req.body.isAdmin || false
                         })];
                 case 3:
                     user = _a.sent();

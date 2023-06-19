@@ -74,7 +74,8 @@ const secret = 'secret'
                 dateOfCreation: new Date().toISOString().split('T')[0],
                 userLogin: req.body.userLogin,
                 userPassword: bcrypt.hashSync(password, salt),
-                likedPosts: []
+                likedPosts: [],
+                isAdmin: req.body.isAdmin || false
             })
             try {
                 const results = await userRepository.save(user)

@@ -73,6 +73,7 @@ export const login = createAsyncThunk(
         const userId = jwtDecode(token).id;
         localStorage.setItem('currentUserId', userId);
         localStorage.setItem('token', token);
+        localStorage.setItem('inventoryArr', JSON.stringify([]));
         dispatch(loginAction(res.data.token));
         window.location.pathname = `/${userId}`;
         dispatch(setErrorAction(''));
