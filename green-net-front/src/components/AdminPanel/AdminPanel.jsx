@@ -1,24 +1,25 @@
 //Изменение некоторых стилей для табов
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Box from "@mui/material/Box";
-import {changeShopCardDialogAction} from "../../redux/dialogsSlice";
+import { changeShopCardDialogAction } from "../../redux/dialogsSlice";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import coin from "../../assets/coin.png";
-import {ShopCardList} from "../Shop/ShopCardList";
-import {InventoryCardList} from "../Shop/InventoryCardList";
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import { ShopCardList } from "../Shop/ShopCardList";
+import { InventoryCardList } from "../Shop/InventoryCardList";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import {getUserById, isMyProfileAction} from "../../redux/userSlice";
-import {getUsersPosts} from "../../redux/postSlice";
-import {Post} from "../Post/Post";
+import { getUserById, isMyProfileAction } from "../../redux/userSlice";
+import { getUsersPosts } from "../../redux/postSlice";
+import { Post } from "../Post/Post";
 import './adminPanel.scss'
 import list from '../../assets/list.png'
-import {PostCard} from "./PostCard";
-import {UserListItem} from "./UserListItem";
+import { PostCard } from "./PostCard";
+import { UserListItem } from "./UserListItem";
+import { AddMarkerType } from "./AddMarkerType";
 
 const useStyles = makeStyles({
     root: {
@@ -105,14 +106,15 @@ export const AdminPanel = () => {
     }
 
     return (
-        <Box sx={{width: '90%'}} className={`${classes.root} box-container`}>
+        <Box sx={{ width: '90%' }} className={`${classes.root} box-container`}>
             <TabContext value={value}>
-                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange} aria-label="lab tabs">
-                        <Tab label="На модерации" value="moder"/>
-                        <Tab label="Одобрено" value="approve"/>
-                        <Tab label="Отклонено" value="reject"/>
-                        <Tab label="Пользователи" value="users"/>
+                        <Tab label="На модерации" value="moder" />
+                        <Tab label="Одобрено" value="approve" />
+                        <Tab label="Отклонено" value="reject" />
+                        <Tab label="Пользователи" value="users" />
+                        <Tab label="Создать тип" value="markerTypes" />
                     </TabList>
                 </Box>
                 <TabPanel value="moder">
@@ -122,7 +124,7 @@ export const AdminPanel = () => {
                                 sortedPosts().filter(item => {
                                     return item.status === 'onModer'
                                 }).map(item => {
-                                    return <PostCard post={item}/>
+                                    return <PostCard post={item} />
                                 })
                             }
                         </div>
@@ -134,7 +136,7 @@ export const AdminPanel = () => {
                             sortedPosts().filter(item => {
                                 return item.status === 'approve'
                             }).map(item => {
-                                return <PostCard post={item}/>
+                                return <PostCard post={item} />
                             })
                         }
                     </div>
@@ -144,7 +146,7 @@ export const AdminPanel = () => {
                         sortedPosts().filter(item => {
                             return item.status === 'reject'
                         }).map(item => {
-                            return <PostCard post={item}/>
+                            return <PostCard post={item} />
                         })
                     }
                 </TabPanel>
@@ -153,11 +155,14 @@ export const AdminPanel = () => {
                         {
                             users && users.map((user, index) => {
                                 return (
-                                        <UserListItem key={index} user={user}/>
-                                    )
+                                    <UserListItem key={index} user={user} />
+                                )
                             })
                         }
                     </div>
+                </TabPanel>
+                <TabPanel value="markerTypes">
+                    <AddMarkerType />
                 </TabPanel>
             </TabContext>
         </Box>
