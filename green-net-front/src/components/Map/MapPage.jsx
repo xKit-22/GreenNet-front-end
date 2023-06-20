@@ -179,41 +179,49 @@ export const MapPage = () => {
             {isShowAddMarkerDialog ? <AddMarkerDialog /> : ""}
             {isShowMarkerInfoDialog ? <MarkerInfo /> : ""}
             <div className="page">
+                <h2>Фильтрация</h2>
                 <div className="filters-container">
-                    <h2>Фильтрация</h2>
 
-                    <label htmlFor="">Сортировка мусора</label>
-                    <input type="checkbox" defaultChecked={wasteFilter} name="waste" onChange={(e) => {
-                        setWasteFilter(!wasteFilter);
-                        filterMap(e.target.name);
-                    }}
-                    />
+                    <div className="filterItem">
 
-                    <label htmlFor="">Прием батареек</label>
-                    <input type="checkbox" defaultChecked={batteryFilter} name="battery" onChange={(e) => {
-                        setBatteryFilter(!batteryFilter);
-                        filterMap(e.target.name);
-                    }} />
+                        <label htmlFor="">Сортировка мусора</label>
+                        <input type="checkbox" defaultChecked={wasteFilter} name="waste" onChange={(e) => {
+                            setWasteFilter(!wasteFilter);
+                            filterMap(e.target.name);
+                        }}
+                        />
+                    </div>
 
-                    <label htmlFor="">Прием мукулатуры</label>
-                    <input type="checkbox" defaultChecked={paperFilter} name="paper" onChange={(e) => {
-                        setPaperFilter(!paperFilter);
-                        filterMap(e.target.name);
-                    }} />
+                    <div className="filterItem">
+
+                        <label htmlFor="">Прием батареек</label>
+                        <input type="checkbox" defaultChecked={batteryFilter} name="battery" onChange={(e) => {
+                            setBatteryFilter(!batteryFilter);
+                            filterMap(e.target.name);
+                        }} />
+                    </div>
+                    <div className="filterItem">
+
+                        <label htmlFor="">Прием мукулатуры</label>
+                        <input type="checkbox" defaultChecked={paperFilter} name="paper" onChange={(e) => {
+                            setPaperFilter(!paperFilter);
+                            filterMap(e.target.name);
+                        }} />
+                    </div>
 
                     {
                         (JSON.parse(localStorage.getItem('savedMarkerTypes'))?.GLASS_RECYCLING) ?
-                            <>
+                            <div className='filterItem'>
                                 <label htmlFor="">Переработка стекла</label>
                                 <input type="checkbox" defaultChecked={glassFilter} name="glass" onChange={(e) => {
                                     setPaperFilter(!glassFilter);
                                     filterMap(e.target.name);
                                 }} />
-                            </>
+                            </div>
                             : ''
                     }
                 </div>
-                <div className="map-container">
+                <div className="map-containerr">
                     <Map />
                     <div className="icons-info">
                         <h2>Обозначения</h2>
