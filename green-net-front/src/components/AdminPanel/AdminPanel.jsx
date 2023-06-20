@@ -20,6 +20,7 @@ import list from '../../assets/list.png'
 import { PostCard } from "./PostCard";
 import { UserListItem } from "./UserListItem";
 import { AddMarkerType } from "./AddMarkerType";
+import { UserLine } from "../UserSearch/UserLine";
 
 const useStyles = makeStyles({
     root: {
@@ -155,7 +156,7 @@ export const AdminPanel = () => {
                         {
                             users && users.map((user, index) => {
                                 return (
-                                    <UserListItem key={index} user={user} />
+                                    <UserLine user={user} />
                                 )
                             })
                         }
