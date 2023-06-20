@@ -98,7 +98,7 @@ export const Post = (props) => {
                     <img src={avatar2} alt="avatar" />
                 </span>
                     <p className="nickname">xKit</p>
-                    <p className="comment-date">11.05.2023, 14:58</p>
+                    <p className="comment-date">{post.dateOfCreation}</p>
                 </div>
                 <div className="post-header-user-right">
                     <div className="post-header-moder">

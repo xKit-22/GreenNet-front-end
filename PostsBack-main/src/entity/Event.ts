@@ -39,6 +39,9 @@ export class Event {
     @Column()
     reward: number
 
+    @Column({nullable: true})
+    QRurl: string
+
     @Column({
         type: 'jsonb',
         nullable: true

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { createPost } from "../../redux/postSlice";
 import { changeEventDialogAction } from "../../redux/dialogsSlice";
 import closeImg from "../../assets/close.svg";
@@ -16,6 +16,7 @@ import { createEventMarker } from "../Map/mapMethods";
 import { geocodeAddress } from "../Map/mapMethods";
 import { createMarker } from "../../redux/mapSlice";
 import { markerTypes } from "../Map/markersTypes";
+import qr from "qrcode";
 
 export const CreateEventDialog = () => {
     const dispatch = useDispatch();
@@ -26,6 +27,8 @@ export const CreateEventDialog = () => {
     const [eventPlace, setEventPlace] = useState('');
     const [eventContacts, setEventContacts] = useState('');
     const [eventReward, setEventReward] = useState(0);
+    const [QRurl, setQRurl] = useState('')
+    const [keyWords, setKeyWords] = useState([])
 
     const currUserID = localStorage.getItem('currentUserId')
 
@@ -41,7 +44,7 @@ export const CreateEventDialog = () => {
         const words = [];
         const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 50; i++) {
             let word = '';
             for (let j = 0; j < 6; j++) {
                 const randomIndex = Math.floor(Math.random() * characters.length);
@@ -53,9 +56,34 @@ export const CreateEventDialog = () => {
         return words;
     }
 
+    useEffect(() => {
+        setKeyWords(generateRandomWords())
+    }, [])
+
+
+    useEffect(() => {
+        if (keyWords.length > 0) {
+            const randomIndex = Math.floor(Math.random() * keyWords.length);
+            const text = keyWords[randomIndex]
+
+            const createQR = () => {
+                qr.toDataURL(`${text}`, (err, url) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    setQRurl(url)
+                });
+            }
+
+            createQR()
+        }
+
+    }, [keyWords])
+
     const toCreateEvent = (e) => {
 
-        const words = generateRandomWords()
+        const words = keyWords
 
         e.preventDefault();
         const data = {
@@ -69,7 +97,8 @@ export const CreateEventDialog = () => {
             reward: eventReward,
             membersArr: [JSON.stringify({ id: currUserID, isMarked: false })],
             adminID: currUserID,
-            keyWords: words
+            keyWords: words,
+            QRurl: QRurl
         }
 
         console.log(data)

@@ -111,8 +111,8 @@ export const Profile = () => {
                                 <p className="amount-label">подписчиков</p>
                             </div>
                             <div className="number-group">
-                                {/*<p className="amount">{user?.subscriptionsAmount}</p>*/}
-                                <p className="amount">1</p>
+                                <p className="amount">{user?.subscriptionsAmount}</p>
+                                {/*<p className="amount">1</p>*/}
                                 <p className="amount-label">подписок</p>
                             </div>
                             {/*<div className="number-group">*/}
