@@ -114,6 +114,7 @@ export const MapPage = () => {
                         default:
                             break;
                     }
+                    debugger
                     markersInstansesArray.push(marker);
 
                     marker?.on('click', (e) => {

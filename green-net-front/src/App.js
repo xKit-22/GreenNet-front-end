@@ -17,6 +17,7 @@ import {Footer} from "./components/Footer/Footer";
 import {Feed} from "./components/Feed/Feed";
 import {AdminPanel} from "./components/AdminPanel/AdminPanel";
 import {CreateShopCardDialog} from "./components/Shop/CreateShopCardDialog";
+import {MapPage} from "./components/Map/MapPage";
 
 function App() {
     const isCreatePostDialogOpen = useSelector(state => state.dialog.createPostDialog);
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/events" element={<EventsPage/>}/>
                 <Route path="/admin" element={<AdminPanel/>}/>
                 <Route path="/events/:id" element={<EventPage/>}/>
+                <Route path="/map" element={<MapPage/>}/>
             </Routes>
             {/*<Footer/>*/}
         </div>

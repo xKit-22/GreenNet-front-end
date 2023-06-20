@@ -8,6 +8,7 @@ var commentMethods_1 = require("./entityesMethods/commentMethods");
 var userMethods_1 = require("./entityesMethods/userMethods");
 var auth_1 = require("./authorization/auth");
 var shopMethods_1 = require("./entityesMethods/shopMethods");
+var markerMethods_1 = require("./entityesMethods/markerMethods");
 require("dotenv").config();
 var cors = require('cors');
 (0, typeorm_1.createConnection)().then(function (connection) {
@@ -21,5 +22,6 @@ var cors = require('cors');
     app.use("/events", (0, eventsMethods_1.default)());
     app.use("/shop", (0, shopMethods_1.default)());
     app.use("/api/auth", (0, auth_1.default)());
+    app.use("/marker", (0, markerMethods_1.default)());
     app.listen(3000, function () { return console.log("start"); });
 });
