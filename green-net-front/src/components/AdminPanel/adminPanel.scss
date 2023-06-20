@@ -1,5 +1,25 @@
 $based-green: rgb(59, 124, 15);
 
+@mixin buttonStyle {
+  margin-left: 10px;
+  width: 170px;
+  height: 28px;
+
+  font-family: 'Mulish', sans-serif;
+  font-size: 16px;
+
+  background-color: rgb(87, 138, 52);
+  color: aliceblue;
+
+  border: 1px $based-green solid;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: $based-green;
+    border: 1px $based-green solid;
+  }
+}
+
 .allPosts {
   width: 80%;
 
@@ -31,4 +51,33 @@ $based-green: rgb(59, 124, 15);
   color: #f9f9fd;
   border: none;
   border-radius: 8px;
+}
+
+.addMarker {
+  &-item {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    input {
+      margin-bottom: 20px;
+      padding: 3px 10px;
+      font-family: 'Mulish', sans-serif;
+      font-size: 18px;
+
+      width: 400px;
+      height: 32px;
+
+      border: 1px $based-green solid;
+      border-radius: 5px;
+    }
+  }
+
+  button {
+    @include buttonStyle();
+  }
 }

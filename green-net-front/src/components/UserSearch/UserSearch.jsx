@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 import './user-search.scss'
 import { UserLine } from './UserLine'
@@ -12,18 +13,18 @@ export const UserSearch = () => {
 
     const [searchString, setSearchString] = useState('');
 
+
     useEffect(() => {
         dispatch(getAllUsers())
     }, [])
 
     useEffect(() => {
-        setListOfUsers(() => allusers?.map(item => <UserLine userId={item.id}/>))
+        setListOfUsers(() => allusers?.map(item => <UserLine user={item} />));
     }, [allusers])
 
     const filterUsers = (searchString) => {
-        const filteredArray =  allusers?.filter(item => item.nickname.includes(searchString));
-        console.log(filteredArray);
-        setListOfUsers(() => filteredArray?.map(item => <UserLine userId={item.id}/>));
+        const filteredArray = allusers?.filter(item => item.nickname.includes(searchString));
+        setListOfUsers(() => filteredArray?.map(item => <UserLine user={item} />));
     }
 
     return (
@@ -32,7 +33,7 @@ export const UserSearch = () => {
                 <h2>Введите никнейм пользователя</h2>
                 <input type="text" onChange={(e) => {
                     setSearchString(e.target.value);
-                }}/>
+                }} />
                 <button onClick={() => filterUsers(searchString)}>Найти</button>
                 <div className="user-lines-container">
                     {listOfUsers}

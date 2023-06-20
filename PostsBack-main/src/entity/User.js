@@ -89,6 +89,10 @@ var User = /** @class */ (function () {
         __metadata("design:type", Array)
     ], User.prototype, "likedPosts", void 0);
     __decorate([
+        (0, typeorm_1.Column)({ nullable: true }),
+        __metadata("design:type", Boolean)
+    ], User.prototype, "activation", void 0);
+    __decorate([
         (0, typeorm_1.OneToMany)(function (type) { return Post_1.Post; }, function (post) { return post.user; }),
         __metadata("design:type", Array)
     ], User.prototype, "posts", void 0);
