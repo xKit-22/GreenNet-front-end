@@ -29,17 +29,25 @@ $based-green: rgb(59, 124, 15);
         flex-direction: row;
         align-items: center;
 
-        label {
-            margin: 0px 10px 0px 25px;
-            font-size: 20px;
+        margin-bottom: 5px;
+
+        .filterItem {
+            display: flex;
+            justify-content: center;
+
+            label {
+                margin: 0px 10px 0px 25px;
+                font-size: 20px;
+            }
+
+            input {
+                transform: scale(1.5);
+            }
         }
 
-        input {
-            transform: scale(1.5);
-        }
     }
 
-    .map-container {
+    .map-containerr {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -131,6 +139,56 @@ $based-green: rgb(59, 124, 15);
                 font-size: 14px;
                 font-family: 'Mulish', sans-serif;
 
+            }
+        }
+    }
+}
+
+@media only screen and (max-width : 1100px) {
+    .page {
+        padding: 20px 20px;
+
+        .map-containerr {
+            flex-direction: column;
+
+            #map-container {
+                width: 100% !important;
+                height: 500px !important;
+            }
+        }
+
+        .filters-container {
+            flex-direction: row;
+            width: 100%;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
+            .filterItem {
+                width: 150px;
+
+                label {
+                    margin: 0px 10px 0px 25px;
+                    font-size: 16px;
+                }
+
+                input {
+                    transform: scale(1.5);
+                }
+            }
+
+        }
+    }
+
+    .dialog {
+        &-container {
+            width: 300px;
+            height: 200px;
+
+            .content {
+                select {
+                    width: 200px;
+                    margin-bottom: 20px;
+                }
             }
         }
     }
