@@ -60,6 +60,9 @@ export class User {
     })
     likedPosts: string[]
 
+    @Column({nullable: true})
+    activation: boolean
+
     @OneToMany(type => Post, post => post.user) posts: Post[]
     @OneToMany(type => Comment, comment => comment.user) comments: Comment[]
     @ManyToMany(type => Event, event => event.users) events: Event[]

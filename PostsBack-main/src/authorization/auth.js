@@ -43,6 +43,21 @@ require('dotenv').config();
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var authRouter = express.Router();
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+    host: 'smtp.mail.ru',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'green_net2023@mail.ru',
+        pass: 'EduNuDVQvLCJrsEpxjHG'
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+}, {
+    from: 'Green-Net <green_net2023@mail.ru>',
+});
 var secret = 'secret';
 var userRepository;
 authRouter.post("/login", function (req, res) {
@@ -116,14 +131,31 @@ authRouter.post('/register', function (req, res) {
                             userLogin: req.body.userLogin,
                             userPassword: bcrypt.hashSync(password, salt),
                             likedPosts: [],
-                            isAdmin: req.body.isAdmin || false
+                            isAdmin: req.body.isAdmin || false,
+                            activation: false
                         })];
                 case 3:
                     user = _a.sent();
                     _a.label = 4;
                 case 4:
                     _a.trys.push([4, 6, , 7]);
-                    return [4 /*yield*/, userRepository.save(user)];
+                    return [4 /*yield*/, userRepository.save(user)
+                            .then(function (res) {
+                            var mailOptions = {
+                                from: 'green_net2023@mail.ru',
+                                to: req.body.userLogin,
+                                subject: 'Подтверждение регистрации',
+                                html: "<h1>\u0414\u043B\u044F \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F \u043F\u0435\u0440\u0435\u0439\u0434\u0438\u0442\u0435 \u043F\u043E \u0441\u0441\u044B\u043B\u043A\u0435!</h1><a href=\"http://localhost:3001/activation/".concat(res.id, "\">\u041F\u043E\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u044C!</a>")
+                            };
+                            transporter.sendMail(mailOptions, function (error, info) {
+                                if (error) {
+                                    console.log(error);
+                                }
+                                else {
+                                    console.log('Email sent: ' + info.response);
+                                }
+                            });
+                        })];
                 case 5:
                     results = _a.sent();
                     res.status(201).json(results);
