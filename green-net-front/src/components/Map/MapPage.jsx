@@ -14,6 +14,8 @@ import recyclingIcon from '../../assets/recycling.png'
 import batteryIcon from '../../assets/battery.png'
 import closeIcon from '../../assets/close.svg'
 import paperIcon from '../../assets/paper.png'
+import eventIcon from '../../assets/event.png'
+import glassIcon from '../../assets/bottle.png'
 
 let count = 0;
 let markersInstansesArray = [];
@@ -29,7 +31,10 @@ export const MapPage = () => {
     const [wasteFilter, setWasteFilter] = useState(true);
     const [paperFilter, setPaperFilter] = useState(true);
     const [batteryFilter, setBatteryFilter] = useState(true);
+    const [glassFilter, setGlassFilter] = useState(true);
+    let isTypesLoaded = false;
 
+    let markerTypesFromLS;
 
     const filterMap = (filterName) => {
         switch (filterName) {
@@ -69,6 +74,18 @@ export const MapPage = () => {
                 });
                 break;
 
+            case 'glass':
+                markersInstansesArray.forEach(m => {
+                    let curM;
+                    if (m) curM = allMarkers.find(mark => mark.id == m.userData);
+                    if (m && !glassFilter && curM.type == 'recycling-glass') {
+                        m.show();
+                    } else if (m && glassFilter && curM.type == 'recycling-glass') {
+                        m.hide();
+                    }
+                });
+                break;
+
             default:
                 break;
         }
@@ -80,20 +97,25 @@ export const MapPage = () => {
     }, []);
 
     useEffect(() => {
+        if (!localStorage.getItem('savedMarkerTypes')) {
+            localStorage.setItem('savedMarkerTypes', JSON.stringify(markerTypes));
+        };
+        markerTypesFromLS = JSON.parse(localStorage.getItem('savedMarkerTypes'));
+        isTypesLoaded = true;
+
         if (allMarkers?.length > 0) {
             load(mapInstance).then((mapglAPI) => {
                 allMarkers?.forEach(markerItem => {
                     let marker;
                     switch (markerItem.type) {
-                        case "waste-sorting":
+                        case markerTypesFromLS.WASTE_SORTING.type:
                             marker = new mapglAPI.Marker(mapInstance, {
                                 coordinates: markerItem.coordinates,
                                 icon: recyclingIcon,
                                 userData: markerItem.id
                             });
-
                             break;
-                        case "recycling-battery":
+                        case markerTypesFromLS.RECYCLING_BATTERY.type:
                             marker = new mapglAPI.Marker(mapInstance, {
                                 coordinates: markerItem.coordinates,
                                 icon: batteryIcon,
@@ -101,17 +123,30 @@ export const MapPage = () => {
                             });
 
                             break;
-                        case "recycling-paper":
+                        case markerTypesFromLS.RECYCLING_PAPER.type:
                             marker = new mapglAPI.Marker(mapInstance, {
                                 coordinates: markerItem.coordinates,
                                 icon: paperIcon,
                                 userData: markerItem.id
                             });
 
+                            break;
+
+                        case markerTypesFromLS.EVENT.type:
+                            marker = new mapglAPI.Marker(mapInstance, {
+                                coordinates: markerItem.coordinates,
+                                icon: eventIcon,
+                                userData: markerItem.id
+                            });
 
                             break;
 
                         default:
+                            marker = new mapglAPI.Marker(mapInstance, {
+                                coordinates: markerItem.coordinates,
+                                icon: glassIcon,
+                                userData: markerItem.id
+                            });
                             break;
                     }
                     debugger
@@ -124,7 +159,6 @@ export const MapPage = () => {
                     });
 
                 })
-                // console.log('xo', markersInstansesArray);
 
             });
         }
@@ -153,8 +187,6 @@ export const MapPage = () => {
                     <input type="checkbox" defaultChecked={wasteFilter} name="waste" onChange={(e) => {
                         setWasteFilter(!wasteFilter);
                         filterMap(e.target.name);
-                        console.log('xo', markersInstansesArray);
-
                     }}
                     />
 
@@ -162,15 +194,25 @@ export const MapPage = () => {
                     <input type="checkbox" defaultChecked={batteryFilter} name="battery" onChange={(e) => {
                         setBatteryFilter(!batteryFilter);
                         filterMap(e.target.name);
-                    }
-                    } />
+                    }} />
 
                     <label htmlFor="">Прием мукулатуры</label>
                     <input type="checkbox" defaultChecked={paperFilter} name="paper" onChange={(e) => {
                         setPaperFilter(!paperFilter);
                         filterMap(e.target.name);
+                    }} />
+
+                    {
+                        (JSON.parse(localStorage.getItem('savedMarkerTypes'))?.GLASS_RECYCLING) ?
+                            <>
+                                <label htmlFor="">Переработка стекла</label>
+                                <input type="checkbox" defaultChecked={glassFilter} name="glass" onChange={(e) => {
+                                    setPaperFilter(!glassFilter);
+                                    filterMap(e.target.name);
+                                }} />
+                            </>
+                            : ''
                     }
-                    } />
                 </div>
                 <div className="map-container">
                     <Map />
@@ -191,6 +233,15 @@ export const MapPage = () => {
                             <img src={batteryIcon} alt="Прием батареек" />
                             <p>Прием батареек</p>
                         </div>
+
+                        {
+                            (JSON.parse(localStorage.getItem('savedMarkerTypes'))?.GLASS_RECYCLING) ?
+                                <div className="icon-item">
+                                    <img src={glassIcon} alt="Переработка стекла" />
+                                    <p>Переработка стекла</p>
+                                </div>
+                                : ''
+                        }
                     </div>
 
                 </div>
@@ -204,6 +255,7 @@ const AddMarkerDialog = () => {
     const [address, setAddress] = useState('');
     const [markerType, setMarkerType] = useState('WASTE_SORTING');
     const selectedCoordinates = useSelector(state => state.map.selectedCoordinates);
+    const markerTypesFromLS = JSON.parse(localStorage.getItem('savedMarkerTypes'));
 
     useEffect(() => {
         geocode(selectedCoordinates)
@@ -212,9 +264,9 @@ const AddMarkerDialog = () => {
 
     const toCreateMarker = () => {
         const data = {
-            title: markerTypes[markerType].localization,
+            title: markerTypesFromLS[markerType].localization,
             coordinates: selectedCoordinates,
-            type: markerTypes[markerType].type,
+            type: markerTypesFromLS[markerType].type,
             ownerId: localStorage.getItem('currentUserId')
         }
         console.log(data);
@@ -237,8 +289,8 @@ const AddMarkerDialog = () => {
                     <p>{address}</p>
                     <label htmlFor="">Тип метки</label>
                     <select name="" id="" onChange={e => { setMarkerType(e.target.value) }}>
-                        {Object.keys(markerTypes).map(typeItem =>
-                            <option value={typeItem}>{markerTypes[typeItem].localization}</option>)}
+                        {Object.keys(markerTypesFromLS).map(typeItem =>
+                            <option value={typeItem}>{markerTypesFromLS[typeItem].localization}</option>)}
                     </select>
                     <button onClick={() => toCreateMarker()}>Создать метку</button>
                 </div>
@@ -252,6 +304,7 @@ const MarkerInfo = () => {
     const markerId = sessionStorage.getItem('markerId');
     const [marker, setMarker] = useState({});
     const [address, setAddress] = useState('');
+    const markerTypesFromLS = JSON.parse(localStorage.getItem('savedMarkerTypes'));
 
     const currentUserId = localStorage.getItem('currentUserId');
 
@@ -271,10 +324,12 @@ const MarkerInfo = () => {
                 </div>
                 <h2>{marker?.title}</h2>
                 <p>{address}</p>
+                {(marker.type == markerTypesFromLS.EVENT.type) ? <a href={`http://localhost:3001/events/${marker.eventId}`}>Перейти к событию</a> : ''}
                 {
-                    (currentUserId === marker?.ownerId) ?
+                    ((currentUserId === marker?.ownerId) && (marker?.type != markerTypesFromLS.EVENT.type)) ?
                         <button className='' onClick={() => {
                             dispatch(deleteMarker(marker.id));
+                            dispatch(getAllMarkers());
                             dispatch(changeMarkerInfoDialogAction());
                             sessionStorage.removeItem('markerId');
 

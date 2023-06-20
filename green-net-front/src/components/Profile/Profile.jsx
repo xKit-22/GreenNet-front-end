@@ -1,16 +1,16 @@
-import {useSelector, useDispatch} from 'react-redux'
-import {useEffect, useState} from 'react'
-import {Link} from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { Link } from "react-router-dom";
 import axios from 'axios'
 
 import './profile.scss'
 import av from '../../assets/cat.jpg'
 import logoutImg from '../../assets/logout.svg'
 import coin from '../../assets/coin.png'
-import {getUsersPosts, deletePost} from '../../redux/postSlice';
-import {changeEventDialogAction, changePostDialogAction} from '../../redux/dialogsSlice'
-import {isMyProfileAction, getUserById} from '../../redux/userSlice'
-import {Post} from '../Post/Post'
+import { getUsersPosts, deletePost } from '../../redux/postSlice';
+import { changeEventDialogAction, changePostDialogAction } from '../../redux/dialogsSlice'
+import { isMyProfileAction, getUserById } from '../../redux/userSlice'
+import { Post } from '../Post/Post'
 
 export const Profile = () => {
     const dispatch = useDispatch();
@@ -63,7 +63,7 @@ export const Profile = () => {
                 <div className="user-info">
                     <div className="avatar-container">
                         <span>
-                            <img src={avatar2} alt="avatar"/>
+                            <img src={avatar2} alt="avatar" />
                         </span>
                     </div>
                     <div className="info">
@@ -73,7 +73,7 @@ export const Profile = () => {
                                 {
                                     isMyProfile ?
                                         <div className="coin">
-                                            <span>{user?.coinsAmount}</span><img width="30px" src={coin} alt="монетка"/>
+                                            <span>{user?.coinsAmount}</span><img width="30px" src={coin} alt="монетка" />
                                         </div>
                                         :
                                         ''
@@ -88,7 +88,7 @@ export const Profile = () => {
                                 {/*}*/}
                                 {
                                     isMyProfile ?
-                                        <button onClick={() => logout()}><img src={logoutImg} alt="выйти"/></button>
+                                        <button onClick={() => logout()}><img src={logoutImg} alt="выйти" /></button>
                                         :
                                         <button>Подписаться</button>
                                 }
@@ -98,7 +98,9 @@ export const Profile = () => {
                             {/*<p><b>О себе</b></p>*/}
                             <p>{user?.description}</p>
                         </div>
-
+                        {
+                            (!user?.activation) ? <p>Подтвердите Электорнную почту!</p> : ''
+                        }
                         <div className="numbers">
                             <div className="number-group">
                                 <p className="amount">{user?.postsAmount}</p>
@@ -131,12 +133,12 @@ export const Profile = () => {
                         ''
                 }
 
-                <hr/>
+                <hr />
                 {/*<h2>Лента постов</h2>*/}
                 <div className="allPosts">
                     {
                         sortedPosts().map(item => (
-                            <Post post={item}/>
+                            <Post post={item} />
                         ))
                     }
                 </div>

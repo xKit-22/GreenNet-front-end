@@ -9,6 +9,23 @@ require('dotenv').config()
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs');
 const authRouter = express.Router();
+let nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    host: 'smtp.mail.ru',
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'green_net2023@mail.ru',
+      pass: 'EduNuDVQvLCJrsEpxjHG'
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+  }, {
+    from: 'Green-Net <green_net2023@mail.ru>',
+  },
+  );
 
 
 const secret = 'secret'
@@ -74,10 +91,28 @@ const secret = 'secret'
                 dateOfCreation: new Date().toISOString().split('T')[0],
                 userLogin: req.body.userLogin,
                 userPassword: bcrypt.hashSync(password, salt),
-                likedPosts: []
+                likedPosts: [],
+                isAdmin: req.body.isAdmin || false,
+                activation: false
             })
             try {
                 const results = await userRepository.save(user)
+                    .then(res => {
+                        const mailOptions = {
+                            from: 'green_net2023@mail.ru',
+                            to: req.body.userLogin,
+                            subject: 'Подтверждение регистрации',
+                            html: `<h1>Для подтверждения перейдите по ссылке!</h1><a href="http://localhost:3001/activation/${res.id}">Подтвердить!</a>`
+                        };
+
+                        transporter.sendMail(mailOptions, function(error, info){
+                            if (error) {
+                              console.log(error);
+                            } else {
+                              console.log('Email sent: ' + info.response);
+                            }
+                          });
+                    })
                 res.status(201).json(results)
                 return res.send(results)
             } catch (e){

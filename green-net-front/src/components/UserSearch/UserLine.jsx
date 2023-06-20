@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
+import axios from "axios";
 
 import "./user-search.scss"
 import av from '../../assets/cat.jpg'
@@ -8,23 +9,27 @@ import av from '../../assets/cat.jpg'
 export const UserLine = (props) => {
     const dispatch = useDispatch();
     const allusers = useSelector(state => state.user.allUsers);
+    const pathName = window.location.pathname.slice(1);
 
-    const findUserById = (id) => {
-        return allusers.find(user => user.id === id)
+    const deleteUser = async (id) => {
+        await axios.delete(`http://localhost:3000/users/${id}`)
     }
 
-    const user = findUserById(props.userId);
+    const user = props.user;
     return (
-        <Link to={`/${props.userId}`} className="user-line">
+        <Link to={`/${user?.id}`} className="user-line">
             <div className="user-line-content">
                 <div className="user">
-                   <span>
+                    <span>
                         <img src={av} alt="avatar" />
                     </span>
-                    <p>{user?.nickname}</p> 
+                    <p>{user?.nickname}</p>
                 </div>
-
-                <button>Удалить</button>
+                {
+                    pathName == 'admin' ?
+                        <button onClick={() => deleteUser(user.id)}>Удалить</button>
+                        : ''
+                }
             </div>
 
         </Link>
@@ -32,5 +37,5 @@ export const UserLine = (props) => {
 }
 
 UserLine.propTypes = {
-    userId: PropTypes.string,
+    user: PropTypes.object,
 }

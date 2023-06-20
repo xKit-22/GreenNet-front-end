@@ -24,7 +24,6 @@ export const Map = () => {
                 key: 'a7abf1ac-ec9c-4c4f-a497-0dbd6ff9888b',
             });
             setMapInstance(map);
-
             map.on('click', (e) => {
                 if (!e.target) {
                     return;
@@ -50,7 +49,6 @@ const MapWrapper =
 export const MapContext = React.createContext([undefined, () => { }]);
 export const MapProvider = (props) => {
     const [mapInstance, setMapInstance] = React.useState();
-
     return (
         <MapContext.Provider value={[mapInstance, setMapInstance]}>
             {props.children}
