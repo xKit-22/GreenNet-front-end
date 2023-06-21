@@ -24,6 +24,10 @@ $based-green: rgb(59, 124, 15);
 .page {
     padding: 20px 40px 0px 40px;
 
+    .lol {
+        @include buttonStyle();
+    }
+
     .filters-container {
         display: flex;
         flex-direction: row;
@@ -140,6 +144,45 @@ $based-green: rgb(59, 124, 15);
                 font-family: 'Mulish', sans-serif;
 
             }
+        }
+    }
+}
+
+.instuction-dialog {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: #0000003b;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 50000;
+
+    &-container {
+        height: 90%;
+        width: max-content;
+        padding: 20px;
+        margin-top: -10%;
+
+        box-shadow: 0 0 7px 0 $based-green;
+        background-color: white;
+        text-align: center;
+
+        .close-button {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+
+            img {
+                width: 20px;
+                cursor: pointer;
+            }
+        }
+
+        .instuction {
+            height: 90%;
         }
     }
 }

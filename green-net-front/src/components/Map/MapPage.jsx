@@ -8,7 +8,7 @@ import { Map } from './Map'
 import { MapContext } from './Map';
 import { geocode, getMarkerById } from './mapMethods';
 import { getAllMarkers, setSelectedCoordinatesAction, createMarker, deleteMarker } from '../../redux/mapSlice';
-import { changeShowAddMarkerDialog, changeMarkerInfoDialogAction } from '../../redux/dialogsSlice';
+import { changeShowAddMarkerDialog, changeMarkerInfoDialogAction,changeTeachDialogAction } from '../../redux/dialogsSlice';
 import { markerTypes } from './markersTypes';
 import recyclingIcon from '../../assets/recycling.png'
 import batteryIcon from '../../assets/battery.png'
@@ -16,6 +16,7 @@ import closeIcon from '../../assets/close.svg'
 import paperIcon from '../../assets/paper.png'
 import eventIcon from '../../assets/event.png'
 import glassIcon from '../../assets/bottle.png'
+import teachImg from '../../assets/teach.png'
 
 let count = 0;
 let markersInstansesArray = [];
@@ -26,11 +27,13 @@ export const MapPage = () => {
     const selectedCoordinates = useSelector(state => state.map.selectedCoordinates);
     const isShowAddMarkerDialog = useSelector(state => state.dialog.showAddMarkerDialog);
     const isShowMarkerInfoDialog = useSelector(state => state.dialog.showMarkerInfoDialog);
+    const isShowTeachDialog = useSelector(state => state.dialog.showTeachDialog);
     const dispatch = useDispatch();
     const [mapInstance] = useContext(MapContext);
     const [wasteFilter, setWasteFilter] = useState(true);
     const [paperFilter, setPaperFilter] = useState(true);
     const [batteryFilter, setBatteryFilter] = useState(true);
+    const [eventFilter, setEventFilter] = useState(true);
     const [glassFilter, setGlassFilter] = useState(true);
     let isTypesLoaded = false;
 
@@ -69,6 +72,18 @@ export const MapPage = () => {
                     if (m && !paperFilter && curM.type == 'recycling-paper') {
                         m.show();
                     } else if (m && paperFilter && curM.type == 'recycling-paper') {
+                        m.hide();
+                    }
+                });
+                break;
+
+                case 'event':
+                markersInstansesArray.forEach(m => {
+                    let curM;
+                    if (m) curM = allMarkers.find(mark => mark.id == m.userData);
+                    if (m && !eventFilter && curM.type == 'event') {
+                        m.show();
+                    } else if (m && eventFilter && curM.type == 'event') {
                         m.hide();
                     }
                 });
@@ -149,7 +164,6 @@ export const MapPage = () => {
                             });
                             break;
                     }
-                    debugger
                     markersInstansesArray.push(marker);
 
                     marker?.on('click', (e) => {
@@ -177,9 +191,11 @@ export const MapPage = () => {
 
     return (
         <>
-            {isShowAddMarkerDialog ? <AddMarkerDialog /> : ""}
-            {isShowMarkerInfoDialog ? <MarkerInfo /> : ""}
+            {isShowAddMarkerDialog && <AddMarkerDialog />}
+            {isShowMarkerInfoDialog && <MarkerInfo />}
+            {isShowTeachDialog && <TeachDialog/>}
             <div className="page">
+                <button className='lol' onClick={() => dispatch(changeTeachDialogAction())}> Как пользоваться?</button>
                 <h2>Фильтрация</h2>
                 <div className="filters-container">
 
@@ -208,6 +224,16 @@ export const MapPage = () => {
                             setPaperFilter(!paperFilter);
                             filterMap(e.target.name);
                         }} />
+                    </div>
+
+                    <div className="filterItem">
+
+                        <label htmlFor="">События</label>
+                        <input type="checkbox" defaultChecked={eventFilter} name="event" onChange={(e) => {
+                            setWasteFilter(!eventFilter);
+                            filterMap(e.target.name);
+                        }}
+                        />
                     </div>
 
                     {
@@ -240,6 +266,11 @@ export const MapPage = () => {
                         <div className="icon-item">
                             <img src={batteryIcon} alt="Прием батареек" />
                             <p>Прием батареек</p>
+                        </div>
+
+                        <div className="icon-item">
+                            <img src={eventIcon} alt="События" />
+                            <p>События</p>
                         </div>
 
                         {
@@ -344,6 +375,21 @@ const MarkerInfo = () => {
                         }}>Удалить метку</button>
                         : ''
                 }
+            </div>
+        </div>
+    )
+}
+
+const TeachDialog = () => {
+    const dispatch = useDispatch();
+    return (
+        <div className="instuction-dialog">
+            <div className="instuction-dialog-container">
+                <div className="close-button">
+                    <img src={closeIcon} alt="закрыть" onClick={() => dispatch(changeTeachDialogAction())} />
+                </div>
+                <h3>Как пользоваться картой?</h3>
+                <img src={teachImg} alt="Инструкция" className='instuction'/>
             </div>
         </div>
     )
