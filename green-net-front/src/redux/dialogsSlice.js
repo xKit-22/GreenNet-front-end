@@ -6,7 +6,8 @@ const initialState = {
     createShopCardDialog: false,
     showAddMarkerDialog: false,
     showMarkerInfoDialog: false,
-    showServerError: false
+    showServerError: false,
+    showTeachDialog: false
 }
 
 export const dialogsSlice = createSlice({
@@ -35,6 +36,10 @@ export const dialogsSlice = createSlice({
         changeServerErrorAction: (state) => {
             state.showServerError = !state.showServerError;
         },
+
+        changeTeachDialogAction: (state) => {
+            state.showTeachDialog = !state.showTeachDialog;
+        },
     }
 })
 
@@ -44,5 +49,6 @@ export const {
     changeShowAddMarkerDialog,
     changeMarkerInfoDialogAction,
     changeServerErrorAction,
-    changeShopCardDialogAction } = dialogsSlice.actions
+    changeShopCardDialogAction,
+    changeTeachDialogAction } = dialogsSlice.actions
 export default dialogsSlice.reducer
