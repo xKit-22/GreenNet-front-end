@@ -50,7 +50,7 @@ function App() {
                 {/*<Footer/>*/}
             </div>
         </MapProvider>
-    )
+    );
 }
 
 export default App;
