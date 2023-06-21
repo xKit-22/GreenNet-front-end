@@ -12,27 +12,31 @@ export const UserLine = (props) => {
     const pathName = window.location.pathname.slice(1);
 
     const deleteUser = async (id) => {
-        await axios.delete(`http://localhost:3000/users/${id}`)
+        await axios.delete(`http://localhost:3000/users/${id}`);
+        window.location.reload();
     }
 
     const user = props.user;
     return (
-        <Link to={`/${user?.id}`} target="_blank" className="user-line">
+        <div className="user-line">
+
             <div className="user-line-content">
-                <div className="user">
-                    <span>
-                        <img src={av} alt="avatar" />
-                    </span>
-                    <p>{user?.nickname}</p>
-                </div>
+                <Link to={`/${user?.id}`} target="_blank" className="user-line">
+                    <div className="user">
+                        <span>
+                            <img src={av} alt="avatar" />
+                        </span>
+                        <p>{user?.nickname}</p>
+                    </div>
+                </Link>
                 {
                     pathName == 'admin' ?
                         <button onClick={() => deleteUser(user.id)}>Удалить</button>
                         : ''
                 }
-            </div>
+            </div >
+        </div >
 
-        </Link>
     )
 }
 
