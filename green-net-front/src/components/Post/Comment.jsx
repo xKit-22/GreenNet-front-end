@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import axios from 'axios'
 
 import './post.scss'
 import ava from '../../assets/cat.jpg'
+import bin from "../../assets/delete.png";
+import {deletePost, getUsersPosts} from "../../redux/postSlice";
 
 let moment = require('moment');
 
@@ -20,13 +22,14 @@ export const Comment = (props) => {
         await axios.get(`http://localhost:3000/users/${id}`).then(res => setAuthor(res.data));
     }
 
+
     const deleteComment = async (id) => {
         await axios.delete(`http://localhost:3000/comments/${id}`);
     }
 
     useEffect(() => {
         getAuthor(comment.authorId);
-        if (currentUserId === curID){
+        if (currentUserId === curID) {
             setIsMyPage(true)
         } else {
             setIsMyPage(false)
@@ -39,18 +42,22 @@ export const Comment = (props) => {
         <div className="comment">
             <div className="comment-header">
                 <span>
-                    <img src={avatar} alt="avatar" />
+                    <img src={avatar} alt="avatar"/>
                 </span>
                 <p className="nickname">{author.nickname}</p>
                 <p className="comment-date">{moment(comment.dateOfCreation).format('DD.MM.YYYY, hh:mm')}</p>
                 {
-                    isMyPage && <button onClick={() => deleteComment(comment.id)}>DEL</button>
+                    isMyPage &&
+                    <div className="delete-button">
+                        <img src={bin} alt="delete button"
+                             onClick={() => deleteComment(comment.id).then()}/>
+                    </div>
                 }
             </div>
             <div className="comment-content">
                 <p>{comment.text}</p>
             </div>
-            <hr />
+            <hr/>
         </div>
     )
 }

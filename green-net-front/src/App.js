@@ -17,6 +17,9 @@ import {Footer} from "./components/Footer/Footer";
 import {Feed} from "./components/Feed/Feed";
 import {AdminPanel} from "./components/AdminPanel/AdminPanel";
 import {CreateShopCardDialog} from "./components/Shop/CreateShopCardDialog";
+import {MapPage} from "./components/Map/MapPage";
+import { MapProvider } from './components/Map/Map';
+import { ActivationPage } from "./components/Profile/ActivationPage";
 
 function App() {
     const isCreatePostDialogOpen = useSelector(state => state.dialog.createPostDialog);
@@ -47,7 +50,7 @@ function App() {
                 {/*<Footer/>*/}
             </div>
         </MapProvider>
-    );
+    )
 }
 
 export default App;

@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -84,14 +84,14 @@ authRouter.post("/login", function (req, res) {
                         }
                         else {
                             res.status(401).json({
-                                message: "Passwords didn't match"
+                                message: "Введен неправильный пароль."
                             });
                         }
                     }
                     else {
                         //User not found
                         res.status(404).json({
-                            message: "User with this login not found"
+                            message: "Пользователь с таким email не найден."
                         });
                     }
                     return [2 /*return*/];
@@ -113,7 +113,7 @@ authRouter.post('/register', function (req, res) {
                     if (!candidate) return [3 /*break*/, 2];
                     // Error: User exist
                     res.status(409).json({
-                        message: 'User with this login already exists'
+                        message: 'Пользователь с таким email уже зарегистрирован.'
                     });
                     return [3 /*break*/, 7];
                 case 2:

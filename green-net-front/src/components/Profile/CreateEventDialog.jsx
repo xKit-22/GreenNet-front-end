@@ -62,6 +62,7 @@ export const CreateEventDialog = () => {
 
 
     useEffect(() => {
+        console.log('create event')
         if (keyWords.length > 0) {
             const randomIndex = Math.floor(Math.random() * keyWords.length);
             const text = keyWords[randomIndex]

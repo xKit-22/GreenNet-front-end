@@ -17,7 +17,7 @@ export const UserLine = (props) => {
 
     const user = props.user;
     return (
-        <Link to={`/${user?.id}`} className="user-line">
+        <Link to={`/${user?.id}`} target="_blank" className="user-line">
             <div className="user-line-content">
                 <div className="user">
                     <span>
