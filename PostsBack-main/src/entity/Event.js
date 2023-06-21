@@ -64,6 +64,10 @@ var Event = /** @class */ (function () {
         __metadata("design:type", Number)
     ], Event.prototype, "reward", void 0);
     __decorate([
+        (0, typeorm_1.Column)({ nullable: true }),
+        __metadata("design:type", String)
+    ], Event.prototype, "QRurl", void 0);
+    __decorate([
         (0, typeorm_1.Column)({
             type: 'jsonb',
             nullable: true

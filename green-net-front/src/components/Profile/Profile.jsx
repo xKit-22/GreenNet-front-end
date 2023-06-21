@@ -11,6 +11,7 @@ import { getUsersPosts, deletePost } from '../../redux/postSlice';
 import { changeEventDialogAction, changePostDialogAction } from '../../redux/dialogsSlice'
 import { isMyProfileAction, getUserById } from '../../redux/userSlice'
 import { Post } from '../Post/Post'
+import {notificationService} from "../../config/notificationConfig";
 
 export const Profile = () => {
     const dispatch = useDispatch();
@@ -20,6 +21,9 @@ export const Profile = () => {
     const [postsAmount, setPostsAmount] = useState(0);
     const usersPosts = useSelector(state => state.post.usersPosts);
     const isMyProfile = useSelector(state => state.user.isMyProfile);
+
+    const [subscribeBtn, setSubscribeBtn] = useState('Вы подписаны')
+    const [subscribersAmount, setSubscribersAmount] = useState(1)
 
     console.log("id: ", currentUserId);
 
@@ -47,6 +51,16 @@ export const Profile = () => {
 
         console.log('sorted post', sorted);
         return sorted;
+    }
+
+    const toSubscribe = () => {
+        if (subscribeBtn === 'Вы подписаны') {
+            setSubscribeBtn('Подписаться')
+            notificationService.success(`Вы отписались от пользователя ${user.nickname}`);
+        } else {
+            setSubscribeBtn('Вы подписаны')
+            notificationService.success(`Вы подписались на пользователя ${user.nickname}`);
+        }
     }
 
     const logout = () => {
@@ -78,19 +92,19 @@ export const Profile = () => {
                                         :
                                         ''
                                 }
-                                {/*{*/}
-                                {/*    isMyProfile ?*/}
-                                {/*        <Link to="/edit-profile" className="">*/}
-                                {/*            <button>Редактировать</button>*/}
-                                {/*        </Link>*/}
-                                {/*        :*/}
-                                {/*        ''*/}
-                                {/*}*/}
+                                {
+                                    isMyProfile ?
+                                        <Link to="/edit-profile" className="">
+                                            <button>Редактировать</button>
+                                        </Link>
+                                        :
+                                        ''
+                                }
                                 {
                                     isMyProfile ?
                                         <button onClick={() => logout()}><img src={logoutImg} alt="выйти" /></button>
                                         :
-                                        <button>Подписаться</button>
+                                        <button onClick={toSubscribe}>{subscribeBtn}</button>
                                 }
                             </div>
                         </div>
@@ -107,12 +121,12 @@ export const Profile = () => {
                                 <p className="amount-label">постов</p>
                             </div>
                             <div className="number-group">
-                                <p className="amount">{user?.subscribersAmount}</p>
+                                <p className="amount">{subscribersAmount}</p>
                                 <p className="amount-label">подписчиков</p>
                             </div>
                             <div className="number-group">
-                                {/*<p className="amount">{user?.subscriptionsAmount}</p>*/}
-                                <p className="amount">1</p>
+                                <p className="amount">{user?.subscriptionsAmount}</p>
+                                {/*<p className="amount">1</p>*/}
                                 <p className="amount-label">подписок</p>
                             </div>
                             {/*<div className="number-group">*/}
@@ -138,7 +152,7 @@ export const Profile = () => {
                 <div className="allPosts">
                     {
                         sortedPosts().map(item => (
-                            <Post post={item} />
+                            <Post isMyProfile={isMyProfile} post={item} />
                         ))
                     }
                 </div>

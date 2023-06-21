@@ -7,6 +7,24 @@ import {Subscription} from "../entity/Subscription";
 import {Event} from "../entity/Event";
 
 const eventRouter = express.Router();
+let nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+        host: 'smtp.mail.ru',
+        port: 465,
+        secure: true,
+        auth: {
+            user: 'green_net2023@mail.ru',
+            pass: 'EduNuDVQvLCJrsEpxjHG'
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    }, {
+        from: 'Green-Net <green_net2023@mail.ru>',
+    },
+);
+
 
 let eventRepository;
 
@@ -28,6 +46,31 @@ eventRouter.get("/:id", async function(req: Request, res: Response) {
 eventRouter.post("/", async function(req: Request, res: Response) {  //verification
     const event = await eventRepository.create(req.body)
     const results = await eventRepository.save(event)
+        .then(res => {
+            const base64Data = req.body.QRurl.replace(/^data:image\/png;base64,/, '');
+            const imageBuffer = Buffer.from(base64Data, 'base64');
+            const mailOptions = {
+                from: 'green_net2023@mail.ru',
+                to: 'annaxkit@gmail.com',
+                subject: `Регистрация на меропрятие ${req.body.name}`,
+                html: `<h1>Для подтверждения регистрации на мероприятии отсканируйте QR-код</h1>`,
+                attachments: [
+                    {
+                        filename: 'image.png',
+                        content: imageBuffer,
+                        contentType: 'image/png'
+                    }
+                ]
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+        })
     return res.send(results)
 });
 

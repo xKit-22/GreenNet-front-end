@@ -155,8 +155,8 @@ export const EventPage = () => {
                         isMember && !isAuthor && !isOver && !isMarked ?
                             <div>
                                 <p>Подтвердите участие</p>
-                                <input value={inputValue} onChange={handleInputChange} type='text'/>
-                                <button onClick={handleClick}>Подтвердить</button>
+                                <input className='input-approve' value={inputValue} onChange={handleInputChange} type='text'/>
+                                <button className='btn-approve' onClick={handleClick}>Подтвердить</button>
                                 {inputErrorCaption && <p>Неправильный код</p>}
                             </div>
                             : ''

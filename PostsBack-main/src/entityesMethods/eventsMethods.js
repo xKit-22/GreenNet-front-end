@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -40,6 +40,21 @@ var express = require("express");
 var typeorm_1 = require("typeorm");
 var Event_1 = require("../entity/Event");
 var eventRouter = express.Router();
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+    host: 'smtp.mail.ru',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'green_net2023@mail.ru',
+        pass: 'EduNuDVQvLCJrsEpxjHG'
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+}, {
+    from: 'Green-Net <green_net2023@mail.ru>',
+});
 var eventRepository;
 // logic to return all events
 eventRouter.get("/", function (req, res) {
@@ -80,7 +95,32 @@ eventRouter.post("/", function (req, res) {
                 case 0: return [4 /*yield*/, eventRepository.create(req.body)];
                 case 1:
                     event = _a.sent();
-                    return [4 /*yield*/, eventRepository.save(event)];
+                    return [4 /*yield*/, eventRepository.save(event)
+                            .then(function (res) {
+                            var base64Data = req.body.QRurl.replace(/^data:image\/png;base64,/, '');
+                            var imageBuffer = Buffer.from(base64Data, 'base64');
+                            var mailOptions = {
+                                from: 'green_net2023@mail.ru',
+                                to: 'annaxkit@gmail.com',
+                                subject: "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F \u043D\u0430 \u043C\u0435\u0440\u043E\u043F\u0440\u044F\u0442\u0438\u0435 ".concat(req.body.name),
+                                html: "<h1>\u0414\u043B\u044F \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438 \u043D\u0430 \u043C\u0435\u0440\u043E\u043F\u0440\u0438\u044F\u0442\u0438\u0438 \u043E\u0442\u0441\u043A\u0430\u043D\u0438\u0440\u0443\u0439\u0442\u0435 QR-\u043A\u043E\u0434</h1>",
+                                attachments: [
+                                    {
+                                        filename: 'image.png',
+                                        content: imageBuffer,
+                                        contentType: 'image/png'
+                                    }
+                                ]
+                            };
+                            transporter.sendMail(mailOptions, function (error, info) {
+                                if (error) {
+                                    console.log(error);
+                                }
+                                else {
+                                    console.log('Email sent: ' + info.response);
+                                }
+                            });
+                        })];
                 case 2:
                     results = _a.sent();
                     return [2 /*return*/, res.send(results)];
