@@ -116,7 +116,7 @@ export const Profile = () => {
                             <p>{user?.description}</p>
                         </div>*/}
                         {
-                            (!user?.activation) ? <p>Подтвердите Электорнную почту!</p> : ''
+                            !user?.activation && isMyProfile && <p>Подтвердите Электорнную почту!</p>
                         }
                         <div className="numbers">
                             <div className="number-group">
