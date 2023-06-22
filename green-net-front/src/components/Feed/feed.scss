@@ -1,9 +1,11 @@
-.allPosts {
-  width: 40%;
 
-}
 
 .allPosts-container {
   display: flex;
   justify-content: center;
+  width: 100%;
+}
+
+.allPosts-feed {
+  width: 50%;
 }

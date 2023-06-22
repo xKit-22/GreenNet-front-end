@@ -21,7 +21,7 @@ export const UserLine = (props) => {
             <div className="user-line-content">
                 <div className="user">
                     <span>
-                        <img src={av} alt="avatar" />
+                        <img src={user?.avatar} alt="avatar" />
                     </span>
                     <p>{user?.nickname}</p>
                 </div>

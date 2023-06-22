@@ -75,7 +75,7 @@ export const EventsPage = () => {
                 </TabPanel>
                 <TabPanel value="myEvents">
                     <input onChange={e => setCheckboxValue(e.target.checked)} checked={checkboxValue} className="admin-filter-checkbox" type="checkbox" id="adminFilter" name="adminFilter" value="yes"/>
-                    <label className="admin-filter-label" htmlFor="adminFilter">Я - админ</label>
+                    <label className="admin-filter-label" htmlFor="adminFilter">Я - организатор</label>
                     <br/>
                     <input onChange={e => setCheckboxEndValue(e.target.checked)} checked={checkboxEndValue} className="admin-filter-checkbox" type="checkbox" id="EndFilter" name="EndFilter" value="yes"/>
                     <label className="admin-filter-label" htmlFor="EndFilter">Не завершено</label>

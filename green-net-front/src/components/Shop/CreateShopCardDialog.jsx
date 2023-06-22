@@ -31,7 +31,7 @@ export const CreateShopCardDialog = () => {
 
         e.preventDefault();
         const data = {
-            img: "https://img.freepik.com/free-vector/pet-shop-composition_1284-25876.jpg?w=826&t=st=1682953595~exp=1682954195~hmac=2f5d7f0d78153cef622c29fee0a476f990ffefdc7865659c490f24f67e3a85d7",
+            img: "https://cdn1.flamp.ru/22732ae9adbcd1570b07be33424c814f.png",
             name: cardTitle,
             description: cardDescription,
             validityDate: new Date(selectedDate).toISOString(),

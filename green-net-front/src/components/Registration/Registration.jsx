@@ -14,6 +14,7 @@ export const Registration = () => {
     const [userPassword, setUserPassword] = useState("");
     const [passwordRep, setPasswordRep] = useState("");
     const [nickname, setNickname] = useState("");
+    const [avatar, setAvatar] = useState('https://img.freepik.com/free-photo/adorable-dog-with-abstract-colorful-graphic-background_23-2150022290.jpg?w=740&t=st=1684323611~exp=1684324211~hmac=f52f6a6f5a2cd828a31f8c42e73a689ca1a1dd43fa3395a5f3cc7e9ae249fec6')
 
     // const [passMatch, setPassMatch] = useState(false);
     const [errorText, setErrorText] = useState('');
@@ -53,7 +54,7 @@ export const Registration = () => {
         e.preventDefault();
         const valid = checkFields();
         if (valid) {
-            const data = {userLogin, userPassword, nickname};
+            const data = {avatar, userLogin, userPassword, nickname};
             dispatch(registration(data));
         } else return;       
     }

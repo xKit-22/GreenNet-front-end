@@ -106,7 +106,7 @@ export const Post = (props) => {
             <div className="post-header">
                 <div className='post-header-user-info'>
                 <span>
-                    <img src={avatar2} alt="avatar"/>
+                    <img src={author.avatar} alt="avatar"/>
                 </span>
                     <p className="nickname">{author.nickname}</p>
                     {/*<p className="comment-date">{post.dateOfCreation}</p>*/}
@@ -155,7 +155,7 @@ export const Post = (props) => {
             </div>
             <div className="content">
                 <div className="content-img">
-                    <img width="70%" src={postImg2} alt='картинка поста'/>
+                    <img width="70%" src={post.picture} alt='картинка поста'/>
                 </div>
                 <p className="text">{post?.text}</p>
             </div>
