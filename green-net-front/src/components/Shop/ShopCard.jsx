@@ -53,7 +53,7 @@ export const ShopCard = ({item, onAdd, userCoins}) => {
                         <button onClick={() => onAdd(item)} className="card-btn">Получить</button>
                 }
                 {
-                    user.isAdmin && <button onClick={deleteShopCard}>Удалить</button>
+                    user.isAdmin && <button className='card-btn-del' onClick={deleteShopCard}>Удалить</button>
                 }
 
             </div>

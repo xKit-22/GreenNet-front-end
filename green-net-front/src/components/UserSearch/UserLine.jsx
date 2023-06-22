@@ -21,14 +21,12 @@ export const UserLine = (props) => {
         <div className="user-line">
 
             <div className="user-line-content">
-                <Link to={`/${user?.id}`} target="_blank" className="user-line">
-                    <div className="user">
-                        <span>
-                            <img src={av} alt="avatar" />
-                        </span>
-                        <p>{user?.nickname}</p>
-                    </div>
-                </Link>
+                <div className="user">
+                    <span>
+                        <img src={user?.avatar} alt="avatar" />
+                    </span>
+                    <p>{user?.nickname}</p>
+                </div>
                 {
                     pathName == 'admin' ?
                         <button onClick={() => deleteUser(user.id)}>Удалить</button>
@@ -37,6 +35,7 @@ export const UserLine = (props) => {
             </div >
         </div >
 
+        </Link>
     )
 }
 

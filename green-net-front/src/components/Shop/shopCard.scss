@@ -32,7 +32,11 @@ $deep-green: rgb(46, 91, 11);
   word-wrap: break-word;
 }
 
-.card-btn {
+.card-btn-del {
+  margin-left: 20px;
+}
+
+.card-btn, .card-btn-del {
   padding: 12px;
   background: $based-green;
   font-size: 1.1em;
@@ -43,15 +47,16 @@ $deep-green: rgb(46, 91, 11);
   border-radius: 10px;
 }
 
-.card-btn:hover {
+.card-btn:hover, .card-btn-del:hover {
   background: $deep-green;
   transform: scale(1.1);
   transition: transform 300ms ease;
 }
 
-.card-btn:active {
+.card-btn:active, .card-btn-del:active {
   transform: scale(0.97);
 }
+
 
 button[disabled] {
   background: darkgrey;

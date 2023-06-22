@@ -116,109 +116,123 @@ export const EventPage = () => {
     }
 
     return (
-        <div className="event-page-container">
-            <div className='event-page-container-left'>
-                <h2>{event.name}</h2>
-                <div>
-                    <table>
-                        <tr>
-                            <td><b>О мероприятии: </b></td>
-                            <td>{event.description}</td>
-                        </tr>
-                        <tr>
-                            <td><b>Дата начала: </b></td>
-                            <td>{moment(`${event.dateOfStart}`).format('DD.MM.YYYY')}</td>
-                        </tr>
-                        <tr>
-                            <td><b>Дата окончания: </b></td>
-                            <td>{moment(`${event.dateOfFinish}`).format('DD.MM.YYYY')}</td>
-                        </tr>
-                        <tr>
-                            <td><b>Место проведения: </b></td>
-                            <td>{event.place}</td>
-                        </tr>
-                        <tr>
-                            <td><b>Контакты организатора: </b></td>
-                            <td>{event.contacts}</td>
-                        </tr>
-                        <tr>
-                            <td><b>Награда за участие: </b></td>
-                            <td className="reward-td">{event.reward}<img className="reward-img" src={coin}
-                                                                         alt="монетка"/></td>
-                        </tr>
-                        <tr>
-                            <td><b>Количество участников: </b></td>
-                            <td>{countMembers}</td>
-                        </tr>
-                    </table>
-                    {
-                        isMember && !isAuthor && !isOver && !isMarked ?
-                            <div>
-                                <p>Подтвердите участие</p>
-                                <input className='input-approve' value={inputValue} onChange={handleInputChange} type='text'/>
-                                <button className='btn-approve' onClick={handleClick}>Подтвердить</button>
-                                {inputErrorCaption && <p>Неправильный код</p>}
-                            </div>
-                            : ''
-                    }
-                    {isMember && isMarked &&
+        event.length < 1 ?
+            <div className='loader-container'>
+                <svg className="spinner" width="65px" height="65px" viewBox="0 0 66 66"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <circle className="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33"
+                            r="30"></circle>
+                </svg>
+            </div> :
+            <div className="event-page-container">
+                <div className='event-page-container-left'>
+                    <h2>{event.name}</h2>
                     <div>
-                        <p>Участие подтверждено</p>
-                        <p>Вам начислено {`${event.reward}`} <img alt={'coin'} height={`16px`} src={coin}/></p>
+                        <table>
+                            <tr>
+                                <td><b>О мероприятии: </b></td>
+                                <td>{event.description}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Дата начала: </b></td>
+                                <td>{moment(`${event.dateOfStart}`).format('DD.MM.YYYY')}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Дата окончания: </b></td>
+                                <td>{moment(`${event.dateOfFinish}`).format('DD.MM.YYYY')}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Место проведения: </b></td>
+                                <td>{event.place}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Контакты организатора: </b></td>
+                                <td>{event.contacts}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Награда за участие: </b></td>
+                                <td className="reward-td">{event.reward}<img className="reward-img" src={coin}
+                                                                             alt="монетка"/></td>
+                            </tr>
+                            <tr>
+                                <td><b>Количество участников: </b></td>
+                                <td>{countMembers}</td>
+                            </tr>
+                        </table>
+                        {
+                            isMember && !isAuthor && !isOver && !isMarked ?
+                                <div>
+                                    <p>Подтвердите участие</p>
+                                    <input className='input-approve' value={inputValue} onChange={handleInputChange}
+                                           type='text'/>
+                                    <button className='btn-approve' onClick={handleClick}>Подтвердить</button>
+                                    {inputErrorCaption && <p>Неправильный код</p>}
+                                </div>
+                                : ''
+                        }
+                        {isMember && isMarked &&
+                            <div>
+                                <p>Участие подтверждено</p>
+                                <p>Вам начислено {`${event.reward}`} <img alt={'coin'} height={`16px`} src={coin}/></p>
+                            </div>
+                        }
+                        {
+                            isAuthor ?
+                                <>
+                                    <img src={QRurl} alt='qr-код'/>
+                                    <br/>
+                                    <button onClick={() => window.location.reload()} className='btn-approve'>Обновить
+                                    </button>
+                                </>
+                                :
+                                ''
+                        }
                     </div>
-                    }
-                    {
-                        isAuthor ?
-                            <img src={QRurl} alt='qr-код'/>
-                            :
-                            ''
-                    }
                 </div>
-            </div>
-            <div>
-                <div className="event-page-right">
-                    <img src={event.avatar} alt="аватар"/>
-                    {
-                        isAuthor ? <div className="btns-container">
-                                <button onClick={deleteEvent}>Удалить</button>
-                                {isOver ?
-                                    <button disabled={true}>Отметить участников</button>
-                                    :
-                                    <button onClick={handleClickShowUserList}>Отметить участников</button>}
-                            </div> :
-                            isMember ? (
-                                isOver || isMarked ? (
-                                    <button disabled={true} onClick={onSubscribeEvent}>Не пойду</button>
+                <div>
+                    <div className="event-page-right">
+                        <img src={event.avatar} alt="аватар"/>
+                        {
+                            isAuthor ? <div className="btns-container">
+                                    <button onClick={deleteEvent}>Удалить</button>
+                                    {isOver ?
+                                        <button disabled={true}>Отметить участников</button>
+                                        :
+                                        <button onClick={handleClickShowUserList}>Отметить участников</button>}
+                                </div> :
+                                isMember ? (
+                                    isOver || isMarked ? (
+                                        <button disabled={true} onClick={onSubscribeEvent}>Не пойду</button>
+                                    ) : (
+                                        <button onClick={onSubscribeEvent}>Не пойду</button>
+                                    )
                                 ) : (
-                                    <button onClick={onSubscribeEvent}>Не пойду</button>
+                                    isOver ? (
+                                        <button disabled={true} onClick={onSubscribeEvent}>Принять участие</button>
+                                    ) : (
+                                        <button onClick={onSubscribeEvent}>Принять участие</button>
+                                    )
                                 )
-                            ) : (
-                                isOver ? (
-                                    <button disabled={true} onClick={onSubscribeEvent}>Принять участие</button>
-                                ) : (
-                                    <button onClick={onSubscribeEvent}>Принять участие</button>
-                                )
-                            )
-                    }
-                    {
-                        isOver && <p>Событие завершено</p>
-                    }
-                    {/*<p className='money'><b>Вам начислено 500 <img className="reward-img" src={coin} alt="монетка"/> за участие </b></p>*/}
+                        }
+                        {
+                            isOver && <p>Событие завершено</p>
+                        }
+                        {/*<p className='money'><b>Вам начислено 500 <img className="reward-img" src={coin} alt="монетка"/> за участие </b></p>*/}
+                    </div>
                 </div>
+
+                {
+                    showUserList ?
+                        <UsersListModal
+                            handleClickShowUserList={handleClickShowUserList}
+                            open={showUserList}
+                            event={event}
+                        />
+                        :
+                        ""
+                }
+
             </div>
-
-            {
-                showUserList ?
-                    <UsersListModal
-                        handleClickShowUserList={handleClickShowUserList}
-                        open={showUserList}
-                        event={event}
-                    />
-                    :
-                    ""
-            }
-
-        </div>
     )
 
 }

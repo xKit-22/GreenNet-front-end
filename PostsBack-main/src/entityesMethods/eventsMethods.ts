@@ -49,11 +49,19 @@ eventRouter.post("/", async function(req: Request, res: Response) {  //verificat
         .then(res => {
             const base64Data = req.body.QRurl.replace(/^data:image\/png;base64,/, '');
             const imageBuffer = Buffer.from(base64Data, 'base64');
+            const startDate = new Date(req.body.dateOfStart)
+            const finishDate = new Date(req.body.dateOfFinish)
             const mailOptions = {
                 from: 'green_net2023@mail.ru',
-                to: 'annaxkit@gmail.com',
-                subject: `Регистрация на меропрятие ${req.body.name}`,
-                html: `<h1>Для подтверждения регистрации на мероприятии отсканируйте QR-код</h1>`,
+                to: 'alexandra.volo18@gmail.com',
+                subject: `Уведомление о создании меропрятии ${req.body.name}`,
+                html: `<h1>Вы являетесь организатором меропрятия ${req.body.name}</h1>
+                        <p><b>Описание: </b>${req.body.description}</p>
+                        <p><b>Дата начала: </b>${startDate.getDate()}.${startDate.getMonth() + 1}.${startDate.getFullYear()}</p>
+                        <p><b>Дата окончания: </b>${finishDate.getDate()}.${finishDate.getMonth() + 1}.${finishDate.getFullYear()}</p>
+                        <p><b>Место: </b>${req.body.place}</p>
+                        <p><b>Контакты: </b>${req.body.contacts}</p>
+                        `,
                 attachments: [
                     {
                         filename: 'image.png',

@@ -24,6 +24,7 @@ export const Profile = () => {
 
     const [subscribeBtn, setSubscribeBtn] = useState('Вы подписаны')
     const [subscribersAmount, setSubscribersAmount] = useState(1)
+    const [subscribtionsAmount, setSubscribtionsAmount] = useState(1)
 
     console.log("id: ", currentUserId);
 
@@ -56,9 +57,11 @@ export const Profile = () => {
     const toSubscribe = () => {
         if (subscribeBtn === 'Вы подписаны') {
             setSubscribeBtn('Подписаться')
+            setSubscribersAmount(subscribersAmount - 1)
             notificationService.success(`Вы отписались от пользователя ${user.nickname}`);
         } else {
             setSubscribeBtn('Вы подписаны')
+            setSubscribersAmount(subscribersAmount + 1)
             notificationService.success(`Вы подписались на пользователя ${user.nickname}`);
         }
     }
@@ -77,7 +80,7 @@ export const Profile = () => {
                 <div className="user-info">
                     <div className="avatar-container">
                         <span>
-                            <img src={avatar2} alt="avatar" />
+                            <img src={user?.avatar} alt="avatar" />
                         </span>
                     </div>
                     <div className="info">
@@ -108,10 +111,10 @@ export const Profile = () => {
                                 }
                             </div>
                         </div>
-                        <div className='about'>
-                            {/*<p><b>О себе</b></p>*/}
+                        {/*<div className='about'>
+                            <p><b>О себе</b></p>
                             <p>{user?.description}</p>
-                        </div>
+                        </div>*/}
                         {
                             !user?.activation && isMyProfile && <p>Подтвердите Электорнную почту!</p>
                         }
@@ -125,7 +128,7 @@ export const Profile = () => {
                                 <p className="amount-label">подписчиков</p>
                             </div>
                             <div className="number-group">
-                                <p className="amount">{user?.subscriptionsAmount}</p>
+                                <p className="amount">{subscribtionsAmount}</p>
                                 {/*<p className="amount">1</p>*/}
                                 <p className="amount-label">подписок</p>
                             </div>
@@ -151,9 +154,14 @@ export const Profile = () => {
                 {/*<h2>Лента постов</h2>*/}
                 <div className="allPosts">
                     {
+                        isMyProfile ?
+
                         sortedPosts().map(item => (
                             <Post isMyProfile={isMyProfile} post={item} />
-                        ))
+                        )) :
+                            sortedPosts().filter(item => item.status === 'approve').map(item => (
+                                <Post isMyProfile={isMyProfile} post={item} />
+                            ))
                     }
                 </div>
             </div>

@@ -88,7 +88,7 @@ export const CreateEventDialog = () => {
 
         e.preventDefault();
         const data = {
-            avatar: "https://img.freepik.com/free-vector/pet-shop-composition_1284-25876.jpg?w=826&t=st=1682953595~exp=1682954195~hmac=2f5d7f0d78153cef622c29fee0a476f990ffefdc7865659c490f24f67e3a85d7",
+            avatar: "https://img.freepik.com/free-vector/save-the-planet-concept_23-2148520709.jpg?w=740&t=st=1687382581~exp=1687383181~hmac=4999903b749c6c9d62729196993d21ab285d23bab44e6e7188d18ac88b184bd2",
             name: eventTitle,
             description: eventDescription,
             dateOfStart: new Date(eventDateOfStart).toISOString(),

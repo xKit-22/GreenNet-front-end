@@ -12,6 +12,7 @@ export const Feed = () => {
     const currentUserId = window.location.pathname.slice(1);
     const authUserId = localStorage.getItem('currentUserId');
     const [user, setUser] = useState({});
+    const [posts, setPosts] = useState([]);
     const [postsAmount, setPostsAmount] = useState(0);
     const usersPosts = useSelector(state => state.post.usersPosts);
     const isMyProfile = useSelector(state => state.user.isMyProfile);
@@ -24,10 +25,17 @@ export const Feed = () => {
         });
     }
 
+    const getPosts = async () => {
+        await axios.get(`http://localhost:3000/posts`).then(res => {
+            setPosts(res.data);
+        });
+    }
+
     useEffect(() => {
         dispatch(getUserById(authUserId));
         dispatch(isMyProfileAction());
         getUser(authUserId);
+        getPosts()
     }, [])
 
 
@@ -36,7 +44,7 @@ export const Feed = () => {
     }, [user])
 
     const sortedPosts = () => {
-        const sorted = JSON.parse(JSON.stringify(usersPosts));
+        const sorted = JSON.parse(JSON.stringify(posts));
         sorted.sort((a, b) => b.dateOfCreation - a.dateOfCreation);
 
         console.log('sorted post', sorted);
@@ -45,16 +53,16 @@ export const Feed = () => {
 
     return (
         <div className='allPosts-container'>
-            <div className="allPosts">
+            <div className="allPosts-feed">
                 {
-                    sortedPosts().map(item => (
+                    authUserId === 'zH5EXUn9F' ?
+                    sortedPosts().filter(item => item.authorId === '94umpCxyT' && item.status === 'approve').map(item => (
                         <Post post={item}/>
                     ))
-                }
-                {
-                    sortedPosts().map(item => (
-                        <Post post={item}/>
-                    ))
+                        :
+                        sortedPosts().filter(item => item.authorId === 'zH5EXUn9F' && item.status === 'approve').map(item => (
+                            <Post post={item}/>
+                        ))
                 }
             </div>
 

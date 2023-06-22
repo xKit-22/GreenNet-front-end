@@ -15,7 +15,7 @@ export const CreatePostDialog = (props) => {
         e.preventDefault();
         const data = {
             text: postText,
-            picture: 'pictureDef',
+            picture: 'https://img.freepik.com/free-photo/high-angle-food-in-reusable-bag-on-grass_23-2148523410.jpg?w=996&t=st=1687385880~exp=1687386480~hmac=7744c5d5d00051e1a7a4cb8f63bcb81d44b6675a229f3ac611fe5644945f3fad',
             likesAmount: 0,
             authorId: props.userId,
             dateOfCreation: +new Date(),
